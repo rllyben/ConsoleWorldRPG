@@ -1,0 +1,41 @@
+
+    public class Stats
+    {
+        public int Strength { get; set; }
+        public int Dexterity { get; set; }
+        public int Endurance { get; set; }
+        public int Intelligence { get; set; }
+        public int Spirit { get; set; }
+
+        // Flat HP and Mana stats can be modified by class/gear/level
+        public int BaseHealth { get; set; } = 50;
+        public int BaseMana { get; set; } = 30;
+
+        public int MaxHealth => BaseHealth + Endurance * 5; // Reduced effect from END
+        public int MaxMana => BaseMana; // Spirit no longer affects this
+
+        public int PhysicalAttack => Strength * 2 + Endurance;
+        public int PhysicalDefense => Endurance * 2 + Strength;
+
+        public int MagicAttack => Intelligence * 2 + Spirit;
+        public int MagicDefense => Spirit * 2 + Intelligence;
+
+        public float CritChance => Dexterity * 0.01f;
+        public float HitChance => 0.75f + Dexterity * 0.005f;
+        public float DodgeChance => Dexterity * 0.005f;
+
+        public float GearBlockBonus { get; set; } = 0f; // To be set via gear
+        public float BlockChance
+        {
+            get
+            {
+                float blockRaw = (Endurance * 0.3f) + (Intelligence * 0.2f) + (Strength * 0.1f);
+                return MathF.Min(blockRaw * 0.01f + GearBlockBonus, 0.75f);
+            }
+        }
+
+        public Stats Clone()
+        {
+            return (Stats)this.MemberwiseClone();
+        }
+    }

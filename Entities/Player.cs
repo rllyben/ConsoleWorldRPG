@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace ConsoleWorldRPG.Entities
 {
-    public class Player
+    public class Player : CombatEntity
     {
-        public string Name { get; set; }
-        public int MaxHealth { get; private set; } = 100;
-        public int CurrentHealth { get; set; }
         public Room CurrentRoom { get; set; }
 
-        public Player(string name)
-        {
-            Name = name;
-            CurrentHealth = MaxHealth;
-        }
+    // Add inventory, experience, commands, etc.
+    public Player(string name, Stats stats)
+    {
+        Name = name;
+        Stats = stats;
+        CurrentHealth = stats.MaxHealth;
+    }
 
         public void ShowStatus()
         {

@@ -10,6 +10,7 @@
   <ItemGroup>
     <Folder Include="GameStates\" />
     <Folder Include="Commands\" />
+    <Folder Include="Data\" />
     <Folder Include="Utils\" />
   </ItemGroup>
 

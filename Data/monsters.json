@@ -1,0 +1,19 @@
+[
+  {
+    "Id": "goblin",
+    "Name": "Goblin",
+    "MaxHealth": 30,
+    "Attack": 5,
+    "Description": "A sneaky little creature hiding in the shadows.",
+    "CurrentHealth": 30
+  },
+  {
+    "Id": "troll",
+    "Name": "Troll",
+    "MaxHealth": 80,
+    "Attack": 12,
+    "Description": "A big dumb brute with a club.",
+    "CurrentHealth": 80
+  }
+  
+]
