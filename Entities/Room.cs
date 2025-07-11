@@ -8,11 +8,12 @@ namespace ConsoleWorldRPG.Entities
 {
     public class Room
     {
-        public string Name { get; }
-        public string Description { get; }
+        public string Id { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public Dictionary<string, string> ExitIds { get; set; } = new(); // "north": "room2"
+        public Dictionary<string, Room> Exits { get; set; } = new();     // populated after loading
 
-        // Directions: north, south, east, west
-        public Dictionary<string, Room> Exits { get; } = new();
 
         public Room(string name, string description)
         {
@@ -29,17 +30,14 @@ namespace ConsoleWorldRPG.Entities
         {
             Console.WriteLine($"You are in {Name}.");
             Console.WriteLine(Description);
-
             if (Exits.Count > 0)
             {
                 Console.Write("Exits: ");
-                foreach (var exit in Exits.Keys)
-                {
-                    Console.Write($"{exit} ");
-                }
+                foreach (var dir in Exits.Keys)
+                    Console.Write($"{dir} ");
                 Console.WriteLine();
             }
-
+            
         }
 
     }

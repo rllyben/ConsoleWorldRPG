@@ -1,11 +1,12 @@
-
+namespace ConsoleWorldRPG.Entities
+{
     public class Stats
     {
-        public int Strength { get; set; }
-        public int Dexterity { get; set; }
-        public int Endurance { get; set; }
-        public int Intelligence { get; set; }
-        public int Spirit { get; set; }
+        public int Strength { get; set; } = 10;
+        public int Dexterity { get; set; } = 10;
+        public int Endurance { get; set; } = 10;
+        public int Intelligence { get; set; } = 10;
+        public int Spirit { get; set; } = 10;
 
         // Flat HP and Mana stats can be modified by class/gear/level
         public int BaseHealth { get; set; } = 50;
@@ -39,3 +40,5 @@
             return (Stats)this.MemberwiseClone();
         }
     }
+
+}
