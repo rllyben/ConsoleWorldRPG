@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="GameStates\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
 </Project>
