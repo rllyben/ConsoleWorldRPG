@@ -1,23 +1,91 @@
-using ConsoleWorldRPG.Entities;
-using ConsoleWorldRPG.Systems;
-using ConsoleWorldRPG.Interfaces;
 using System;
+using System.Text.Json;
+using System.Xml.Linq;
+using ConsoleWorldRPG.Entities;
+using ConsoleWorldRPG.Interfaces;
+using ConsoleWorldRPG.Systems;
 
 namespace ConsoleWorldRPG.Services
 {
     public class GameService
     {
-        private static Dictionary<string, Room> rooms = new();
-        public static void InitializeGame(Player player)
+        private static Dictionary<int, Room> rooms = new();
+        private static List<Monster> monster = new();
+        public static bool InitializeGame(ref Player player, ref bool playerExitst)
+        {
+            NotifyUser("monster");
+            LoadMonster();
+            NotifyUser("rooms");
+            bool success = LoadRooms();
+            NotifyUser("connect monster to their rooms");
+            ConnectMonsterRooms();
+            NotifyUser("hero");
+            playerExitst = LoadHero(ref player);
+            NotifyUser("hero position");
+            try
+            {
+                player.CurrentRoom = rooms[1];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error accured when setting the heros position: {ex.Message}\n Exiting...");
+                return false;
+            }
+
+            Console.SetCursorPosition(0, Console.GetCursorPosition().Top + 1);
+            Console.WriteLine();
+            return success;
+        }
+        private static void LoadMonster()
+        {
+            monster = MonsterService.LoadMonsters();
+        }
+        private static bool LoadRooms()
         {
             rooms = RoomService.LoadRooms();
             if (rooms.Count == 0)
             {
                 Console.WriteLine("No rooms found! Exiting...");
-                return;
+                return false;
             }
-            player = new("Hero", new Stats());
-            player.CurrentRoom = rooms["room1"];
+            return true;
+        }
+        private static void ConnectMonsterRooms()
+        {
+            foreach (Monster mob in monster)
+            {
+                var selectedRooms = rooms.Values.Where(r => r.HasMonsters && r.EncounterableMonsters.ContainsKey(mob.Id));
+                foreach (Room room in selectedRooms)
+                {
+                    room.Monsters.Add(mob);
+                }
+
+            }
+
+        }
+        private static bool LoadHero(ref Player hero)
+        {
+            string filePath = $"player_hero.json";
+
+            if (!File.Exists(filePath))
+            {
+
+            }
+            try
+            {
+                string jsonData = File.ReadAllText(filePath);
+                hero = JsonSerializer.Deserialize<Player>(jsonData);
+            }
+            catch 
+            {
+                return false;
+            }
+            return true;
+        }
+        public static void NotifyUser(string status)
+        {
+            Console.WriteLine($"Loading {status} ...");
+            Console.SetCursorPosition(0, Console.GetCursorPosition().Top - 1);
         }
 
     }

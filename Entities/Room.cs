@@ -8,12 +8,16 @@ namespace ConsoleWorldRPG.Entities
 {
     public class Room
     {
-        public string Id { get; set; } = "";
+        public int Id { get; set; } = 0;
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
-        public Dictionary<string, string> ExitIds { get; set; } = new(); // "north": "room2"
+        public bool HasMonsters { get; set; }
+        public bool IsFreelyAccessable { get; set; } = true;
+        public int AccessLevel { get; set; } = 0;
+        public Dictionary<string, int> ExitIds { get; set; } = new(); // "north": "room2"
         public Dictionary<string, Room> Exits { get; set; } = new();     // populated after loading
-
+        public Dictionary<int, float> EncounterableMonsters { get; set; } = new();
+        public List<Monster> Monsters { get; set; } = new List<Monster>();
 
         public Room(string name, string description)
         {
@@ -23,7 +27,7 @@ namespace ConsoleWorldRPG.Entities
 
         public void ConnectRoom(string direction, Room room)
         {
-            Exits[direction.ToLower()] = room;
+            Exits[direction] = room;
         }
 
         public void Describe()

@@ -1,6 +1,6 @@
 [
   {
-    "Id": "goblin",
+    "Id": 1,
     "Name": "Goblin",
     "MaxHealth": 30,
     "Attack": 5,
@@ -8,7 +8,7 @@
     "CurrentHealth": 30
   },
   {
-    "Id": "troll",
+    "Id": 2,
     "Name": "Troll",
     "MaxHealth": 80,
     "Attack": 12,

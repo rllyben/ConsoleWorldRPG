@@ -17,11 +17,10 @@ namespace ConsoleWorldRPG.Systems
             {
                 return true; // Guaranteed hit
             }
+            float hitChance = aim / evasion;
+            float roll = (float)_random.NextDouble();
 
-            float missChance = evasion - aim;
-            float roll = (float)_random.NextDouble() * evasion;
-
-            return roll >= missChance; // True = hit, False = miss
+            return roll <= hitChance; // True = hit, False = miss
         }
 
         public static void Attack(ICombatant attacker, ICombatant defender)
@@ -33,17 +32,21 @@ namespace ConsoleWorldRPG.Systems
                 Console.WriteLine($"{attacker.Name} missed!");
                 return;
             }
-
-            int damage = attacker.DealPhysicalDamage();
-
+            
+            float pdmg = (float)attacker.Stats.PhysicalAttack * ((float)attacker.Stats.PhysicalAttack / ((float)attacker.Stats.PhysicalAttack + (float)defender.Stats.PhysicalDefense));
+            float mdmg = (float)attacker.Stats.MagicAttack * ((float)attacker.Stats.MagicAttack /((float)attacker.Stats.MagicAttack + (float)defender.Stats.MagicDefense));
+            float dmg = Math.Max(pdmg, mdmg);
+            if (dmg < 1)
+                dmg = 1;
             // Check for block
             float blockRoll = (float)_random.NextDouble();
             if (blockRoll < defender.GetBlockChance())
             {
                 Console.WriteLine($"{defender.Name} blocked the attack!");
-                damage /= 2;
+                dmg /= 2;
             }
 
+            int damage = ((int)dmg);
             defender.TakeDamage(damage);
         }
 

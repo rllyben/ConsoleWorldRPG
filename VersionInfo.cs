@@ -8,7 +8,7 @@ namespace ConsoleWorldRPG
 {
     public static class VersionInfo
     {
-        public const string Current = "v0.0.0";
+        public const string Current = "v0.0.1";
     }
 
 }

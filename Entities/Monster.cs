@@ -8,18 +8,19 @@ namespace ConsoleWorldRPG.Entities
 {
     public class Monster : CombatEntity
     {
-        public string Id { get; set; }  // unique ID or name
-        public int Attack { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
+        public long Exp { get; set; }
 
-    public Monster(string id, string name, Stats stats, string description)
-    {
-        Id = id;
-        Name = name;
-        Stats = stats;
-        Description = description;
-        CurrentHealth = stats.MaxHealth;
-    }
+    public Monster(int id, string name, Stats stats, string description, long exp)
+        {
+            Id = id;
+            Name = name;
+            Stats = stats;
+            Description = description;
+            CurrentHealth = stats.MaxHealth;
+            Exp = exp;
+        }
 
         public void ResetHealth()
         {

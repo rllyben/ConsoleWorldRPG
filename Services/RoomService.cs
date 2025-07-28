@@ -9,9 +9,9 @@ namespace ConsoleWorldRPG.Services
 {
     public static class RoomService
     {
-        private static readonly string _filePath = "Data\\rooms.json";
+        private static readonly string _filePath = "rooms.json";
 
-        public static Dictionary<string, Room> LoadRooms()
+        public static Dictionary<int, Room> LoadRooms()
         {
             string test = Path.Combine(Directory.GetCurrentDirectory(), _filePath);
             Debug.WriteLine(Directory.GetCurrentDirectory());

@@ -7,8 +7,10 @@ namespace ConsoleWorldRPG.Entities
         public string Name { get; set; }
         public Stats Stats { get; set; } = new();
         public int CurrentHealth { get; set; }
+        public int CurrentMana { get; set; }
 
         public int MaxHealth => Stats.MaxHealth;
+        public int MaxMana => Stats.MaxMana;
         public bool IsAlive => CurrentHealth > 0;
 
         public virtual void TakeDamage(int amount)
@@ -21,7 +23,10 @@ namespace ConsoleWorldRPG.Entities
         {
             return Stats.PhysicalAttack;
         }
-
+        public virtual int DefandPhysical()
+        {
+            return Stats.PhysicalDefense;
+        }
         public virtual float GetBlockChance()
         {
             return Stats.BlockChance;

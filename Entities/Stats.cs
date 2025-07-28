@@ -9,11 +9,11 @@ namespace ConsoleWorldRPG.Entities
         public int Spirit { get; set; } = 10;
 
         // Flat HP and Mana stats can be modified by class/gear/level
-        public int BaseHealth { get; set; } = 50;
+        public int BaseHealth { get; set; } = 30;
         public int BaseMana { get; set; } = 30;
 
         public int MaxHealth => BaseHealth + Endurance * 5; // Reduced effect from END
-        public int MaxMana => BaseMana; // Spirit no longer affects this
+        public int MaxMana => BaseMana + Spirit * 5; // Spirit no longer affects this
 
         public int PhysicalAttack => Strength * 2 + Endurance;
         public int PhysicalDefense => Endurance * 2 + Strength;
@@ -22,8 +22,8 @@ namespace ConsoleWorldRPG.Entities
         public int MagicDefense => Spirit * 2 + Intelligence;
 
         public float CritChance => Dexterity * 0.01f;
-        public float HitChance => 0.75f + Dexterity * 0.005f;
-        public float DodgeChance => Dexterity * 0.005f;
+        public int HitChance => Dexterity;
+        public int DodgeChance => Dexterity;
 
         public float GearBlockBonus { get; set; } = 0f; // To be set via gear
         public float BlockChance

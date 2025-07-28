@@ -1,21 +1,21 @@
 [
   {
-    "Id": "room1",
+    "Id": 1,
     "Name": "The Starting Room",
     "Description": "A dimly lit stone chamber. There's a draft from the north.",
     "ExitIds": 
     {
-      "north": "room2"
+      "north": 1
     }
 
   },
   {
-    "Id": "room2",
+    "Id": 2,
     "Name": "Camber of Echoes",
     "Description": "Whispers seem to float in the air. You feel watched.",
     "ExitIds": 
     {
-      "south": "room1"
+      "south": 2
     }
 
   }
