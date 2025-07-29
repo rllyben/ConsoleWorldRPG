@@ -9,9 +9,9 @@ namespace ConsoleWorldRPG.Items
 {
     public abstract class Item
     {
-        public string Id { get; protected set; }
-        public string Name { get; protected set; }
-        public string Description { get; protected set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public int StackSize { get; set; } = 1;
         public virtual int MaxStackSize => 50;
 

@@ -22,7 +22,9 @@ namespace ConsoleWorldRPG.Services
             NotifyUser("items");
             ItemFactory.LoadItems();
             NotifyUser("hero");
-            playerExitst = LoadHero(ref player);
+            playerExitst = LoadHero(ref player); 
+            Console.WriteLine(player.WeaponSlot?.GetType().Name); // should be JsonEquipmentItem
+            Console.WriteLine(player.WeaponSlot?.Name);           // should be Flamecaster's Staff
             NotifyUser("hero position");
             try
             {

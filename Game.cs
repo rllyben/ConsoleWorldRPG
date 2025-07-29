@@ -364,7 +364,8 @@ namespace ConsoleWorldRPG
             var options = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                Converters = { new ItemConverter() }
+                Converters = { new ItemConverter() },
+                PropertyNameCaseInsensitive = true
             };
             string jsonData = JsonSerializer.Serialize(_player, options);
             File.WriteAllText(filePath, jsonData);
@@ -441,23 +442,24 @@ namespace ConsoleWorldRPG
             Console.WriteLine($"  Level: {_player.Level}    Exp: {_player.Experience}/{_player.ExpForNextLvl}");
             Console.WriteLine($"  HP: {_player.CurrentHealth}/{_player.Stats.MaxHealth}");
             Console.WriteLine($"  Mana: {_player.CurrentMana}/{_player.Stats.MaxMana}");
-            Console.WriteLine($"  STR: {_player.Stats.Strength}");
-            Console.WriteLine($"  DEX: {_player.Stats.Dexterity}");
-            Console.WriteLine($"  END: {_player.Stats.Endurance}");
-            Console.WriteLine($"  INT: {_player.Stats.Intelligence}");
-            Console.WriteLine($"  SPR: {_player.Stats.Spirit}");
+            Console.WriteLine($"  STR: {_player.Stats.Strength} + {_player.GetBonusFromGear(g => g.BonusSTR)} from gear");
+            Console.WriteLine($"  DEX: {_player.Stats.Dexterity} + {_player.GetBonusFromGear(g => g.BonusDEX)} from gear");
+            Console.WriteLine($"  END: {_player.Stats.Endurance} + {_player.GetBonusFromGear(g => g.BonusEND)} from gear");
+            Console.WriteLine($"  INT: {_player.Stats.Intelligence} + {_player.GetBonusFromGear(g => g.BonusINT)} from gear");
+            Console.WriteLine($"  SPR: {_player.Stats.Spirit} + {_player.GetBonusFromGear(g => g.BonusSPR)} from gear");
             Console.WriteLine("\n");
-            Console.WriteLine($"  ATK: {_player.Stats.PhysicalAttack}");
-            Console.WriteLine($"  DEF: {_player.Stats.PhysicalDefense}");
-            Console.WriteLine($"  MATK: {_player.Stats.MagicAttack}");
-            Console.WriteLine($"  MDEF: {_player.Stats.MagicDefense}");
+            Console.WriteLine($"  ATK: {_player.TotalPhysicalAttack}");
+            Console.WriteLine($"  DEF: {_player.TotalPhysicalDefense}");
+            Console.WriteLine($"  MATK: {_player.TotalMagicAttack}");
+            Console.WriteLine($"  MDEF: {_player.TotalMagicDefense}");
             Console.WriteLine($"  Crit: {_player.CritChance:P0}");
             Console.WriteLine($"  Block: {_player.BlockChance:P0}");
             Console.WriteLine("");
             Console.WriteLine("\nEquipped:");
             Console.WriteLine($"  Weapon:   {_player.WeaponSlot?.Name ?? "(none)"}");
             Console.WriteLine($"  Armor:    {_player.ArmorSlot?.Name ?? "(none)"}");
-            Console.WriteLine($"  Accessory:{_player.AccessorySlot?.Name ?? "(none)"}");
+            Console.WriteLine($"  Accessory:{_player.AccessorySlot?.Name ?? "(none)"}"); 
+            Console.WriteLine("Player instance hash: " + this.GetHashCode());
         }
         private void StartEncounter()
         {

@@ -58,12 +58,15 @@ namespace ConsoleWorldRPG.Entities
             switch (item.SlotType)
             {
                 case EquipmentType.Weapon:
+                    if (WeaponSlot != null) Inventory.AddItem(WeaponSlot);
                     WeaponSlot = item;
                     break;
                 case EquipmentType.Armor:
+                    if (ArmorSlot != null) Inventory.AddItem(ArmorSlot);
                     ArmorSlot = item;
                     break;
                 case EquipmentType.Accessory:
+                    if (AccessorySlot != null) Inventory.AddItem(AccessorySlot);
                     AccessorySlot = item;
                     break;
             }
