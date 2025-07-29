@@ -451,8 +451,8 @@ namespace ConsoleWorldRPG
             Console.WriteLine($"  DEF: {_player.Stats.PhysicalDefense}");
             Console.WriteLine($"  MATK: {_player.Stats.MagicAttack}");
             Console.WriteLine($"  MDEF: {_player.Stats.MagicDefense}");
-            Console.WriteLine($"  Crit: {_player.Stats.CritChance:P0}");
-            Console.WriteLine($"  Block: {_player.Stats.BlockChance:P0}");
+            Console.WriteLine($"  Crit: {_player.CritChance:P0}");
+            Console.WriteLine($"  Block: {_player.BlockChance:P0}");
             Console.WriteLine("");
             Console.WriteLine("\nEquipped:");
             Console.WriteLine($"  Weapon:   {_player.WeaponSlot?.Name ?? "(none)"}");

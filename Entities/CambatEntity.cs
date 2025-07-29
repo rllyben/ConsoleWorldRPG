@@ -67,7 +67,7 @@ namespace ConsoleWorldRPG.Entities
         }
         public virtual float GetBlockChance()
         {
-            return Stats.BlockChance;
+            return BlockChance;
         }
         public int GetBonusFromGear(Func<EquipmentItem, int> selector)
         {
