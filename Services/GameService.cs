@@ -90,9 +90,26 @@ namespace ConsoleWorldRPG.Services
             }
             return true;
         }
-        public static void NotifyUser(string status)
+        private static void NotifyUser(string status)
         {
             Console.WriteLine($"Loading {status} ...");
+        }
+        /// <summary>
+        /// Saves the current state of the hero
+        /// </summary>
+        public static void SaveHero(ref Player player)
+        {
+            player.CurrentRoomId = player.CurrentRoom.Id;
+            string filePath = $"player_hero.json";
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Converters = { new ItemConverter() },
+                PropertyNameCaseInsensitive = true
+            };
+            string jsonData = JsonSerializer.Serialize(player, options);
+            File.WriteAllText(filePath, jsonData);
+            Console.WriteLine($"Hero saved to {filePath}");
         }
 
     }

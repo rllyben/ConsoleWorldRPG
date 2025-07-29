@@ -6,10 +6,12 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
+using ConsoleWorldRPG.Entities.NPCs;
 using ConsoleWorldRPG.Enums;
 using ConsoleWorldRPG.Items;
 using ConsoleWorldRPG.Services;
 using ConsoleWorldRPG.Systems;
+using ConsoleWorldRPG.Utils;
 using Microsoft.VisualBasic;
 
 namespace ConsoleWorldRPG
@@ -22,6 +24,8 @@ namespace ConsoleWorldRPG
         private bool _debug = false;
         private bool _playerExitst = false;
         private Random _random = new Random();
+        private NpcInteractionHandler _npc = new NpcInteractionHandler();
+        private Printer _printer = new Printer();
         /// <summary>
         /// Handels the Main User interaction and calles the initialatiation of the Game
         /// </summary>
@@ -122,11 +126,11 @@ namespace ConsoleWorldRPG
                 }
                 else if (input == "help")
                 {
-                    ShowHelp();
+                    _printer.ShowHelp();
                 }
                 else if (input == "status")
                 {
-                    ShowStatus();
+                    _printer.ShowStatus(_player);
                 }
                 else if (input == "heal")
                 {
@@ -142,7 +146,7 @@ namespace ConsoleWorldRPG
                 else if (input.StartsWith("go to "))
                 {
                     string npcName = input.Substring(6).Trim().ToLower();
-                    InteractWithNpc(npcName);
+                    _npc.InteractWithNpc(npcName, ref _player);
                 }
                 else if (input == "inventory")
                 {
@@ -165,7 +169,7 @@ namespace ConsoleWorldRPG
                 }
                 else if (input == "exit")
                 {
-                    SaveHero();
+                    GameService.SaveHero(ref _player);
                     _isRunning = false;
                     Console.WriteLine("Thanks for playing!");
                 }
@@ -178,6 +182,43 @@ namespace ConsoleWorldRPG
 
             }
 
+        }
+        /// <summary>
+        /// Checks if the input is an debug command
+        /// </summary>
+        /// <param name="input">user input</param>
+        /// <returns>if input was an command</returns>
+        private bool DebugCommandCheck(string input)
+        {
+            if (!input.StartsWith("/"))
+                return false;
+            if (input.StartsWith("/set"))
+            {
+                if (input.StartsWith("/set level"))
+                {
+                    int newLevel = 0;
+                    if (int.TryParse(input.Substring(10), out newLevel))
+                    {
+                        while (_player.Level < newLevel)
+                        {
+                            _player.LevelUp();
+                        }
+                        if (_player.Level > newLevel)
+                            Console.WriteLine("player level can only be increased!");
+                    }
+
+                }
+
+            }
+            else if (input.StartsWith("/help"))
+            {
+                _printer.ShowDebugHelp();
+            }
+            else
+            {
+                Console.WriteLine("Unknown command!");
+            }
+            return true;
         }
         /// <summary>
         /// Handles the equipment of an item
@@ -202,67 +243,6 @@ namespace ConsoleWorldRPG
 
             _player.Equip(equipment);
             _player.Inventory.RemoveItem(equipment);
-        }
-        /// <summary>
-        /// Handels the go to command and selects the Encounter Method of the choosen NPC
-        /// </summary>
-        /// <param name="npc"></param>
-        private void InteractWithNpc(string npc)
-        {
-            if (!_player.CurrentRoom.IsCity)
-            {
-                Console.WriteLine("You can only visit NPCs while in a city.");
-                return;
-            }
-
-            var found = _player.CurrentRoom.Npcs
-                .FirstOrDefault(n => n.Equals(npc, StringComparison.OrdinalIgnoreCase));
-
-            if (found == null)
-            {
-                Console.WriteLine($"There’s no one named '{npc}' here.");
-                return;
-            }
-
-            switch (npc.ToLower())
-            {
-                case "healer":
-                    HealerMenu();
-                    break;
-                case "smith":
-                    SmithMenu();
-                    break;
-                case "quest board":
-                case "questboard":
-                    Console.WriteLine("You read the quest board, but it’s currently empty.");
-                    break;
-                default:
-                    Console.WriteLine($"'{npc}' doesn’t do anything... yet.");
-                    break;
-            }
-        }
-        /// <summary>
-        /// Handles the smith encounter
-        /// </summary>
-        private void SmithMenu()
-        {
-            var stock = ItemFactory.GetAllItemsFor(_player)
-                .OfType<EquipmentItem>().ToList();
-
-            if (stock.Count == 0)
-            {
-                Console.WriteLine("The smith has nothing for your class.");
-                return;
-            }
-
-            for (int i = 0; i < stock.Count; i++)
-                Console.WriteLine($"{i + 1}. {stock[i].Name} - {stock[i].BuyPrice} bronze");
-
-            Console.Write("Choose item to buy (0 to cancel): ");
-            if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= stock.Count)
-                TryBuyItem(stock[choice - 1], stock[choice - 1].BuyPrice);
-            else
-                Console.WriteLine("Cancelled.");
         }
         /// <summary>
         /// Handles item usage
@@ -291,153 +271,6 @@ namespace ConsoleWorldRPG
 
         }
         /// <summary>
-        /// Handles the encounter wiht the healer
-        /// </summary>
-        private void HealerMenu()
-        {
-            Console.WriteLine("\n🧙 You approach the healer.");
-            Console.WriteLine("1. Heal (Free)");
-            if (_player.PotionTierAvailable < 2)
-            {
-                Console.WriteLine("2. Buy simple Healing Potion (100 bronze)");
-                Console.WriteLine("3. Buy simple Mana Potion (120 bronze)");
-            }
-            Console.WriteLine("4. Sell Item");
-            Console.WriteLine("5. Leave");
-
-            Console.Write("Choice: ");
-            string? choice = Console.ReadLine()?.Trim();
-
-            switch (choice)
-            {
-                case "1":
-                    _player.CurrentHealth = _player.Stats.MaxHealth;
-                    _player.CurrentMana = _player.Stats.MaxMana;
-                    Console.WriteLine("✨ You are fully healed.");
-                    break;
-                case "2":
-                    TryBuyItem(ItemFactory.CreateItem("healing_potion"), 100);
-                    break;
-                case "3":
-                    TryBuyItem(ItemFactory.CreateItem("mana_potion"), 120);
-                    break;
-                case "4":
-                    _player.Inventory.ListItems();
-                    Console.Write("Enter the item name to sell: ");
-                    string? itemName = Console.ReadLine()?.Trim();
-
-                    var item = _player.Inventory.Items
-                        .FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
-
-                    if (item == null)
-                    {
-                        Console.WriteLine($"❌ You don't have an item named '{itemName}'.");
-                        break;
-                    }
-
-                    Console.WriteLine($"You have {item.StackSize}x {item.Name}. Each sells for {item.SellValue} bronze.");
-                    Console.Write("How many would you like to sell? ");
-                    if (!int.TryParse(Console.ReadLine(), out int amount) || amount <= 0 || amount > item.StackSize)
-                    {
-                        Console.WriteLine("Invalid quantity.");
-                        break;
-                    }
-
-                    int total = amount * item.SellValue;
-                    Console.Write($"Sell {amount}x {item.Name} for {total} bronze? (yes/no): ");
-                    string? confirm = Console.ReadLine()?.Trim().ToLower();
-
-                    if (confirm == "yes" || confirm == "y")
-                    {
-                        if (_player.Inventory.SellItem(itemName, amount, out int gained))
-                        {
-                            _player.Money.TryAdd(gained);
-                            Console.WriteLine($"🪙 Sold {amount}x {item.Name} for {gained} bronze.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("❌ Something went wrong while selling.");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Cancelled.");
-                    }
-                    break;
-                default:
-                    Console.WriteLine("You leave the healer.");
-                    break;
-            }
-
-        }
-        /// <summary>
-        /// Checks if the selected item to buy can be bought and adds it to the player's inventory
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="cost"></param>
-        private void TryBuyItem(Item item, int cost)
-        {
-            if (_player.Money.TrySpend(cost))
-            {
-                if (_player.Inventory.AddItem(item))
-                    Console.WriteLine($"🧪 {item.Name} added to inventory.");
-                else
-                    Console.WriteLine("❌ Inventory full!");
-            }
-            else
-                Console.WriteLine("Not enough money.");
-        }
-        /// <summary>
-        /// Saves the current state of the hero
-        /// </summary>
-        private void SaveHero()
-        {
-            _player.CurrentRoomId = _player.CurrentRoom.Id;
-            string filePath = $"player_hero.json";
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                Converters = { new ItemConverter() },
-                PropertyNameCaseInsensitive = true
-            };
-            string jsonData = JsonSerializer.Serialize(_player, options);
-            File.WriteAllText(filePath, jsonData);
-            Console.WriteLine($"Hero saved to {filePath}");
-        }
-        /// <summary>
-        /// Checks if the input is an debug command
-        /// </summary>
-        /// <param name="input">user input</param>
-        /// <returns>if input was an command</returns>
-        private bool DebugCommandCheck(string input)
-        {
-            if (!input.StartsWith("/"))
-                return false;
-            if (input.Contains("level"))
-            {
-                if (input.Contains("set"))
-                {
-                    int newLevel = 0;
-                    if (int.TryParse(input.Substring(10), out newLevel))
-                    {
-                        while (_player.Level < newLevel)
-                        {
-                            _player.LevelUp();
-                        }
-                        if (_player.Level > newLevel)
-                            Console.WriteLine("player level can only be increased!");
-                    }
-
-                }
-
-            }
-            else
-            {
-                Console.WriteLine("Unknown command!");
-            }
-            return true;
-        }
-        /// <summary>
         /// Moves the player in the specified direction or room
         /// </summary>
         /// <param name="direction">the direction choosen by the player</param>
@@ -464,45 +297,6 @@ namespace ConsoleWorldRPG
                 Console.WriteLine("You can't go that way.");
             }
 
-        }
-        /// <summary>
-        /// Prints the Help information into the Console
-        /// </summary>
-        private void ShowHelp()
-        {
-            Console.WriteLine("\nAvailable commands:");
-            Console.WriteLine("  move <direction> - Move to another room (e.g., move north)");
-            Console.WriteLine("  look             - Re-describe the current room");
-            Console.WriteLine("  status           - Show your current health, mana, and stats");
-            Console.WriteLine("  help             - Show this help message");
-            Console.WriteLine("  exit             - Quit the game");
-        }
-        /// <summary>
-        /// Prints the Status for the current Hero
-        /// </summary>
-        private void ShowStatus()
-        {
-            Console.WriteLine($"\n{_player.Name}'s Status:");
-            Console.WriteLine($"  Level: {_player.Level}    Exp: {_player.Experience}/{_player.ExpForNextLvl}");
-            Console.WriteLine($"  HP: {_player.CurrentHealth}/{_player.Stats.MaxHealth}");
-            Console.WriteLine($"  Mana: {_player.CurrentMana}/{_player.Stats.MaxMana}");
-            Console.WriteLine($"  STR: {_player.Stats.Strength} + {_player.GetBonusFromGear(g => g.BonusSTR)} from gear");
-            Console.WriteLine($"  DEX: {_player.Stats.Dexterity} + {_player.GetBonusFromGear(g => g.BonusDEX)} from gear");
-            Console.WriteLine($"  END: {_player.Stats.Endurance} + {_player.GetBonusFromGear(g => g.BonusEND)} from gear");
-            Console.WriteLine($"  INT: {_player.Stats.Intelligence} + {_player.GetBonusFromGear(g => g.BonusINT)} from gear");
-            Console.WriteLine($"  SPR: {_player.Stats.Spirit} + {_player.GetBonusFromGear(g => g.BonusSPR)} from gear");
-            Console.WriteLine("\n");
-            Console.WriteLine($"  ATK: {_player.TotalPhysicalAttack}");
-            Console.WriteLine($"  DEF: {_player.TotalPhysicalDefense}");
-            Console.WriteLine($"  MATK: {_player.TotalMagicAttack}");
-            Console.WriteLine($"  MDEF: {_player.TotalMagicDefense}");
-            Console.WriteLine($"  Crit: {_player.CritChance:P0}");
-            Console.WriteLine($"  Block: {_player.BlockChance:P0}");
-            Console.WriteLine("");
-            Console.WriteLine("\nEquipped:");
-            Console.WriteLine($"  Weapon:   {_player.WeaponSlot?.Name ?? "(none)"}");
-            Console.WriteLine($"  Armor:    {_player.ArmorSlot?.Name ?? "(none)"}");
-            Console.WriteLine($"  Accessory:{_player.AccessorySlot?.Name ?? "(none)"}"); 
         }
         /// <summary>
         /// Starts an Encounter after the look command if the room has monsters, also handels the End of a fight
