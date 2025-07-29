@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Items;
+using ConsoleWorldRPG.Utils;
 
 namespace ConsoleWorldRPG.Entities
 {
@@ -56,7 +57,8 @@ namespace ConsoleWorldRPG.Entities
             foreach (var item in Items)
             {
                 string stackInfo = item.MaxStackSize > 1 ? $" x{item.StackSize}" : "";
-                Console.WriteLine($"  - {item.Name}{stackInfo}: {item.Description}");
+                Printer.PrintColoredItemName(item);
+                Console.WriteLine($" {stackInfo}: {item.Description}");
             }
 
         }

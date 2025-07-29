@@ -11,11 +11,11 @@
     <None Remove="Data\items.json" />
     <None Remove="Data\monsters.json" />
     <None Remove="Data\rooms.json" />
+    <None Remove="Data\skills.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="GameStates\" />
-    <Folder Include="Commands\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +26,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\rooms.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\skills.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

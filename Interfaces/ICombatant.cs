@@ -34,6 +34,7 @@ namespace ConsoleWorldRPG.Interfaces
         int DefandPhysical();
         float GetBlockChance();
         int GetBonusFromGear(Func<EquipmentItem, int> selector);
+        float GetBonusFromGear(Func<EquipmentItem, float> selector);
     }
 
 }

@@ -9,7 +9,7 @@ namespace ConsoleWorldRPG.Services
 {
     public class GameService
     {
-        private static Dictionary<int, Room> rooms = new();
+        public static Dictionary<int, Room> rooms = new();
         private static List<Monster> monster = new();
         public static bool InitializeGame(ref Player player, ref bool playerExitst)
         {
@@ -22,13 +22,16 @@ namespace ConsoleWorldRPG.Services
             NotifyUser("items");
             ItemFactory.LoadItems();
             NotifyUser("hero");
-            playerExitst = LoadHero(ref player); 
+            playerExitst = LoadHero(ref player);
+            if (!playerExitst)
+                player.CurrentRoom = rooms[1];
             Console.WriteLine(player.WeaponSlot?.GetType().Name); // should be JsonEquipmentItem
             Console.WriteLine(player.WeaponSlot?.Name);           // should be Flamecaster's Staff
             NotifyUser("hero position");
             try
             {
-                player.CurrentRoom = rooms[1];
+                int roomId = player.CurrentRoomId;
+                player.CurrentRoom = rooms.Values.FirstOrDefault(r => r.Id == roomId);
             }
             catch (Exception ex)
             {
@@ -36,13 +39,16 @@ namespace ConsoleWorldRPG.Services
                 return false;
             }
 
-            Console.SetCursorPosition(0, Console.GetCursorPosition().Top + 1);
             Console.WriteLine();
             return success;
         }
         private static void LoadMonster()
         {
-            monster = MonsterService.LoadMonsters();
+            monster = MonsterService.LoadMonsters(); 
+            foreach (var monster in monster)
+            {
+                Console.WriteLine($"{monster.Name} => {monster.Type} ({(int)monster.Type})");
+            }
         }
         private static bool LoadRooms()
         {

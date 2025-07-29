@@ -9,6 +9,8 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Enums;
 using ConsoleWorldRPG.Items;
+using ConsoleWorldRPG.Services;
+using ConsoleWorldRPG.Skills;
 
 namespace ConsoleWorldRPG.Entities
 {
@@ -17,10 +19,11 @@ namespace ConsoleWorldRPG.Entities
         public PlayerClass Class { get; set; } = PlayerClass.Fighter;
         public int Level { get; set; } = 1;
         public long Experience { get; set; } = 0;
-        public long ExpForNextLvl { get; private set; }
+        public long ExpForNextLvl { get; set; }
         public int PotionTierAvailable { get; set; } = 1;
         public Inventory Inventory { get; set; } = new();
-        public MoneyBag Money { get; set; } = new();
+        public MoneyBag Money { get; set; } = new(); 
+        public List<Skill> Skills => SkillFactory.GetSkillsFor(this);
 
         [JsonIgnore]
         public Room CurrentRoom { get; set; }

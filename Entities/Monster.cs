@@ -17,6 +17,7 @@ namespace ConsoleWorldRPG.Entities
         public int MinLoot { get; set; } = 25;
         public int MaxLoot { get; set; } = 75;
         public List<Item> LootTable { get; set; } = new(); // optional overrides
+        public List<UniqueLootEntry> UniqueLootTable { get; set; } = new();
         public bool DropsCorpse =>
             Type != MonsterType.Spirit && Type != MonsterType.Shadow;
 

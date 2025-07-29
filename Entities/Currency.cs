@@ -37,7 +37,7 @@ namespace ConsoleWorldRPG.Entities
             int silver = remaining / BronzePerSilver;
             remaining %= BronzePerSilver;
 
-            return $"{crystals}✶ {platinum}⎔ {gold}⛀ {silver}⬢ {remaining}⬤";
+            return $"{crystals}C {platinum}P {gold}G {silver}S {remaining}B";
         }
 
         public bool CanAfford(int cost) => Bronze >= cost;

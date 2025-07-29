@@ -7,7 +7,7 @@ using ConsoleWorldRPG.Items;
 
 namespace ConsoleWorldRPG.Models
 {
-    public class JsonMaterialItem : ConsumableItem
+    public class JsonMaterialItem : MaterialItem
     {
         public JsonMaterialItem(GameItem def)
         {
@@ -19,8 +19,11 @@ namespace ConsoleWorldRPG.Models
             _maxStack = def.MaxStackSize;
         }
 
-        private int _buyPrice, _maxStack;
+        private readonly int _buyPrice;
+        private readonly int _maxStack;
+
         public override int BuyPrice => _buyPrice;
         public override int MaxStackSize => _maxStack;
     }
+
 }

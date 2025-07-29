@@ -1,0 +1,26 @@
+﻿[
+  {
+    "Id": "fire_burst",
+    "Name": "Fire Burst",
+    "Description": "Explode a fireball on a single enemy.",
+    "Class": "ElementalMage",
+    "ManaCost": 20,
+    "Type": "Magical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.8,
+    "StatToScaleFrom": "MATK",
+    "MinLevel": 10
+  },
+  {
+    "Id": "power_strike",
+    "Name": "Power Strike",
+    "Description": "A powerful physical attack.",
+    "Class": "Barbarian",
+    "ManaCost": 10,
+    "Type": "Physical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.5,
+    "StatToScaleFrom": "ATK",
+    "MinLevel": 5
+  }
+]

@@ -41,12 +41,12 @@ namespace ConsoleWorldRPG.Entities
 
         public int TotalEvasion =>
             (int)(TotalDEX * 0.85f) + GetBonusFromGear(g => g.BonusEvasion);
-        public float CritChance => GetBonusFromGear(g => g.BonusDEX) * 0.01f;
+        public float CritChance => GetBonusFromGear(g => g.BonusDEX) * 0.01f + GetBonusFromGear(g => g.BonusCrit);
         public float BlockChance
         {
             get
             {
-                float blockRaw = (GetBonusFromGear(g => g.BonusEND) * 0.3f) + (GetBonusFromGear(g => g.BonusINT) * 0.2f) + (GetBonusFromGear(g => g.BonusSTR) * 0.1f);
+                float blockRaw = (GetBonusFromGear(g => g.BonusEND) * 0.3f) + (GetBonusFromGear(g => g.BonusINT) * 0.2f) + (GetBonusFromGear(g => g.BonusSTR) * 0.1f) + GetBonusFromGear(g => g.BonusBlock);
                 return MathF.Min(blockRaw * 0.01f, 0.75f);
             }
         }
@@ -72,6 +72,14 @@ namespace ConsoleWorldRPG.Entities
         public int GetBonusFromGear(Func<EquipmentItem, int> selector)
         {
             int total = 0;
+            if (WeaponSlot != null) total += selector(WeaponSlot);
+            if (ArmorSlot != null) total += selector(ArmorSlot);
+            if (AccessorySlot != null) total += selector(AccessorySlot);
+            return total;
+        }
+        public float GetBonusFromGear(Func<EquipmentItem, float> selector)
+        {
+            float total = 0;
             if (WeaponSlot != null) total += selector(WeaponSlot);
             if (ArmorSlot != null) total += selector(ArmorSlot);
             if (AccessorySlot != null) total += selector(AccessorySlot);

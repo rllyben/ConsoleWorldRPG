@@ -14,7 +14,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
         /// Handels the go to command and selects the Encounter Method of the choosen NPC
         /// </summary>
         /// <param name="npc"></param>
-        public void InteractWithNpc(string npc, ref Player player)
+        public static void InteractWithNpc(string npc, ref Player player)
         {
             if (!player.CurrentRoom.IsCity)
             {
@@ -52,7 +52,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
         /// <summary>
         /// Handles the smith encounter
         /// </summary>
-        private void SmithMenu(ref Player player)
+        private static void SmithMenu(ref Player player)
         {
             var stock = ItemFactory.GetAllItemsFor(player)
                 .OfType<EquipmentItem>().ToList();
@@ -75,7 +75,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
         /// <summary>
         /// Handles the encounter wiht the healer
         /// </summary>
-        private void HealerMenu(ref Player player)
+        private static void HealerMenu(ref Player player)
         {
             Console.WriteLine("\n🧙 You approach the healer.");
             Console.WriteLine("1. Heal (Free)");
@@ -98,10 +98,10 @@ namespace ConsoleWorldRPG.Entities.NPCs
                     Console.WriteLine("✨ You are fully healed.");
                     break;
                 case "2":
-                    TryBuyItem(ItemFactory.CreateItem("healing_potion"), 100, ref player);
+                    TryBuyItem(ItemFactory.CreateItem("t1_healing_potion"), 100, ref player);
                     break;
                 case "3":
-                    TryBuyItem(ItemFactory.CreateItem("mana_potion"), 120, ref player);
+                    TryBuyItem(ItemFactory.CreateItem("t1_mana_potion"), 120, ref player);
                     break;
                 case "4":
                     player.Inventory.ListItems();
@@ -157,7 +157,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
         /// </summary>
         /// <param name="item"></param>
         /// <param name="cost"></param>
-        private void TryBuyItem(Item item, int cost, ref Player player)
+        private static void TryBuyItem(Item item, int cost, ref Player player)
         {
             if (player.Money.TrySpend(cost))
             {

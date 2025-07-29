@@ -21,7 +21,7 @@ namespace ConsoleWorldRPG.Entities
                 Class = PlayerClass.Archer,
                 StatGrowth = new()
                 {
-                    ["STR"] = 3,
+                    ["STR"] = 5,
                     ["DEX"] = 4,
                     ["END"] = 2,
                     ["INT"] = 1,
@@ -35,8 +35,8 @@ namespace ConsoleWorldRPG.Entities
                 Class = PlayerClass.Hunter,
                 StatGrowth = new()
                 {
-                    ["STR"] = 3,
-                    ["DEX"] = 5,
+                    ["STR"] = 4,
+                    ["DEX"] = 6,
                     ["END"] = 1,
                     ["INT"] = 1,
                     ["SPR"] = 2
@@ -50,8 +50,8 @@ namespace ConsoleWorldRPG.Entities
                 StatGrowth = new()
                 {
                     ["STR"] = 2,
-                    ["DEX"] = 1,
-                    ["END"] = 5,
+                    ["DEX"] = 3,
+                    ["END"] = 7,
                     ["INT"] = 1,
                     ["SPR"] = 3
                 },
@@ -63,7 +63,7 @@ namespace ConsoleWorldRPG.Entities
                 Class = PlayerClass.Fighter,
                 StatGrowth = new()
                 {
-                    ["STR"] = 3,
+                    ["STR"] = 5,
                     ["DEX"] = 3,
                     ["END"] = 3,
                     ["INT"] = 1,
@@ -77,9 +77,9 @@ namespace ConsoleWorldRPG.Entities
                 Class = PlayerClass.Barbarian,
                 StatGrowth = new()
                 {
-                    ["STR"] = 5,
+                    ["STR"] = 8,
                     ["DEX"] = 2,
-                    ["END"] = 2,
+                    ["END"] = 3,
                     ["INT"] = 0,
                     ["SPR"] = 1
                 },
@@ -91,9 +91,9 @@ namespace ConsoleWorldRPG.Entities
                 Class = PlayerClass.Cleric,
                 StatGrowth = new()
                 {
-                    ["STR"] = 1,
+                    ["STR"] = 2,
                     ["DEX"] = 2,
-                    ["END"] = 3,
+                    ["END"] = 5,
                     ["INT"] = 1,
                     ["SPR"] = 4
                 },
@@ -105,8 +105,8 @@ namespace ConsoleWorldRPG.Entities
                 Class = PlayerClass.Rogue,
                 StatGrowth = new()
                 {
-                    ["STR"] = 4,
-                    ["DEX"] = 5,
+                    ["STR"] = 6,
+                    ["DEX"] = 7,
                     ["END"] = 1,
                     ["INT"] = 1,
                     ["SPR"] = 1
@@ -122,7 +122,7 @@ namespace ConsoleWorldRPG.Entities
                     ["STR"] = 1,
                     ["DEX"] = 3,
                     ["END"] = 1,
-                    ["INT"] = 4,
+                    ["INT"] = 6,
                     ["SPR"] = 4
                 },
                 HpPerLevel = 8,
@@ -136,7 +136,7 @@ namespace ConsoleWorldRPG.Entities
                     ["STR"] = 0,
                     ["DEX"] = 3,
                     ["END"] = 1,
-                    ["INT"] = 6,
+                    ["INT"] = 8,
                     ["SPR"] = 3
                 },
                 HpPerLevel = 6,
@@ -148,10 +148,10 @@ namespace ConsoleWorldRPG.Entities
                 StatGrowth = new()
                 {
                     ["STR"] = 1,
-                    ["DEX"] = 2,
-                    ["END"] = 1,
-                    ["INT"] = 4,
-                    ["SPR"] = 5
+                    ["DEX"] = 5,
+                    ["END"] = 2,
+                    ["INT"] = 3,
+                    ["SPR"] = 4
                 },
                 HpPerLevel = 8,
                 ManaPerLevel = 10
@@ -161,11 +161,11 @@ namespace ConsoleWorldRPG.Entities
                 Class = PlayerClass.SoulsKnight,
                 StatGrowth = new()
                 {
-                    ["STR"] = 3,
-                    ["DEX"] = 1,
-                    ["END"] = 4,
+                    ["STR"] = 2,
+                    ["DEX"] = 2,
+                    ["END"] = 5,
                     ["INT"] = 3,
-                    ["SPR"] = 4
+                    ["SPR"] = 5
                 },
                 HpPerLevel = 12,
                 ManaPerLevel = 8

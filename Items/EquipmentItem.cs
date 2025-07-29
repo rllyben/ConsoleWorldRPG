@@ -28,6 +28,8 @@ namespace ConsoleWorldRPG.Items
         public int BonusMDEF { get; set; }
         public int BonusAim { get; set; }
         public int BonusEvasion { get; set; }
+        public float BonusCrit { get; set; }
+        public float BonusBlock { get; set; }
 
         public override void Use(Player player)
         {

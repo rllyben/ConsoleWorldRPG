@@ -3,7 +3,7 @@
     "Id": 1,
     "Name": "Goblin",
     "Description": "A sneaky little creature hiding in the shadows.",
-    "MonsterType": 6,
+    "Type": 5,
     "Exp": 10,
     "Stats": {
       "Strength": 5,
@@ -20,7 +20,7 @@
     "Id": 2,
     "Name": "Troll",
     "Description": "A big dumb brute with a club.",
-    "MonsterType": 6,
+    "Type": 5,
     "Exp": 9,
     "Stats": {
       "Strength": 14,
@@ -37,7 +37,7 @@
     "Id": 3,
     "Name": "Wraith",
     "Description": "A dark ghostly figure, drifting silently.",
-    "MonsterType": 4,
+    "Type": 3,
     "Exp": 17,
     "Stats": {
       "Strength": 2,
@@ -54,7 +54,7 @@
     "Id": 4,
     "Name": "Nightwalker",
     "Description": "An deamonlike creature, looking like an shadow",
-    "MonsterType": 4,
+    "Type": 3,
     "Exp": 87,
     "Stats": {
       "Strength": 104,
@@ -71,7 +71,7 @@
     "Id": 5,
     "Name": "Bodak",
     "Description": "An dark creature looking like a Wraith",
-    "MonsterType": 6,
+    "Type": 5,
     "Exp": 100,
     "Stats": {
       "Strength": 13,
@@ -88,7 +88,7 @@
     "Id": 6,
     "Name": "Tomb Spider",
     "Description": "The creature has an mottled grey body, its gigantic",
-    "MonsterType": 1,
+    "Type": 0,
     "Exp": 88,
     "Stats": {
       "Strength": 115,
@@ -105,7 +105,7 @@
     "Id": 7,
     "Name": "Lich of the Hollow Crypt",
     "Description": "An powerful Lich with an deeply purple torn cloak",
-    "MonsterType": 4,
+    "Type": 3,
     "Exp": 180,
     "Stats": {
       "Strength": 100,
@@ -115,7 +115,13 @@
       "Spirit": 252,
       "BaseHealth": 120,
       "BaseMana": 200
-    }
+    },
+    "UniqueLootTable": [
+      {
+        "ItemId": "soulbound_phylactery",
+        "DropChance": 0.01
+      }
+    ]
 
   }
   

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
+using ConsoleWorldRPG.Enums;
 
 namespace ConsoleWorldRPG.Items
 {
@@ -12,6 +13,7 @@ namespace ConsoleWorldRPG.Items
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public virtual ItemRarity Rarity { get; set; } = ItemRarity.Common;
         public int StackSize { get; set; } = 1;
         public virtual int MaxStackSize => 50;
 

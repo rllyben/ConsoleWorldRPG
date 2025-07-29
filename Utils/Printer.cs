@@ -4,15 +4,71 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
+using ConsoleWorldRPG.Enums;
+using ConsoleWorldRPG.Items;
 
 namespace ConsoleWorldRPG.Utils
 {
     public class Printer
     {
+        public static void ShowInvalidCommand()
+        {
+            Console.WriteLine("❌ Unknown command. Type 'help' to see available commands.");
+        }
+        public static void PrintColoredItemName(Item item)
+        {
+            var color = item.Rarity switch
+            {
+                ItemRarity.Common => ConsoleColor.Gray,
+                ItemRarity.Uncommon => ConsoleColor.Green,
+                ItemRarity.Rare => ConsoleColor.Blue,
+                ItemRarity.Epic => ConsoleColor.Magenta,
+                ItemRarity.Unique => ConsoleColor.Yellow,
+                ItemRarity.Legendary => ConsoleColor.DarkYellow,
+                ItemRarity.Godly => ConsoleColor.Red, // light pink is not available in ConsoleColor
+                _ => ConsoleColor.Gray
+            };
+
+            Console.ForegroundColor = color;
+            Console.Write($" - {item.Name}");
+            Console.ResetColor();
+        }
+        public static void ShowEquipSuccess(Item item)
+        {
+            Console.WriteLine($"✔ Equipped {item.Name}.");
+        }
+        public static void ShowEquipFail(string reason)
+        {
+            Console.WriteLine($"❌ Cannot equip: {reason}");
+        }
+        public static void ShowLook(Room room)
+        {
+            Console.WriteLine($"\n{room.Name}: {room.Description}");
+
+            if (room.Exits.Any())
+            {
+                Console.WriteLine("Exits: " + string.Join(", ", room.Exits.Keys));
+            }
+
+            if (room.IsCity && room.Npcs.Count > 0)
+            {
+                Console.WriteLine("You see the following people:");
+                foreach (var npc in room.Npcs)
+                    Console.WriteLine($"  - {npc}");
+            }
+
+            if (room.Corpses.Any())
+            {
+                Console.WriteLine("There are corpses here:");
+                foreach (var corpse in room.Corpses)
+                    corpse.Describe();
+            }
+
+        }
         /// <summary>
         /// Prints the Help information into the Console
         /// </summary>
-        public void ShowHelp()
+        public static void ShowHelp()
         {
             Console.WriteLine("\nAvailable commands:");
             Console.WriteLine("  move <direction>   - Move to another room (e.g., move north)");
@@ -24,11 +80,11 @@ namespace ConsoleWorldRPG.Utils
             Console.WriteLine("  use <item name>    - Uses the specified item (e.g., use simple Healing Potion)");
             Console.WriteLine("  loot corpse        - loots the first dropped corpse in the current room");
             Console.WriteLine("  look corpses       - Show all current corpses that arent looted in the current room");
-            Console.WriteLine("  heal               - (LAGACY: not in use anymoe!) Heals your character to full HP");
+            Console.WriteLine("  heal ||LAGACY||    - (LAGACY: not in use anymoe!) Heals your character to full HP");
             Console.WriteLine("  help               - Show this help message");
             Console.WriteLine("  exit               - Save and Quit the game");
         }
-        public void ShowDebugHelp()
+        public static void ShowDebugHelp()
         {
             Console.WriteLine("\nAvailable commands:");
             Console.WriteLine("  /set level <level>  - sets the current player level to the specified level (the level can't be smaller than the current one)");
@@ -37,7 +93,7 @@ namespace ConsoleWorldRPG.Utils
         /// <summary>
         /// Prints the Status for the current Hero
         /// </summary>
-        public void ShowStatus(Player _player)
+        public static void ShowStatus(Player _player)
         {
             Console.WriteLine($"\n{_player.Name}'s Status:");
             Console.WriteLine($"  Level: {_player.Level}    Exp: {_player.Experience}/{_player.ExpForNextLvl}");
