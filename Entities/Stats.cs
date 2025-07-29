@@ -20,20 +20,9 @@ namespace ConsoleWorldRPG.Entities
 
         public int MagicAttack => Intelligence * 2 + Spirit;
         public int MagicDefense => Spirit * 2 + Intelligence;
-
-        public float CritChance => Dexterity * 0.01f;
         public int HitChance => Dexterity;
-        public int DodgeChance => Dexterity;
-
+        public int DodgeChance => (int)(Dexterity * 0.85f);
         public float GearBlockBonus { get; set; } = 0f; // To be set via gear
-        public float BlockChance
-        {
-            get
-            {
-                float blockRaw = (Endurance * 0.3f) + (Intelligence * 0.2f) + (Strength * 0.1f);
-                return MathF.Min(blockRaw * 0.01f + GearBlockBonus, 0.75f);
-            }
-        }
 
         public Stats Clone()
         {

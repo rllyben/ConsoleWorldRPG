@@ -1,4 +1,5 @@
 using ConsoleWorldRPG.Interfaces;
+using ConsoleWorldRPG.Items;
 
 namespace ConsoleWorldRPG.Entities
 {
@@ -12,6 +13,43 @@ namespace ConsoleWorldRPG.Entities
         public int MaxHealth => Stats.MaxHealth;
         public int MaxMana => Stats.MaxMana;
         public bool IsAlive => CurrentHealth > 0;
+        public EquipmentItem? WeaponSlot { get; set; }
+        public EquipmentItem? ArmorSlot { get; set; }
+        public EquipmentItem? AccessorySlot { get; set; }
+
+        // Optional: effective STR, DEX, etc.
+        public int TotalSTR => Stats.Strength + GetBonusFromGear(g => g.BonusSTR);
+        public int TotalDEX => Stats.Dexterity + GetBonusFromGear(g => g.BonusDEX);
+        public int TotalEND => Stats.Endurance + GetBonusFromGear(g => g.BonusEND);
+        public int TotalINT => Stats.Intelligence + GetBonusFromGear(g => g.BonusINT);
+        public int TotalSPR => Stats.Spirit + GetBonusFromGear(g => g.BonusSPR);
+
+        public int TotalPhysicalAttack =>
+            (TotalSTR * 2 + TotalEND) + GetBonusFromGear(g => g.BonusATK);
+
+        public int TotalPhysicalDefense =>
+            (TotalEND * 2 + TotalSTR) + GetBonusFromGear(g => g.BonusDEF);
+
+        public int TotalMagicAttack =>
+            (TotalINT * 2 + TotalSPR) + GetBonusFromGear(g => g.BonusMATK);
+
+        public int TotalMagicDefense =>
+            (TotalSPR * 2 + TotalINT) + GetBonusFromGear(g => g.BonusMDEF);
+
+        public int TotalAim =>
+            (TotalDEX) + GetBonusFromGear(g => g.BonusAim);
+
+        public int TotalEvasion =>
+            (int)(TotalDEX * 0.85f) + GetBonusFromGear(g => g.BonusEvasion);
+        public float CritChance => GetBonusFromGear(g => g.BonusDEX) * 0.01f;
+        public float BlockChance
+        {
+            get
+            {
+                float blockRaw = (GetBonusFromGear(g => g.BonusEND) * 0.3f) + (GetBonusFromGear(g => g.BonusINT) * 0.2f) + (GetBonusFromGear(g => g.BonusSTR) * 0.1f);
+                return MathF.Min(blockRaw * 0.01f, 0.75f);
+            }
+        }
 
         public virtual void TakeDamage(int amount)
         {
@@ -31,6 +69,15 @@ namespace ConsoleWorldRPG.Entities
         {
             return Stats.BlockChance;
         }
+        public int GetBonusFromGear(Func<EquipmentItem, int> selector)
+        {
+            int total = 0;
+            if (WeaponSlot != null) total += selector(WeaponSlot);
+            if (ArmorSlot != null) total += selector(ArmorSlot);
+            if (AccessorySlot != null) total += selector(AccessorySlot);
+            return total;
+        }
+
     }
 
 }

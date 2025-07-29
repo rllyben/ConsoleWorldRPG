@@ -10,8 +10,8 @@ namespace ConsoleWorldRPG.Systems
 
         public static bool TryHit(ICombatant attacker, ICombatant defender)
         {
-            float aim = attacker.Stats.HitChance;
-            float evasion = defender.Stats.DodgeChance;
+            float aim = attacker.TotalAim;
+            float evasion = defender.TotalEvasion;
 
             if (aim >= evasion)
             {
@@ -25,6 +25,11 @@ namespace ConsoleWorldRPG.Systems
 
         public static void Attack(ICombatant attacker, ICombatant defender)
         {
+            float atk = attacker.TotalPhysicalAttack;
+            float matk = attacker.TotalMagicAttack;
+            float def = defender.TotalPhysicalDefense;
+            float mdef = defender.TotalMagicDefense;
+
             Console.WriteLine($"\n{attacker.Name} attacks {defender.Name}!");
 
             if (!TryHit(attacker, defender))
@@ -32,9 +37,9 @@ namespace ConsoleWorldRPG.Systems
                 Console.WriteLine($"{attacker.Name} missed!");
                 return;
             }
-            
-            float pdmg = (float)attacker.Stats.PhysicalAttack * ((float)attacker.Stats.PhysicalAttack / ((float)attacker.Stats.PhysicalAttack + (float)defender.Stats.PhysicalDefense));
-            float mdmg = (float)attacker.Stats.MagicAttack * ((float)attacker.Stats.MagicAttack /((float)attacker.Stats.MagicAttack + (float)defender.Stats.MagicDefense));
+
+            float pdmg = atk * (atk / (atk + def));
+            float mdmg = matk * (matk / (matk + mdef));
             float dmg = Math.Max(pdmg, mdmg);
             if (dmg < 1)
                 dmg = 1;

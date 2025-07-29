@@ -19,6 +19,8 @@ namespace ConsoleWorldRPG.Services
             bool success = LoadRooms();
             NotifyUser("connect monster to their rooms");
             ConnectMonsterRooms();
+            NotifyUser("items");
+            ItemFactory.LoadItems();
             NotifyUser("hero");
             playerExitst = LoadHero(ref player);
             NotifyUser("hero position");
@@ -73,8 +75,12 @@ namespace ConsoleWorldRPG.Services
             }
             try
             {
+                var options = new JsonSerializerOptions
+                {
+                    Converters = { new ItemConverter() }
+                };
                 string jsonData = File.ReadAllText(filePath);
-                hero = JsonSerializer.Deserialize<Player>(jsonData);
+                hero = JsonSerializer.Deserialize<Player>(jsonData, options);
             }
             catch 
             {
@@ -85,7 +91,6 @@ namespace ConsoleWorldRPG.Services
         public static void NotifyUser(string status)
         {
             Console.WriteLine($"Loading {status} ...");
-            Console.SetCursorPosition(0, Console.GetCursorPosition().Top - 1);
         }
 
     }

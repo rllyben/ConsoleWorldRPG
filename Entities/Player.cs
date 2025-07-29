@@ -5,8 +5,10 @@ using System.Net.Security;
 using System.Reflection.Emit;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Enums;
+using ConsoleWorldRPG.Items;
 
 namespace ConsoleWorldRPG.Entities
 {
@@ -16,17 +18,26 @@ namespace ConsoleWorldRPG.Entities
         public int Level { get; set; } = 1;
         public long Experience { get; set; } = 0;
         public long ExpForNextLvl { get; private set; }
-        public Room CurrentRoom { get; set; }
+        public int PotionTierAvailable { get; set; } = 1;
+        public Inventory Inventory { get; set; } = new();
+        public MoneyBag Money { get; set; } = new();
+        public EquipmentItem? WeaponSlot { get; set; }
+        public EquipmentItem? ArmorSlot { get; set; }
+        public EquipmentItem? AccessorySlot { get; set; }
 
-    // Add inventory, experience, commands, etc.
-    public Player(string name, Stats stats)
-    {
-        Name = name;
-        Stats = stats;
-        CurrentHealth = stats.MaxHealth;
-        CurrentMana = stats.MaxMana;
-        ExpForNextLvl = (long)(Math.Pow(Level, 2)) * 50;
-    }
+        [JsonIgnore]
+        public Room CurrentRoom { get; set; }
+        public int CurrentRoomId { get; set; }
+
+        // Add inventory, experience, commands, etc.
+        public Player(string name, Stats stats)
+        {
+            Name = name;
+            Stats = stats;
+            CurrentHealth = stats.MaxHealth;
+            CurrentMana = stats.MaxMana;
+            ExpForNextLvl = (long)(Math.Pow(Level, 2)) * 50;
+        }
 
         public void ShowStatus()
         {
@@ -41,6 +52,23 @@ namespace ConsoleWorldRPG.Entities
                 ExpForNextLvl = (long)(Math.Pow(Level, 2)) * 50;
             }
 
+        }
+        public void Equip(EquipmentItem item)
+        {
+            switch (item.SlotType)
+            {
+                case EquipmentType.Weapon:
+                    WeaponSlot = item;
+                    break;
+                case EquipmentType.Armor:
+                    ArmorSlot = item;
+                    break;
+                case EquipmentType.Accessory:
+                    AccessorySlot = item;
+                    break;
+            }
+
+            Console.WriteLine($"Equipped: {item.Name}");
         }
         public void LevelUp()
         {
@@ -61,6 +89,14 @@ namespace ConsoleWorldRPG.Entities
 
             Console.WriteLine($"\n🎉 You reached level {Level}!");
             Console.WriteLine($"HP: {Stats.MaxHealth}, Mana: {Stats.MaxMana}");
+        }
+        public int GetBonusFromGear(Func<EquipmentItem, int> selector)
+        {
+            int total = 0;
+            if (WeaponSlot != null) total += selector(WeaponSlot);
+            if (ArmorSlot != null) total += selector(ArmorSlot);
+            if (AccessorySlot != null) total += selector(AccessorySlot);
+            return total;
         }
 
     }

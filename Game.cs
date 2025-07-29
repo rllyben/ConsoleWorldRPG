@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Enums;
+using ConsoleWorldRPG.Items;
 using ConsoleWorldRPG.Services;
 using ConsoleWorldRPG.Systems;
 using Microsoft.VisualBasic;
@@ -20,6 +21,7 @@ namespace ConsoleWorldRPG
         private bool _hallFought = false;
         private bool _debug = false;
         private bool _playerExitst = false;
+        private Random _random = new Random();
         public void Start()
         {
             // Initialization logic here
@@ -121,8 +123,38 @@ namespace ConsoleWorldRPG
                 }
                 else if (input == "heal")
                 {
-                    Console.WriteLine("You take a break and heal all your wounds");
-                    _player.CurrentHealth = _player.MaxHealth;
+                    //Console.WriteLine("You take a break and heal all your wounds");
+                    //_player.CurrentHealth = _player.MaxHealth;
+                    Console.WriteLine("The 'heal' command is no longer available. Use a potion or visit a healer.");
+                }
+                else if (input.StartsWith("use "))
+                {
+                    string itemName = input.Substring(4).Trim();
+                    UseItem(itemName);
+                }
+                else if (input.StartsWith("go to "))
+                {
+                    string npcName = input.Substring(6).Trim().ToLower();
+                    InteractWithNpc(npcName);
+                }
+                else if (input == "inventory")
+                {
+                    _player.Inventory.ListItems();
+                    Console.WriteLine($"💰 Money: {_player.Money}");
+                }
+                else if (input.StartsWith("loot corpse"))
+                {
+                    LootFirstCorpse();
+                }
+                else if (input == "look corpses")
+                {
+                    foreach (var c in _player.CurrentRoom.Corpses)
+                        c.Describe();
+                }
+                else if (input.StartsWith("equip "))
+                {
+                    string itemName = input.Substring(6).Trim();
+                    EquipItem(itemName);
                 }
                 else if (input == "exit")
                 {
@@ -140,12 +172,199 @@ namespace ConsoleWorldRPG
             }
 
         }
+        private void EquipItem(string itemName)
+        {
+            var match = _player.Inventory.Items
+                .FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+
+            if (match is not EquipmentItem equipment)
+            {
+                Console.WriteLine("You can't equip that.");
+                return;
+            }
+
+            if (!equipment.IsUsableBy(_player))
+            {
+                Console.WriteLine("Your class can't equip that item.");
+                return;
+            }
+
+            _player.Equip(equipment);
+            _player.Inventory.RemoveItem(equipment);
+        }
+        private void InteractWithNpc(string npc)
+        {
+            if (!_player.CurrentRoom.IsCity)
+            {
+                Console.WriteLine("You can only visit NPCs while in a city.");
+                return;
+            }
+
+            var found = _player.CurrentRoom.Npcs
+                .FirstOrDefault(n => n.Equals(npc, StringComparison.OrdinalIgnoreCase));
+
+            if (found == null)
+            {
+                Console.WriteLine($"There’s no one named '{npc}' here.");
+                return;
+            }
+
+            switch (npc.ToLower())
+            {
+                case "healer":
+                    HealerMenu();
+                    break;
+                case "smith":
+                    SmithMenu();
+                    break;
+                case "quest board":
+                case "questboard":
+                    Console.WriteLine("You read the quest board, but it’s currently empty.");
+                    break;
+                default:
+                    Console.WriteLine($"'{npc}' doesn’t do anything... yet.");
+                    break;
+            }
+        }
+        private void SmithMenu()
+        {
+            var stock = ItemFactory.GetAllItemsFor(_player)
+                .OfType<EquipmentItem>().ToList();
+
+            if (stock.Count == 0)
+            {
+                Console.WriteLine("The smith has nothing for your class.");
+                return;
+            }
+
+            for (int i = 0; i < stock.Count; i++)
+                Console.WriteLine($"{i + 1}. {stock[i].Name} - {stock[i].BuyPrice} bronze");
+
+            Console.Write("Choose item to buy (0 to cancel): ");
+            if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= stock.Count)
+                TryBuyItem(stock[choice - 1], stock[choice - 1].BuyPrice);
+            else
+                Console.WriteLine("Cancelled.");
+        }
+        private void UseItem(string itemName)
+        {
+            var item = _player.Inventory.Items
+                .FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+
+            if (item == null)
+            {
+                Console.WriteLine($"You don't have a '{itemName}' in your inventory.");
+                return;
+            }
+
+            if (item is ConsumableItem consumable)
+            {
+                consumable.Use(_player);
+                _player.Inventory.RemoveItem(item);
+            }
+            else
+            {
+                Console.WriteLine($"{item.Name} can't be used.");
+            }
+
+        }
+        private void HealerMenu()
+        {
+            Console.WriteLine("\n🧙 You approach the healer.");
+            Console.WriteLine("1. Heal (Free)");
+            if (_player.PotionTierAvailable < 2)
+            {
+                Console.WriteLine("2. Buy simple Healing Potion (100 bronze)");
+                Console.WriteLine("3. Buy simple Mana Potion (120 bronze)");
+            }
+            Console.WriteLine("4. Sell Item");
+            Console.WriteLine("5. Leave");
+
+            Console.Write("Choice: ");
+            string? choice = Console.ReadLine()?.Trim();
+
+            switch (choice)
+            {
+                case "1":
+                    _player.CurrentHealth = _player.Stats.MaxHealth;
+                    _player.CurrentMana = _player.Stats.MaxMana;
+                    Console.WriteLine("✨ You are fully healed.");
+                    break;
+                case "2":
+                    TryBuyItem(ItemFactory.CreateItem("healing_potion"), 100);
+                    break;
+                case "3":
+                    TryBuyItem(ItemFactory.CreateItem("mana_potion"), 120);
+                    break;
+                case "4":
+                    _player.Inventory.ListItems();
+                    Console.Write("Enter the item name to sell: ");
+                    string? itemName = Console.ReadLine()?.Trim();
+
+                    var item = _player.Inventory.Items
+                        .FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+
+                    if (item == null)
+                    {
+                        Console.WriteLine($"❌ You don't have an item named '{itemName}'.");
+                        break;
+                    }
+
+                    Console.WriteLine($"You have {item.StackSize}x {item.Name}. Each sells for {item.SellValue} bronze.");
+                    Console.Write("How many would you like to sell? ");
+                    if (!int.TryParse(Console.ReadLine(), out int amount) || amount <= 0 || amount > item.StackSize)
+                    {
+                        Console.WriteLine("Invalid quantity.");
+                        break;
+                    }
+
+                    int total = amount * item.SellValue;
+                    Console.Write($"Sell {amount}x {item.Name} for {total} bronze? (yes/no): ");
+                    string? confirm = Console.ReadLine()?.Trim().ToLower();
+
+                    if (confirm == "yes" || confirm == "y")
+                    {
+                        if (_player.Inventory.SellItem(itemName, amount, out int gained))
+                        {
+                            _player.Money.TryAdd(gained);
+                            Console.WriteLine($"🪙 Sold {amount}x {item.Name} for {gained} bronze.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("❌ Something went wrong while selling.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Cancelled.");
+                    }
+                    break;
+                default:
+                    Console.WriteLine("You leave the healer.");
+                    break;
+            }
+
+        }
+        private void TryBuyItem(Item item, int cost)
+        {
+            if (_player.Money.TrySpend(cost))
+            {
+                if (_player.Inventory.AddItem(item))
+                    Console.WriteLine($"🧪 {item.Name} added to inventory.");
+                else
+                    Console.WriteLine("❌ Inventory full!");
+            }
+            else
+                Console.WriteLine("Not enough money.");
+        }
         private void SaveHero()
         {
+            _player.CurrentRoomId = _player.CurrentRoom.Id;
             string filePath = $"player_hero.json";
             var options = new JsonSerializerOptions
             {
                 WriteIndented = true,
+                Converters = { new ItemConverter() }
             };
             string jsonData = JsonSerializer.Serialize(_player, options);
             File.WriteAllText(filePath, jsonData);
@@ -187,6 +406,15 @@ namespace ConsoleWorldRPG
         {
             if (_player.CurrentRoom.Exits.TryGetValue(direction, out Room nextRoom))
             {
+                if (nextRoom.RequirementType != RoomRequirementType.None)
+                {
+                    if (nextRoom.RequirementType == RoomRequirementType.Level && _player.Level < nextRoom.AccessLevel)
+                    {
+                        Console.WriteLine($"You must be level {nextRoom.AccessLevel} to enter this area.");
+                        return;
+                    }
+
+                }
                 _player.CurrentRoom = nextRoom;
                 Console.WriteLine($"\nYou move {direction}.");
                 _player.CurrentRoom.Describe();
@@ -225,6 +453,11 @@ namespace ConsoleWorldRPG
             Console.WriteLine($"  MDEF: {_player.Stats.MagicDefense}");
             Console.WriteLine($"  Crit: {_player.Stats.CritChance:P0}");
             Console.WriteLine($"  Block: {_player.Stats.BlockChance:P0}");
+            Console.WriteLine("");
+            Console.WriteLine("\nEquipped:");
+            Console.WriteLine($"  Weapon:   {_player.WeaponSlot?.Name ?? "(none)"}");
+            Console.WriteLine($"  Armor:    {_player.ArmorSlot?.Name ?? "(none)"}");
+            Console.WriteLine($"  Accessory:{_player.AccessorySlot?.Name ?? "(none)"}");
         }
         private void StartEncounter()
         {
@@ -256,9 +489,55 @@ namespace ConsoleWorldRPG
                 Console.WriteLine($"\nYou defeated the {monster.Name}!");
                 _player.Experience += monster.Exp;
                 _player.CheckForLevelup();
+                var drops = LootGenerator.GetLootFor(monster);
+
+                if (drops.Count > 0)
+                {
+                    if (monster.DropsCorpse)
+                    {
+                        var corpse = new Corpse(monster.Name, drops);
+                        _player.CurrentRoom.Corpses.Add(corpse);
+                        Console.WriteLine($"The corpse of {monster.Name} remains. You can loot it.");
+                    }
+                    else
+                    {
+                        foreach (var drop in drops)
+                        {
+                            if (_player.Inventory.AddItem(drop))
+                                Console.WriteLine($"🪶 You found: {drop.Name}");
+                            else
+                                Console.WriteLine($"❌ Inventory full. Could not take: {drop.Name}");
+                        }
+                    }
+                }
+
             }
             else
                 Console.WriteLine("\nYou were slain...");
+        }
+        private void LootFirstCorpse()
+        {
+            var corpses = _player.CurrentRoom.Corpses.Where(c => !c.IsLooted && c.Loot.Any()).ToList();
+
+            if (corpses.Count == 0)
+            {
+                Console.WriteLine("There are no lootable corpses here.");
+                return;
+            }
+
+            var corpse = corpses[0];
+            Console.WriteLine($"You loot the corpse of {corpse.Name}:");
+
+            foreach (var item in corpse.Loot)
+            {
+                if (_player.Inventory.AddItem(item))
+                    Console.WriteLine($"  - {item.Name}");
+                else
+                    Console.WriteLine($"  - Could not carry {item.Name} (inventory full)");
+            }
+
+            corpse.Loot.Clear();
+            corpse.IsLooted = true;
         }
 
     }
