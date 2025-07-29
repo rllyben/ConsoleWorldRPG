@@ -1,0 +1,111 @@
+[
+  {
+    "Id": "t1_healing_potion",
+    "Name": "simple Healing Potion",
+    "Description": "Restores 25 HP.",
+    "Type": "consumable",
+    "BuyPrice": 100,
+    "MaxStackSize": 100,
+    "HealAmount": 25,
+    "ManaRestore": 0
+  },
+  {
+    "Id": "t1_mana_potion",
+    "Name": "simple Mana Potion",
+    "Description": "Restores 20 MP.",
+    "Type": "consumable",
+    "BuyPrice": 120,
+    "MaxStackSize": 100,
+    "HealAmount": 0,
+    "ManaRestore": 20
+  },
+  {
+    "Id": "steel_sword",
+    "Name": "Steel Sword",
+    "Description": "A balanced sword for melee fighters.",
+    "Type": "equipment",
+    "SlotType": 1,
+    "BuyPrice": 300,
+    "BonusATK": 15,
+    "BonusAim": 7,
+    "AllowedClasses": ["Knight", "Barbarian"]
+  },
+  {
+    "Id": "leather_bow",
+    "Name": "Leather Bow",
+    "Description": "A light bow ideal for agile archers.",
+    "Type": "equipment",
+    "SlotType": 1,
+    "BuyPrice": 280,
+    "BonusATK": 10,
+    "BonusAim": 12,
+    "AllowedClasses": ["Archer", "Hunter"]
+  },
+  {
+  "Id": "flamecaster_staff",
+  "Name": "Flamecaster's Staff",
+  "Description": "A staff imbued with flame runes, enhancing magic power.",
+  "Type": "equipment",
+  "SlotType": 0,
+  "BuyPrice": 500,
+  "AllowedClasses": ["ArcanMage", "ElementalMage"],
+  "BonusMATK": 20,
+  "BonusAim": 5
+  },
+  {
+  "Id": "storm_robes",
+  "Name": "Robes of the Storm",
+  "Description": "Flowing robes crackling with arcane wind energy.",
+  "Type": "equipment",
+  "SlotType": 1,
+  "BuyPrice": 450,
+  "AllowedClasses": ["ElementalMage", "Druid"],
+  "BonusMATK": 10,
+  "BonusMDEF": 15,
+  "BonusEvasion": 8
+  },
+  {
+  "Id": "crystal_focus_band",
+  "Name": "Crystal Focus Band",
+  "Description": "A magical circlet that sharpens focus and channels power.",
+  "Type": "equipment",
+  "SlotType": 2,
+  "BuyPrice": 300,
+  "AllowedClasses": ["ElementalMage"],
+  "BonusMATK": 5,
+  "BonusINT": 2,
+  "BonusSPR": 1
+  },
+  {
+    "Id": "fang",
+    "Name": "Beast Fang",
+    "Description": "An biutiful fang from an fallen beast.",
+    "Type": "raw_material",
+    "MaxStackSize": 50,
+    "BuyPrice": 15
+  },
+  {
+    "Id": "fire_ash",
+    "Name": "Ash of Ember",
+    "Description": "Warm ash from a fallen fire elemental.",
+    "Type": "raw_material",
+    "MaxStackSize": 50,
+    "BuyPrice": 15
+  },
+  {
+    "Id": "leather",
+    "Name": "Beast Lether",
+    "Description": "An nice lether pelt from an fallen Beast.",
+    "Type": "raw_material",
+    "MaxStackSize": 50,
+    "BuyPrice": 15
+  },
+  {
+    "Id": "spirit_dust",
+    "Name": "Spirit Dust",
+    "Description": "Fine dust left behind by a banished spirit.",
+    "Type": "raw_material",
+    "MaxStackSize": 50,
+    "BuyPrice": 15
+  }
+]

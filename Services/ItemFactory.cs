@@ -14,7 +14,7 @@ namespace ConsoleWorldRPG.Services
     {
         private static Dictionary<string, GameItem> _itemDefs;
 
-        public static void LoadItems(string path = "items.json")
+        public static void LoadItems(string path = "Data/items.json")
         {
             string json = File.ReadAllText(path);
             var list = JsonSerializer.Deserialize<List<GameItem>>(json);

@@ -2,18 +2,121 @@
   {
     "Id": 1,
     "Name": "Goblin",
-    "MaxHealth": 30,
-    "Attack": 5,
     "Description": "A sneaky little creature hiding in the shadows.",
-    "CurrentHealth": 30
+    "MonsterType": 6,
+    "Exp": 10,
+    "Stats": {
+      "Strength": 5,
+      "Dexterity": 16,
+      "Endurance": 5,
+      "Intelligence": 7,
+      "Spirit": 5,
+      "BaseHealth": 30,
+      "BaseMana": 0
+    }
+
   },
   {
     "Id": 2,
     "Name": "Troll",
-    "MaxHealth": 80,
-    "Attack": 12,
     "Description": "A big dumb brute with a club.",
-    "CurrentHealth": 80
+    "MonsterType": 6,
+    "Exp": 9,
+    "Stats": {
+      "Strength": 14,
+      "Dexterity": 3,
+      "Endurance": 8,
+      "Intelligence": 2,
+      "Spirit": 9,
+      "BaseHealth": 30,
+      "BaseMana": 0
+    }
+
+  },
+  {
+    "Id": 3,
+    "Name": "Wraith",
+    "Description": "A dark ghostly figure, drifting silently.",
+    "MonsterType": 4,
+    "Exp": 17,
+    "Stats": {
+      "Strength": 2,
+      "Dexterity": 35,
+      "Endurance": 4,
+      "Intelligence": 14,
+      "Spirit": 12,
+      "BaseHealth": 15,
+      "BaseMana": 40
+    }
+
+  },
+  {
+    "Id": 4,
+    "Name": "Nightwalker",
+    "Description": "An deamonlike creature, looking like an shadow",
+    "MonsterType": 4,
+    "Exp": 87,
+    "Stats": {
+      "Strength": 104,
+      "Dexterity": 111,
+      "Endurance": 78,
+      "Intelligence": 100,
+      "Spirit": 148,
+      "BaseHealth": 25,
+      "BaseMana": 40
+    }
+
+  },
+  {
+    "Id": 5,
+    "Name": "Bodak",
+    "Description": "An dark creature looking like a Wraith",
+    "MonsterType": 6,
+    "Exp": 100,
+    "Stats": {
+      "Strength": 13,
+      "Dexterity": 131,
+      "Endurance": 65,
+      "Intelligence": 174,
+      "Spirit": 192,
+      "BaseHealth": 25,
+      "BaseMana": 100
+    }
+
+  },
+  {
+    "Id": 6,
+    "Name": "Tomb Spider",
+    "Description": "The creature has an mottled grey body, its gigantic",
+    "MonsterType": 1,
+    "Exp": 88,
+    "Stats": {
+      "Strength": 115,
+      "Dexterity": 87,
+      "Endurance": 157,
+      "Intelligence": 94,
+      "Spirit": 101,
+      "BaseHealth": 35,
+      "BaseMana": 30
+    }
+
+  },
+  {
+    "Id": 7,
+    "Name": "Lich of the Hollow Crypt",
+    "Description": "An powerful Lich with an deeply purple torn cloak",
+    "MonsterType": 4,
+    "Exp": 180,
+    "Stats": {
+      "Strength": 100,
+      "Dexterity": 153,
+      "Endurance": 183,
+      "Intelligence": 249,
+      "Spirit": 252,
+      "BaseHealth": 120,
+      "BaseMana": 200
+    }
+
   }
   
 ]

@@ -3,9 +3,10 @@
     "Id": 1,
     "Name": "The Starting Room",
     "Description": "A dimly lit stone chamber. There's a draft from the north.",
+    "HasMonsters": false,
     "ExitIds": 
     {
-      "north": 1
+      "north": 2
     }
 
   },
@@ -13,9 +14,167 @@
     "Id": 2,
     "Name": "Camber of Echoes",
     "Description": "Whispers seem to float in the air. You feel watched.",
+    "HasMonsters": true,
+    "ExitIds": 
+    {
+      "south": 1,
+      "north": 4,
+      "west": 3
+    },
+    "EncounterableMonsters": 
+    {
+      "1": 0.6,
+      "2": 0.3,
+      "3": 0.1
+    }
+
+  },
+  {
+    "Id": 3,
+    "Name": "Dark Passage",
+    "Description": "The cave gets smaller here again, it looks like an passsage to another chamber though you can't see the end ... \nor even your hand",
+    "HasMonsters": true,
+    "ExitIds": 
+    {
+      "east": 2,
+      "west": 5
+    },
+    "EncounterableMonsters": 
+    {
+      "1": 0.6,
+      "3": 0.4
+    }
+
+  },
+  {
+    "Id": 4,
+    "Name": "Passage to the Abyss",
+    "Description": "It looks like an Passage lit by faintly glowing mushrooms, though the end seems like and endless dark",
+    "HasMonsters": true,
     "ExitIds": 
     {
       "south": 2
+    },
+    "EncounterableMonsters": 
+    {
+      "1": 1
+    }
+
+  },
+  {
+    "Id": 5,
+    "Name": "Camber of the Hollow Crypt",
+    "Description": "It's astonishing that you find an old crpt in those Caves, carved into the wall of this chamber, it seems that you get closer to the exit.",
+    "HasMonsters": true,
+    "ExitIds": 
+    {
+      "east": 3,
+      "west": 6,
+      "north": 11
+    },
+    "EncounterableMonsters": 
+    {
+      "3": 1
+    }
+
+  },
+  {
+    "Id": 6,
+    "Name": "Hollow Crypt (Portal Passage)",
+    "Description": "The Passage to the portal is dark, filled with faint noises of steam or some sort hitting metal.",
+    "HasMonsters": true,
+    "IsFreelyAccessable": false,
+    "AccessLevel": 40,
+    "ExitIds": 
+    {
+      "east": 5,
+      "south": 7
+    },
+    "EncounterableMonsters": 
+    {
+      "4": 1
+    }
+
+  },
+  {
+    "Id": 7,
+    "Name": "Hollow Crypt (Chapel of the forgotten Saint)",
+    "Description": "The Chapel is round with an high rising dome in the middle,\nsough no sunlight reaches this monumental room,\nsome glossoms spend faintly light from all sides of the room",
+    "HasMonsters": true,
+    "IsFreelyAccessable": false,
+    "AccessLevel": 40,
+    "ExitIds": 
+    {
+      "north": 6,
+      "east": 8
+    },
+    "EncounterableMonsters": 
+    {
+      "4": 0.6,
+      "5": 0.4
+    }
+
+  },
+  {
+    "Id": 8,
+    "Name": "Hollow Crypt (Chamber of the dead eastern side)",
+    "Description": "It gets clear that this crypt was build by draws, though there's no trace why they left it.",
+    "HasMonsters": true,
+    "IsFreelyAccessable": false,
+    "AccessLevel": 40,
+    "ExitIds": 
+    {
+      "west": 7,
+      "south": 9
+    },
+    "EncounterableMonsters": 
+    {
+      "6": 0.7,
+      "5": 0.3
+    }
+
+  },
+  {
+    "Id": 9,
+    "Name": "Hollow Crypt (Atrium)",
+    "Description": "The room is gigantic, with two rows of pillars going through the room,\nthe ciling is made up of countless arches.\nbefore you at the other end of the room sits an magastic altar and behind it seems to be an old drawen Titan.",
+    "HasMonsters": true,
+    "IsFreelyAccessable": false,
+    "AccessLevel": 40,
+    "ExitIds": 
+    {
+      "west": 10,
+      "south": 8
+    },
+    "EncounterableMonsters": 
+    {
+      "7": 1
+    }
+
+  },
+  {
+    "Id": 10,
+    "Name": "Hollow Crypt (Chamber of the dead western side)",
+    "Description": "It looks like a copy of the eastern side, though the tombs look more elegant.",
+    "HasMonsters": true,
+    "IsFreelyAccessable": false,
+    "AccessLevel": 40,
+    "ExitIds": 
+    {
+      "north": 9,
+      "west": 5
+    }
+
+  },
+  {
+    "Id": 11,
+    "Name": "Lumina's Rise",
+    "Description": "A peaceful hilltop city where adventureres begin their journey.",
+    "IsCity": true,
+    "Npcs": ["Healer", "Smith", "Quest Board"],
+    "ExitIds":
+    {
+      "south": 5
     }
 
   }

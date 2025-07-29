@@ -10,7 +10,7 @@ namespace ConsoleWorldRPG.Services
 {
     public static class MonsterService
     {
-        private static readonly string _filePath = "monsters.json";
+        private static readonly string _filePath = "Data/monsters.json";
 
         public static List<Monster> LoadMonsters()
         {

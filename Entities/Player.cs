@@ -21,9 +21,6 @@ namespace ConsoleWorldRPG.Entities
         public int PotionTierAvailable { get; set; } = 1;
         public Inventory Inventory { get; set; } = new();
         public MoneyBag Money { get; set; } = new();
-        public EquipmentItem? WeaponSlot { get; set; }
-        public EquipmentItem? ArmorSlot { get; set; }
-        public EquipmentItem? AccessorySlot { get; set; }
 
         [JsonIgnore]
         public Room CurrentRoom { get; set; }

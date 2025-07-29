@@ -71,7 +71,6 @@ namespace ConsoleWorldRPG.Entities
         }
         public int GetBonusFromGear(Func<EquipmentItem, int> selector)
         {
-            Console.WriteLine("Player instance hash: " + this.GetHashCode());
             int total = 0;
             if (WeaponSlot != null) total += selector(WeaponSlot);
             if (ArmorSlot != null) total += selector(ArmorSlot);

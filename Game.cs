@@ -22,6 +22,9 @@ namespace ConsoleWorldRPG
         private bool _debug = false;
         private bool _playerExitst = false;
         private Random _random = new Random();
+        /// <summary>
+        /// Handels the Main User interaction and calles the initialatiation of the Game
+        /// </summary>
         public void Start()
         {
             // Initialization logic here
@@ -63,6 +66,10 @@ namespace ConsoleWorldRPG
             }
 
         }
+        /// <summary>
+        /// Handles the Class selection of the Player
+        /// </summary>
+        /// <param name="input"></param>
         private void HandleClassSelection(string input)
         {
             switch (input)
@@ -172,6 +179,10 @@ namespace ConsoleWorldRPG
             }
 
         }
+        /// <summary>
+        /// Handles the equipment of an item
+        /// </summary>
+        /// <param name="itemName">the item NAME</param>
         private void EquipItem(string itemName)
         {
             var match = _player.Inventory.Items
@@ -192,6 +203,10 @@ namespace ConsoleWorldRPG
             _player.Equip(equipment);
             _player.Inventory.RemoveItem(equipment);
         }
+        /// <summary>
+        /// Handels the go to command and selects the Encounter Method of the choosen NPC
+        /// </summary>
+        /// <param name="npc"></param>
         private void InteractWithNpc(string npc)
         {
             if (!_player.CurrentRoom.IsCity)
@@ -226,6 +241,9 @@ namespace ConsoleWorldRPG
                     break;
             }
         }
+        /// <summary>
+        /// Handles the smith encounter
+        /// </summary>
         private void SmithMenu()
         {
             var stock = ItemFactory.GetAllItemsFor(_player)
@@ -246,6 +264,10 @@ namespace ConsoleWorldRPG
             else
                 Console.WriteLine("Cancelled.");
         }
+        /// <summary>
+        /// Handles item usage
+        /// </summary>
+        /// <param name="itemName">the item NAME</param>
         private void UseItem(string itemName)
         {
             var item = _player.Inventory.Items
@@ -268,6 +290,9 @@ namespace ConsoleWorldRPG
             }
 
         }
+        /// <summary>
+        /// Handles the encounter wiht the healer
+        /// </summary>
         private void HealerMenu()
         {
             Console.WriteLine("\n🧙 You approach the healer.");
@@ -345,6 +370,11 @@ namespace ConsoleWorldRPG
             }
 
         }
+        /// <summary>
+        /// Checks if the selected item to buy can be bought and adds it to the player's inventory
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="cost"></param>
         private void TryBuyItem(Item item, int cost)
         {
             if (_player.Money.TrySpend(cost))
@@ -357,6 +387,9 @@ namespace ConsoleWorldRPG
             else
                 Console.WriteLine("Not enough money.");
         }
+        /// <summary>
+        /// Saves the current state of the hero
+        /// </summary>
         private void SaveHero()
         {
             _player.CurrentRoomId = _player.CurrentRoom.Id;
@@ -371,6 +404,11 @@ namespace ConsoleWorldRPG
             File.WriteAllText(filePath, jsonData);
             Console.WriteLine($"Hero saved to {filePath}");
         }
+        /// <summary>
+        /// Checks if the input is an debug command
+        /// </summary>
+        /// <param name="input">user input</param>
+        /// <returns>if input was an command</returns>
         private bool DebugCommandCheck(string input)
         {
             if (!input.StartsWith("/"))
@@ -395,14 +433,14 @@ namespace ConsoleWorldRPG
             }
             else
             {
-                Console.WriteLine("Unknown command. Try \"help\".");
+                Console.WriteLine("Unknown command!");
             }
             return true;
         }
         /// <summary>
         /// Moves the player in the specified direction or room
         /// </summary>
-        /// <param name="direction"></param>
+        /// <param name="direction">the direction choosen by the player</param>
         private void Move(string direction)
         {
             if (_player.CurrentRoom.Exits.TryGetValue(direction, out Room nextRoom))
@@ -427,6 +465,9 @@ namespace ConsoleWorldRPG
             }
 
         }
+        /// <summary>
+        /// Prints the Help information into the Console
+        /// </summary>
         private void ShowHelp()
         {
             Console.WriteLine("\nAvailable commands:");
@@ -436,6 +477,9 @@ namespace ConsoleWorldRPG
             Console.WriteLine("  help             - Show this help message");
             Console.WriteLine("  exit             - Quit the game");
         }
+        /// <summary>
+        /// Prints the Status for the current Hero
+        /// </summary>
         private void ShowStatus()
         {
             Console.WriteLine($"\n{_player.Name}'s Status:");
@@ -459,8 +503,10 @@ namespace ConsoleWorldRPG
             Console.WriteLine($"  Weapon:   {_player.WeaponSlot?.Name ?? "(none)"}");
             Console.WriteLine($"  Armor:    {_player.ArmorSlot?.Name ?? "(none)"}");
             Console.WriteLine($"  Accessory:{_player.AccessorySlot?.Name ?? "(none)"}"); 
-            Console.WriteLine("Player instance hash: " + this.GetHashCode());
         }
+        /// <summary>
+        /// Starts an Encounter after the look command if the room has monsters, also handels the End of a fight
+        /// </summary>
         private void StartEncounter()
         {
             Random random = new Random();
@@ -517,6 +563,9 @@ namespace ConsoleWorldRPG
             else
                 Console.WriteLine("\nYou were slain...");
         }
+        /// <summary>
+        /// Method to loot corpses with items in the current room
+        /// </summary>
         private void LootFirstCorpse()
         {
             var corpses = _player.CurrentRoom.Corpses.Where(c => !c.IsLooted && c.Loot.Any()).ToList();
