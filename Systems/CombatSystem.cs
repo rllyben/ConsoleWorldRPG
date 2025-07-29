@@ -74,7 +74,35 @@ namespace ConsoleWorldRPG.Systems
             }
 
             if (player.IsAlive)
-                Console.WriteLine($"\n✅ You defeated the {monster.Name}!");
+            {
+                Console.WriteLine($"\n✅ You defeated the {monster.Name}!"); player.Experience += monster.Exp;
+                player.CheckForLevelup();
+
+                var drops = LootGenerator.GetLootFor(monster);
+
+                if (drops.Count > 0)
+                {
+                    if (monster.DropsCorpse)
+                    {
+                        var corpse = new Corpse(monster.Name, drops);
+                        player.CurrentRoom.Corpses.Add(corpse);
+                        Console.WriteLine($"The corpse of {monster.Name} remains. You can loot it.");
+                    }
+                    else
+                    {
+                        foreach (var drop in drops)
+                        {
+                            if (player.Inventory.AddItem(drop))
+                                Console.WriteLine($"🪶 You found: {drop.Name}");
+                            else
+                                Console.WriteLine($"❌ Inventory full. Could not take: {drop.Name}");
+                        }
+
+                    }
+
+                }
+
+            }
             else
                 Console.WriteLine("\n💀 You were defeated...");
         }
