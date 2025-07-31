@@ -56,13 +56,19 @@ namespace ConsoleWorldRPG.Commands
 
             foreach (var item in corpse.Loot)
             {
-                if (player.Inventory.AddItem(item))
+                if (player.Inventory.AddItem(item, player))
                 {
                     Printer.PrintColoredItemName(item);
                     Console.WriteLine();
                 }
                 else
-                    Console.WriteLine($"  - Could not carry {item.Name} (inventory full)");
+                {
+                    Console.Write($"  - Could not carry ");
+                    Printer.PrintColoredItemName(item);
+                    Console.WriteLine("inventory full)");
+                    return;
+                }
+
             }
 
             corpse.Loot.Clear();

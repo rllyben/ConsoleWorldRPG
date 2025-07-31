@@ -175,5 +175,50 @@
     "Type": "material",
     "BuyPrice": 15,
     "MaxStackSize": 99
+  },
+  {
+    "Id": "upgrade_stone",
+    "Name": "Upgrade Stone",
+    "Description": "Used to enhance equipment at the smith.",
+    "Type": "material",
+    "Rarity": "Uncommon",
+    "BuyPrice": 0,
+    "MaxStackSize": 99
+  },
+  {
+    "Id": "pickaxe",
+    "Name": "Pickaxe",
+    "Description": "Used to mine ores at gathering spots.",
+    "Type": "equipment",
+    "SlotType": 0,
+    "BuyPrice": 100,
+    "AllowedClasses": [],
+    "MaxStackSize": 1
+  },
+  {
+    "Id": "woodcutter_axe",
+    "Name": "Woodcutter Axe",
+    "Description": "Used to chop trees at gathering spots.",
+    "Type": "equipment",
+    "SlotType": 0,
+    "BuyPrice": 100,
+    "AllowedClasses": [],
+    "MaxStackSize": 1
+  },
+  {
+    "Id": "iron_ore",
+    "Name": "Iron Ore",
+    "Description": "A chunk of iron-rich rock, useful for crafting.",
+    "Type": "material",
+    "BuyPrice": 0,
+    "MaxStackSize": 99
+  },
+  {
+    "Id": "sunleaf",
+    "Name": "Sunleaf Herb",
+    "Description": "A rare herb found near sunlight cracks.",
+    "Type": "material",
+    "BuyPrice": 0,
+    "MaxStackSize": 99
   }
 ]

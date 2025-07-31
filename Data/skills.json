@@ -22,5 +22,18 @@
     "ScalingFactor": 1.5,
     "StatToScaleFrom": "ATK",
     "MinLevel": 5
+  },
+  {
+    "Id": "greater_heal",
+    "Name": "Greater Heal",
+    "Description": "Heals your wounds with divine magic.",
+    "Class": "Cleric",
+    "ManaCost": 30,
+    "Type": "Magical",
+    "Target": "Self",
+    "ScalingFactor": 1.5,
+    "StatToScaleFrom": "SPR",
+    "MinLevel": 10,
+    "IsHealing": true
   }
 ]

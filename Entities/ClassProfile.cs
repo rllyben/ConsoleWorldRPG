@@ -95,7 +95,7 @@ namespace ConsoleWorldRPG.Entities
                     ["DEX"] = 2,
                     ["END"] = 5,
                     ["INT"] = 1,
-                    ["SPR"] = 4
+                    ["SPR"] = 5
                 },
                 HpPerLevel = 12,
                 ManaPerLevel = 8

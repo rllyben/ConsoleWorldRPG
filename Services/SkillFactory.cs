@@ -31,7 +31,8 @@ namespace ConsoleWorldRPG.Services
                 Target = Enum.Parse<SkillTarget>(d.Target),
                 ScalingFactor = d.ScalingFactor,
                 StatToScaleFrom = d.StatToScaleFrom,
-                MinLevel = d.MinLevel
+                MinLevel = d.MinLevel,
+                IsHealing = d.IsHealing
             }).ToList();
 
         }
@@ -41,6 +42,22 @@ namespace ConsoleWorldRPG.Services
             return _skills
                 .Where(s => s.Class == player.Class && s.MinLevel <= player.Level)
                 .ToList();
+        }
+        public static void UpdateSkills(ref Player player, bool loading = false)
+        {
+            var unlocked = SkillFactory.GetSkillsFor(player);
+            foreach (var skill in unlocked)
+            {
+                if (!player.Skills.Any(s => s.Id == skill.Id))
+                {
+                    player.Skills.Add(skill);
+
+                    if (!loading)
+                        Console.WriteLine($"✨ New skill learned: {skill.Name}!");
+                }
+
+            }
+
         }
 
     }

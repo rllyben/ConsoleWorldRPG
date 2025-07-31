@@ -9,6 +9,7 @@ using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Entities.NPCs;
 using ConsoleWorldRPG.Enums;
 using ConsoleWorldRPG.Items;
+using ConsoleWorldRPG.Models;
 using ConsoleWorldRPG.Services;
 using ConsoleWorldRPG.Systems;
 using ConsoleWorldRPG.Utils;
@@ -20,9 +21,6 @@ namespace ConsoleWorldRPG
     {
         private bool _isRunning = true;
         private Player _player = new Player("Hero", new Stats());
-        private bool _hallFought = false;
-        private bool _debug = false;
-        private bool _playerExitst = false;
         CommandRouter commandRouter;
         /// <summary>
         /// Handels the Main User interaction and calles the initialatiation of the Game
@@ -31,31 +29,17 @@ namespace ConsoleWorldRPG
         {
             // Initialization logic here
             Console.WriteLine("Game is starting...");
-            if (GameService.InitializeGame(ref _player, ref _playerExitst))
+            if (GameService.InitializeGame())
             {
-                commandRouter = new CommandRouter(_player);
-                if (!_playerExitst)
-                {
-                    Console.WriteLine("no player found!");
-                    Console.WriteLine();
-                    Console.Write("Choose player name:");
-                    _player.Name = Console.ReadLine();
-                    Console.WriteLine($"Player name is set to {_player.Name}");
-                    Console.WriteLine();
-                    Console.WriteLine("Choose an player class");
-                    Console.WriteLine("Classes:");
-                    foreach(PlayerClass klasse in ClassProfile.All.Keys)
-                    {
-                        Console.WriteLine(klasse);
-                    }
-                    Console.Write("> ");
-                    string input = Console.ReadLine()?.Trim().ToLower();
-                    HandleClassSelection(input);
-                    Console.WriteLine($"Player Class is set to {_player.Class}");
-                    _player.CurrentRoom = GameService.rooms[1];
-                }
-                _player.CurrentRoom.Describe();
+                _player = ShowLoginMenu();
+                if (_player == null)
+                    _isRunning = false;
 
+                if (_isRunning)
+                {
+                    commandRouter = new CommandRouter(_player);
+                    _player.CurrentRoom.Describe();
+                }
                 // Main loop
                 while (_isRunning)
                 {
@@ -65,36 +49,49 @@ namespace ConsoleWorldRPG
                     if (string.IsNullOrEmpty(input)) continue;
                     if (input == "exit")
                     {
-                        GameService.SaveHero(ref _player);
+                        JsonSaveService.SaveCharacter(LoginManager.UserAccount, _player);
                         _isRunning = false;
                         Console.WriteLine("Thanks for playing!");
                     }
-                    if (!commandRouter.HandleCommand(input))
+                    else if (!commandRouter.HandleCommand(input))
                         Console.WriteLine("❌ Unknown command.");
                 }
 
             }
 
         }
-        /// <summary>
-        /// Handles the Class selection of the Player
-        /// </summary>
-        /// <param name="input"></param>
-        private void HandleClassSelection(string input)
+        public static Player ShowLoginMenu()
         {
-            switch (input)
+            while (true)
             {
-                case "archer": _player.Class = PlayerClass.Archer; break;
-                case "arcanmage": _player.Class = PlayerClass.ArcanMage; break;
-                case "barbarian": _player.Class = PlayerClass.Barbarian; break;
-                case "cleric": _player.Class = PlayerClass.Cleric; break;
-                case "druid": _player.Class = PlayerClass.Druid; break;
-                case "elementalmage": _player.Class = PlayerClass.ElementalMage; break;
-                case "fighter": _player.Class = PlayerClass.Fighter; break;
-                case "hunter": _player.Class = PlayerClass.Hunter; break;
-                case "knight": _player.Class = PlayerClass.Knight; break;
-                case "rogue": _player.Class = PlayerClass.Rogue; break;
-                case "soulsknight": _player.Class = PlayerClass.SoulsKnight; break;
+                Console.WriteLine("\n==== Login Menu ====");
+                Console.WriteLine("1. Login");
+                Console.WriteLine("2. Register");
+                Console.WriteLine("3. Exit");
+                Console.Write("Select an option: ");
+
+                string? input = Console.ReadLine()?.Trim();
+
+                switch (input)
+                {
+                    case "1":
+                        var user = LoginManager.Login();
+                        if (user != null)
+                            return user;
+                        break;
+
+                    case "2":
+                        LoginManager.Register();
+                        break;
+
+                    case "3":
+                        return null;
+
+                    default:
+                        Console.WriteLine("❌ Invalid option.");
+                        break;
+                }
+
             }
 
         }

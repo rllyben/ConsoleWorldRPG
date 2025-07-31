@@ -11,7 +11,7 @@ namespace ConsoleWorldRPG.Services
     {
         public static Dictionary<int, Room> rooms = new();
         private static List<Monster> monster = new();
-        public static bool InitializeGame(ref Player player, ref bool playerExitst)
+        public static bool InitializeGame()
         {
             NotifyUser("monster");
             LoadMonster();
@@ -21,24 +21,13 @@ namespace ConsoleWorldRPG.Services
             ConnectMonsterRooms();
             NotifyUser("items");
             ItemFactory.LoadItems();
-            NotifyUser("hero");
-            playerExitst = LoadHero(ref player);
-            if (!playerExitst)
-                player.CurrentRoom = rooms[1];
-            Console.WriteLine(player.WeaponSlot?.GetType().Name); // should be JsonEquipmentItem
-            Console.WriteLine(player.WeaponSlot?.Name);           // should be Flamecaster's Staff
-            NotifyUser("hero position");
-            try
-            {
-                int roomId = player.CurrentRoomId;
-                player.CurrentRoom = rooms.Values.FirstOrDefault(r => r.Id == roomId);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error accured when setting the heros position: {ex.Message}\n Exiting...");
-                return false;
-            }
-
+            NotifyUser("quests");
+            QuestManager.LoadQuests();
+            NotifyUser("skills");
+            SkillFactory.LoadSkills();
+            NotifyUser("Day cycle"); 
+            DayCycleManager.Initialize();
+            DayCycleManager.StartBackgroundLoop();
             Console.WriteLine();
             return success;
         }
@@ -73,49 +62,9 @@ namespace ConsoleWorldRPG.Services
             }
 
         }
-        private static bool LoadHero(ref Player hero)
-        {
-            string filePath = $"player_hero.json";
-
-            if (!File.Exists(filePath))
-            {
-
-            }
-            try
-            {
-                var options = new JsonSerializerOptions
-                {
-                    Converters = { new ItemConverter() }
-                };
-                string jsonData = File.ReadAllText(filePath);
-                hero = JsonSerializer.Deserialize<Player>(jsonData, options);
-            }
-            catch 
-            {
-                return false;
-            }
-            return true;
-        }
         private static void NotifyUser(string status)
         {
             Console.WriteLine($"Loading {status} ...");
-        }
-        /// <summary>
-        /// Saves the current state of the hero
-        /// </summary>
-        public static void SaveHero(ref Player player)
-        {
-            player.CurrentRoomId = player.CurrentRoom.Id;
-            string filePath = $"player_hero.json";
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                Converters = { new ItemConverter() },
-                PropertyNameCaseInsensitive = true
-            };
-            string jsonData = JsonSerializer.Serialize(player, options);
-            File.WriteAllText(filePath, jsonData);
-            Console.WriteLine($"Hero saved to {filePath}");
         }
 
     }

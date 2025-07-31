@@ -22,6 +22,19 @@ namespace ConsoleWorldRPG.Models
             AllowedClasses = def.AllowedClasses?
                 .Select(c => Enum.Parse<PlayerClass>(c)).ToList() ?? new();
 
+            BaseBonusSTR = def.BonusSTR;
+            BaseBonusDEX = def.BonusDEX;
+            BaseBonusEND = def.BonusEND;
+            BaseBonusINT = def.BonusINT;
+            BaseBonusSPR = def.BonusSPR;
+
+            BaseBonusATK = def.BonusATK;
+            BaseBonusDEF = def.BonusDEF;
+            BaseBonusMATK = def.BonusMATK;
+            BaseBonusMDEF = def.BonusMDEF;
+            BaseBonusAim = def.BonusAim;
+            BaseBonusEvasion = def.BonusEvasion;
+
             // Core stat bonuses
             BonusSTR = def.BonusSTR;
             BonusDEX = def.BonusDEX;

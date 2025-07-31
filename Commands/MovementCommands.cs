@@ -37,6 +37,21 @@ namespace ConsoleWorldRPG.Commands
         {
             if (player.CurrentRoom.Exits.TryGetValue(direction, out Room nextRoom))
             {
+                if (player.CurrentRoom.IsDungeonRoom && !player.CurrentRoom.IsCleared)
+                {
+                    Console.WriteLine("🚪 You cannot continue until all enemies in this room are defeated.");
+                    return;
+                }
+                else if (player.CurrentRoom.IsDungeonRoom && !nextRoom.IsDungeonRoom)
+                {
+                    Console.WriteLine("🌀 You feel the dungeon magic reset behind you...");
+                    foreach (Room dungonRoom in player.CurrentRoom.DungonList)
+                    {
+                        dungonRoom.IsCleared = false;
+                        dungonRoom.Corpses = new();
+                    }
+
+                }
                 if (nextRoom.RequirementType != RoomRequirementType.None)
                 {
                     if (nextRoom.RequirementType == RoomRequirementType.Level && player.Level < nextRoom.AccessLevel)
@@ -45,6 +60,10 @@ namespace ConsoleWorldRPG.Commands
                         return;
                     }
 
+                }
+                if (nextRoom.IsCity && nextRoom.Npcs.Contains("Healer"))
+                {
+                    player.LastHealerRoomId = nextRoom.Id;
                 }
                 player.CurrentRoom = nextRoom;
                 Console.WriteLine($"\nYou move {direction}.");

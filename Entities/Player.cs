@@ -23,11 +23,14 @@ namespace ConsoleWorldRPG.Entities
         public int PotionTierAvailable { get; set; } = 1;
         public Inventory Inventory { get; set; } = new();
         public MoneyBag Money { get; set; } = new(); 
-        public List<Skill> Skills => SkillFactory.GetSkillsFor(this);
+        public List<Skill> Skills => SkillFactory.GetSkillsFor(this); 
+        public List<Quest> ActiveQuests { get; set; } = new();
+        public List<Quest> CompletedQuests { get; set; } = new();
 
         [JsonIgnore]
         public Room CurrentRoom { get; set; }
         public int CurrentRoomId { get; set; }
+        public int? LastHealerRoomId { get; set; } = null;
 
         // Add inventory, experience, commands, etc.
         public Player(string name, Stats stats)
@@ -53,20 +56,28 @@ namespace ConsoleWorldRPG.Entities
             }
 
         }
+        public void ApplyDeathXpPenalty()
+        {
+            long penalty = (long)(ExpForNextLvl * 0.01f);
+            long actualLoss = Math.Min(penalty, Experience);
+            Experience -= actualLoss;
+
+            Console.WriteLine($"🩸 You lost {actualLoss} XP as a penalty for dying.");
+        }
         public void Equip(EquipmentItem item)
         {
             switch (item.SlotType)
             {
                 case EquipmentType.Weapon:
-                    if (WeaponSlot != null) Inventory.AddItem(WeaponSlot);
+                    if (WeaponSlot != null) Inventory.AddItem(WeaponSlot, this);
                     WeaponSlot = item;
                     break;
                 case EquipmentType.Armor:
-                    if (ArmorSlot != null) Inventory.AddItem(ArmorSlot);
+                    if (ArmorSlot != null) Inventory.AddItem(ArmorSlot, this);
                     ArmorSlot = item;
                     break;
                 case EquipmentType.Accessory:
-                    if (AccessorySlot != null) Inventory.AddItem(AccessorySlot);
+                    if (AccessorySlot != null) Inventory.AddItem(AccessorySlot, this);
                     AccessorySlot = item;
                     break;
             }
@@ -100,6 +111,17 @@ namespace ConsoleWorldRPG.Entities
             if (ArmorSlot != null) total += selector(ArmorSlot);
             if (AccessorySlot != null) total += selector(AccessorySlot);
             return total;
+        }
+        public bool HasToolFor(GatheringType type)
+        {
+            return type switch
+            {
+                GatheringType.Ore => Inventory.Items.Any(i => i.Id == "pickaxe"),
+                GatheringType.Tree => Inventory.Items.Any(i => i.Id == "woodcutter_axe"),
+                GatheringType.Herb => true, // no tool required
+                _ => false
+            };
+
         }
 
     }

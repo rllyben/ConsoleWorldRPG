@@ -94,7 +94,7 @@ namespace ConsoleWorldRPG.Commands
                 return;
             }
 
-            if (player.Inventory.AddItem(item))
+            if (player.Inventory.AddItem(item, player))
             {
                 switch (slot)
                 {

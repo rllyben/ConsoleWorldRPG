@@ -61,6 +61,14 @@ namespace ConsoleWorldRPG.Services
                 .Select(def => CreateItem(def.Id))
                 .ToList();
         }
+        public static List<Item> GetSmithItemsFor(Player player)
+        {
+            return _itemDefs.Values
+                .Where(def => def.Type == "equipment"
+                    && (def.AllowedClasses.Contains(player.Class.ToString()) && def.Rarity == "Common"))
+                .Select(def => CreateItem(def.Id))
+                .ToList();
+        }
 
     }
 

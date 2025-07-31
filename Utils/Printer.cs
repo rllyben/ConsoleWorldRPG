@@ -17,6 +17,14 @@ namespace ConsoleWorldRPG.Utils
         }
         public static void PrintColoredItemName(Item item)
         {
+            string displayName = item is EquipmentItem eq && eq.UpgradeLevel > 0
+                                 ? $"{item.Name} +{eq.UpgradeLevel}"
+                                 : item.Name;
+            if (item.Rarity == ItemRarity.Godly)
+            {
+                PrintRainbow(displayName);
+                return;
+            }
             var color = item.Rarity switch
             {
                 ItemRarity.Common => ConsoleColor.Gray,
@@ -25,12 +33,33 @@ namespace ConsoleWorldRPG.Utils
                 ItemRarity.Epic => ConsoleColor.Magenta,
                 ItemRarity.Unique => ConsoleColor.Yellow,
                 ItemRarity.Legendary => ConsoleColor.DarkYellow,
-                ItemRarity.Godly => ConsoleColor.Red, // light pink is not available in ConsoleColor
                 _ => ConsoleColor.Gray
             };
 
             Console.ForegroundColor = color;
-            Console.Write($" - {item.Name}");
+            Console.Write($" - {displayName}");
+            Console.ResetColor();
+        }
+        private static void PrintRainbow(string text)
+        {
+            var colors = new[]
+            {
+                ConsoleColor.Red,
+                ConsoleColor.Yellow,
+                ConsoleColor.Green,
+                ConsoleColor.Cyan,
+                ConsoleColor.Blue,
+                ConsoleColor.Magenta
+            };
+
+            int i = 0;
+            foreach (char c in text)
+            {
+                Console.ForegroundColor = colors[i % colors.Length];
+                Console.Write(c);
+                i++;
+            }
+
             Console.ResetColor();
         }
         public static void ShowEquipSuccess(Item item)
@@ -62,6 +91,13 @@ namespace ConsoleWorldRPG.Utils
                 Console.WriteLine("There are corpses here:");
                 foreach (var corpse in room.Corpses)
                     corpse.Describe();
+            }
+
+            if (room.GatheringSpots.Any())
+            {
+                Console.WriteLine("\nYou notice the following gathering spots:");
+                foreach (var spot in room.GatheringSpots)
+                    Console.WriteLine($"  - {spot.Name}: {spot.Description}");
             }
 
         }
@@ -97,25 +133,45 @@ namespace ConsoleWorldRPG.Utils
         {
             Console.WriteLine($"\n{_player.Name}'s Status:");
             Console.WriteLine($"  Level: {_player.Level}    Exp: {_player.Experience}/{_player.ExpForNextLvl}");
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"  HP: {_player.CurrentHealth}/{_player.Stats.MaxHealth}");
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"  Mana: {_player.CurrentMana}/{_player.Stats.MaxMana}");
+            Console.ResetColor();
             Console.WriteLine($"  STR: {_player.Stats.Strength} + {_player.GetBonusFromGear(g => g.BonusSTR)} from gear");
             Console.WriteLine($"  DEX: {_player.Stats.Dexterity} + {_player.GetBonusFromGear(g => g.BonusDEX)} from gear");
             Console.WriteLine($"  END: {_player.Stats.Endurance} + {_player.GetBonusFromGear(g => g.BonusEND)} from gear");
             Console.WriteLine($"  INT: {_player.Stats.Intelligence} + {_player.GetBonusFromGear(g => g.BonusINT)} from gear");
             Console.WriteLine($"  SPR: {_player.Stats.Spirit} + {_player.GetBonusFromGear(g => g.BonusSPR)} from gear");
             Console.WriteLine("\n");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"  ATK: {_player.TotalPhysicalAttack}");
             Console.WriteLine($"  DEF: {_player.TotalPhysicalDefense}");
             Console.WriteLine($"  MATK: {_player.TotalMagicAttack}");
             Console.WriteLine($"  MDEF: {_player.TotalMagicDefense}");
             Console.WriteLine($"  Crit: {_player.CritChance:P0}");
             Console.WriteLine($"  Block: {_player.BlockChance:P0}");
+            Console.ResetColor();
             Console.WriteLine("");
             Console.WriteLine("\nEquipped:");
-            Console.WriteLine($"  Weapon:   {_player.WeaponSlot?.Name ?? "(none)"}");
-            Console.WriteLine($"  Armor:    {_player.ArmorSlot?.Name ?? "(none)"}");
-            Console.WriteLine($"  Accessory:{_player.AccessorySlot?.Name ?? "(none)"}");
+            Console.Write($"  Weapon:   ");
+            if (_player.WeaponSlot == null)
+                Console.Write("(none)");
+            else
+                PrintColoredItemName( _player.WeaponSlot );
+            Console.WriteLine();
+            Console.Write($"  Armor:   ");
+            if (_player.ArmorSlot == null)
+                Console.Write("(none)");
+            else
+                PrintColoredItemName(_player.ArmorSlot);
+            Console.WriteLine();
+            Console.Write($"  Accessory:   ");
+            if (_player.AccessorySlot == null)
+                Console.Write("(none)");
+            else
+                PrintColoredItemName(_player.AccessorySlot);
+            Console.WriteLine();
         }
 
     }

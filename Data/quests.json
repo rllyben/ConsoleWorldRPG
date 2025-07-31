@@ -1,0 +1,15 @@
+[
+  {
+    "Id": "end_the_undying",
+    "Name": "End the Undying",
+    "Description": "Defeat the Lich lurking at the end of the Hollow Crypt.",
+    "GiverNpc": "Quest Board",
+    "RequiredLevel": 40,
+    "RequiredKills": {
+      "7": 1
+    },
+    "RequiredItems": {},
+    "RewardXp": 1500,
+    "RewardGold": 500
+  }
+]

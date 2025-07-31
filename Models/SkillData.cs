@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleWorldRPG.Entities;
+using ConsoleWorldRPG.Enums;
 
 namespace ConsoleWorldRPG.Models
 {
@@ -18,6 +20,7 @@ namespace ConsoleWorldRPG.Models
         public float ScalingFactor { get; set; }
         public string StatToScaleFrom { get; set; }
         public int MinLevel { get; set; }
+        public bool IsHealing { get; set; }
     }
 
 }

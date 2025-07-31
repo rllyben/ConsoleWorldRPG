@@ -119,7 +119,7 @@
     "UniqueLootTable": [
       {
         "ItemId": "soulbound_phylactery",
-        "DropChance": 0.01
+        "DropChance": 1.00
       }
     ]
 
