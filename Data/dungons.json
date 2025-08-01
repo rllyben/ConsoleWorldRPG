@@ -1,0 +1,7 @@
+[
+  {
+    "Id": "hollow_crypt",
+    "Name": "The Hollow Crypt",
+    "RoomIds": ["crypt_gate", "crypt_hall1", "crypt_hall2", "lich_throne"]
+  }
+]
