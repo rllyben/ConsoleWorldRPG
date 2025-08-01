@@ -110,13 +110,10 @@ namespace ConsoleWorldRPG.Services
         private static Player CreateNewCharacter(string name)
         {
             Player player = new Player("null", new Stats());
-            Console.WriteLine("no player found!");
-            Console.WriteLine();
-            Console.Write("Choose hero name:");
-            player.Name = Console.ReadLine();
+            player.Name = name;
             Console.WriteLine($"Hero name is set to {player.Name}");
             Console.WriteLine();
-            Console.WriteLine("Choose an hero class");
+            Console.WriteLine("Choose an hero class"); 
             Console.WriteLine("Classes:");
             foreach (PlayerClass klasse in ClassProfile.All.Keys)
             {
