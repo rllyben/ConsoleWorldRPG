@@ -26,7 +26,7 @@ namespace ConsoleWorldRPG.Commands
                 map = map.Replace(roomName, roomName + " ⭐", StringComparison.Ordinal);
             }
 
-            Console.WriteLine($"\n📍 Map: {(dungeon?.Name ?? "World")}\n");
+            Console.WriteLine($"\n📍 Map: {(dungeon?.Id ?? "World")}\n");
             Console.WriteLine(map);
             return true;
         }
