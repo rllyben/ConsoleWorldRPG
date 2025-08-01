@@ -9,7 +9,7 @@ namespace ConsoleWorldRPG.Commands
             if (input != "map") return false;
 
             Dungeon? dungeon = DungeonRegistry.GetDungeonByRoom(player.CurrentRoom);
-            string mapFile = dungeon?.MapFile ?? "Data/Maps/world_map.json";
+            string mapFile = dungeon?.MapFile ?? "Data/world_map.json";
 
             if (!File.Exists(mapFile))
             {

@@ -2,6 +2,6 @@
   {
     "Id": "hollow_crypt",
     "Name": "The Hollow Crypt",
-    "RoomIds": ["crypt_gate", "crypt_hall1", "crypt_hall2", "lich_throne"]
+    "RoomIds": [6, 7, 8, 9, 10]
   }
 ]
