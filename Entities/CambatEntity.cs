@@ -69,6 +69,11 @@ namespace ConsoleWorldRPG.Entities
         {
             return BlockChance;
         }
+        /// <summary>
+        /// returns the bonus from equiped gear
+        /// </summary>
+        /// <param name="selector">function to select from</param>
+        /// <returns>the bonmus as an int</returns>
         public int GetBonusFromGear(Func<EquipmentItem, int> selector)
         {
             int total = 0;
@@ -77,6 +82,11 @@ namespace ConsoleWorldRPG.Entities
             if (AccessorySlot != null) total += selector(AccessorySlot);
             return total;
         }
+        /// <summary>
+        /// returns the bonus from equiped gear
+        /// </summary>
+        /// <param name="selector">function to select from</param>
+        /// <returns>the bonmus as an float</returns>
         public float GetBonusFromGear(Func<EquipmentItem, float> selector)
         {
             float total = 0;

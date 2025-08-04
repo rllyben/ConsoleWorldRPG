@@ -105,8 +105,8 @@ namespace ConsoleWorldRPG.Entities
                 Class = PlayerClass.Rogue,
                 StatGrowth = new()
                 {
-                    ["STR"] = 6,
-                    ["DEX"] = 7,
+                    ["STR"] = 5,
+                    ["DEX"] = 9,
                     ["END"] = 1,
                     ["INT"] = 1,
                     ["SPR"] = 1

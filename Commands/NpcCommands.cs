@@ -10,6 +10,12 @@ namespace ConsoleWorldRPG.Commands
 {
     public static class NpcCommands
     {
+        /// <summary>
+        /// Handles npc commands
+        /// </summary>
+        /// <param name="input">player input</param>
+        /// <param name="player">player character</param>
+        /// <returns>if the command was found</returns>
         public static bool Handle(string input, Player player)
         {
             if (input.StartsWith("go to "))

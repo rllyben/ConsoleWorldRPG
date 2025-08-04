@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ConsoleWorldRPG.Enums;
 using ConsoleWorldRPG.Items;
 using ConsoleWorldRPG.Services;
+using ConsoleWorldRPG.Systems;
 
 namespace ConsoleWorldRPG.Entities.NPCs
 {
@@ -16,7 +17,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
         /// <summary>
         /// Handels the go to command and selects the Encounter Method of the choosen NPC
         /// </summary>
-        /// <param name="npc"></param>
+        /// <param name="npc">npc name</param>
         public static void InteractWithNpc(string npc, ref Player player)
         {
             if (!player.CurrentRoom.IsCity)
@@ -52,6 +53,10 @@ namespace ConsoleWorldRPG.Entities.NPCs
             }
 
         }
+        /// <summary>
+        /// handels quest board interaction
+        /// </summary>
+        /// <param name="player">player character</param>
         public static void InteractWithQuestBoard(Player player)
         {
             var available = QuestManager.GetAvailableForPlayer(player);
@@ -123,6 +128,10 @@ namespace ConsoleWorldRPG.Entities.NPCs
             }
 
         }
+        /// <summary>
+        /// Handels crafting logic
+        /// </summary>
+        /// <param name="player">player character</param>
         private static void HandleCrafting(Player player)
         {
             Console.WriteLine("\n🧪 Available Crafting Options:");
@@ -175,6 +184,10 @@ namespace ConsoleWorldRPG.Entities.NPCs
             }
 
         }
+        /// <summary>
+        /// Handels upgrade logic
+        /// </summary>
+        /// <param name="player">player character</param>
         private static void HandleUpgrade(Player player)
         {
             var upgradable = player.Inventory.Items.OfType<EquipmentItem>()
@@ -202,6 +215,10 @@ namespace ConsoleWorldRPG.Entities.NPCs
             if (item.TryUpgrade(player))
                 Console.WriteLine($"🛠 {item.Name} is now +{item.UpgradeLevel}!");
         }
+        /// <summary>
+        /// prints the smith's stock for character class
+        /// </summary>
+        /// <param name="player">player character</param>
         private static void ShowSmithStock(Player player)
         {
             var stock = ItemFactory.GetSmithItemsFor(player)
@@ -269,6 +286,10 @@ namespace ConsoleWorldRPG.Entities.NPCs
             }
 
         }
+        /// <summary>
+        /// handels sell item interaction
+        /// </summary>
+        /// <param name="player">player character</param>
         private static void SellItem(Player player)
         {
             player.Inventory.ListItems();
@@ -328,6 +349,44 @@ namespace ConsoleWorldRPG.Entities.NPCs
             }
             else
                 Console.WriteLine("Not enough money.");
+        }
+        public static void SkillMasterMenu(Player player)
+        {
+            Console.WriteLine("\n🔮 Welcome to the Skill Master!");
+
+            var baseSkills = SkillFactory.GetBaseSkillsFor(player);
+            if (!baseSkills.Any())
+            {
+                Console.WriteLine("You don't know any base skills yet.");
+                return;
+            }
+
+            Console.WriteLine("\nYour base skills:");
+            for (int i = 0; i < baseSkills.Count; i++)
+                Console.WriteLine($"{i + 1}. {baseSkills[i].Name} ({string.Join(", ", baseSkills[i].ComponentType)})");
+
+            Console.WriteLine("\nType the numbers of 2 or 4 skills to combine, separated by spaces (or '0' to cancel):");
+            Console.Write("> ");
+            var input = Console.ReadLine()!.Trim();
+
+            if (input == "0") return;
+
+            var indices = input.Split(' ')
+                .Select(s => int.TryParse(s, out var i) ? i - 1 : -1)
+                .Where(i => i >= 0 && i < baseSkills.Count)
+                .ToList();
+
+            if (indices.Count < 2 || indices.Count > 4)
+            {
+                Console.WriteLine("❌ You must choose 2 or 4 base skills.");
+                return;
+            }
+
+            var selected = indices.Select(i => baseSkills[i]).ToList();
+            var fused = SkillFusionSystem.FuseSkills(selected);
+
+            player.Skills.Add(fused);
+            Console.WriteLine($"\n✨ You have created a new skill: {fused.Name}!");
         }
 
     }

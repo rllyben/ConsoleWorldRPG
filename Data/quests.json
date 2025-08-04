@@ -9,7 +9,20 @@
       "7": 1
     },
     "RequiredItems": {},
-    "RewardXp": 1500,
-    "RewardGold": 500
+    "RewardXp": 2500,
+    "RewardGold": 1000
+  },
+  {
+    "Id": "wraith_problem",
+    "Name": "Wraith Problem",
+    "Description": "Kill the Wraith in the Chamber of the Hollow Crypt!",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 1,
+    "RequiredKills": {
+      "3": 10
+    },
+    "RequiredItems": {},
+    "RewardXp": 100,
+    "RewardGold": 100
   }
 ]

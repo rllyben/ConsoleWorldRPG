@@ -11,6 +11,12 @@ namespace ConsoleWorldRPG.Commands
 {
     public static class InventoryCommands
     {
+        /// <summary>
+        /// Handles inventory commands
+        /// </summary>
+        /// <param name="input">player input</param>
+        /// <param name="player">player character</param>
+        /// <returns>if the command was found</returns>
         public static bool Handle(string input, Player player)
         {
             if (input.StartsWith("equip "))
@@ -78,6 +84,12 @@ namespace ConsoleWorldRPG.Commands
             player.Equip(equipment);
             player.Inventory.RemoveItem(equipment);
         }
+
+        /// <summary>
+        /// Handels the unequipment of items in itemslots
+        /// </summary>
+        /// <param name="player">player character</param>
+        /// <param name="slot">the slot to unequip from</param>
         private static void Unequip(Player player, string slot)
         {
             EquipmentItem? item = slot switch
@@ -136,6 +148,11 @@ namespace ConsoleWorldRPG.Commands
             }
 
         }
+        /// <summary>
+        /// prints item stats of an item
+        /// </summary>
+        /// <param name="player">player character</param>
+        /// <param name="itemName">item name</param>
         private static void ShowItem(Player player, string itemName)
         {
             Item? item = player.Inventory.Items
@@ -180,6 +197,11 @@ namespace ConsoleWorldRPG.Commands
             }
 
         }
+        /// <summary>
+        /// searches for items in the character inventory
+        /// </summary>
+        /// <param name="player">player character</param>
+        /// <param name="term">search string</param>
         private static void SearchInventory(Player player, string term)
         {
             var items = player.Inventory.Items;
@@ -206,12 +228,23 @@ namespace ConsoleWorldRPG.Commands
             {
                 Console.WriteLine($"  - {item.Name}");
             }
+
         }
+        /// <summary>
+        /// prints items upgrade bonus
+        /// </summary>
+        /// <param name="name">item name</param>
+        /// <param name="value">upgrade bonus as an int</param>
         private static void PrintBonus(string name, int value)
         {
             if (value != 0)
                 Console.WriteLine($"  +{value} {name}");
         }
+        /// <summary>
+        /// prints items upgrade bonus
+        /// </summary>
+        /// <param name="name">item name</param>
+        /// <param name="value">upgrade bonus as an float</param>
         private static void PrintBonus(string name, float value)
         {
             if (value != 0)

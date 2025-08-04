@@ -45,7 +45,9 @@ namespace ConsoleWorldRPG.Entities
         {
             Exits[direction] = room;
         }
-
+        /// <summary>
+        /// describes the current room
+        /// </summary>
         public void Describe()
         {
             Console.WriteLine($"You are in {Name}.");
@@ -75,6 +77,9 @@ namespace ConsoleWorldRPG.Entities
             }
 
         }
+        /// <summary>
+        /// rolles the dayly gather limit for the room
+        /// </summary>
         public void RollGatherLimit()
         {
             var rng = new Random();

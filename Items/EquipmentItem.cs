@@ -42,6 +42,11 @@ namespace ConsoleWorldRPG.Items
         {
             Console.WriteLine($"{Name} is a piece of equipment and cannot be used directly.");
         }
+        /// <summary>
+        /// tries to upgrade the item
+        /// </summary>
+        /// <param name="player">player character</param>
+        /// <returns>retruns if its successful</returns>
         public bool TryUpgrade(Player player)
         {
             if (UpgradeLevel >= 9)

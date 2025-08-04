@@ -12,7 +12,9 @@ namespace ConsoleWorldRPG.Services
         private static DateOnly _lastDay; 
         private static bool _running = false;
         public static TimeSegment CurrentTimeSegment { get; private set; }
-
+        /// <summary>
+        /// initialises the session time
+        /// </summary>
         public static void Initialize()
         {
             var now = DateTime.Now;
@@ -29,7 +31,10 @@ namespace ConsoleWorldRPG.Services
             }
 
         }
-
+        /// <summary>
+        /// starts the background time sync
+        /// </summary>
+        /// <param name="intervalMs"></param>
         public static void StartBackgroundLoop(int intervalMs = 30000)
         {
             if (_running) return;
@@ -54,6 +59,9 @@ namespace ConsoleWorldRPG.Services
             });
 
         }
+        /// <summary>
+        /// Updates the Session time
+        /// </summary>
         public static void Update()
         {
             var now = DateTime.Now;
@@ -73,7 +81,10 @@ namespace ConsoleWorldRPG.Services
 
             UpdateTimeSegment(now.Hour);
         }
-
+        /// <summary>
+        /// Updates the day time segement
+        /// </summary>
+        /// <param name="hour">current hour</param>
         private static void UpdateTimeSegment(int hour)
         {
             CurrentTimeSegment = hour switch

@@ -10,6 +10,12 @@ namespace ConsoleWorldRPG.Commands
 {
     public static class LootCommands
     {
+        /// <summary>
+        /// handels loot commands
+        /// </summary>
+        /// <param name="input">player input</param>
+        /// <param name="player">player character</param>
+        /// <returns>if the command was found</returns>
         public static bool Handle(string input, Player player)
         {
             if (input == "look corpses")
@@ -40,7 +46,10 @@ namespace ConsoleWorldRPG.Commands
             foreach (var corpse in corpses)
                 corpse.Describe();
         }
-
+        /// <summary>
+        /// loots the first corpse in the current room
+        /// </summary>
+        /// <param name="player">player character</param>
         private static void LootFirstCorpse(Player player)
         {
             var corpse = player.CurrentRoom.Corpses

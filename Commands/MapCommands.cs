@@ -7,10 +7,15 @@ using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Services;
 
 namespace ConsoleWorldRPG.Commands
-{public static class MapCommands
-    {
+{
     public static class MapCommands
     {
+        /// <summary>
+        /// Handels map commands
+        /// </summary>
+        /// <param name="input">player input</param>
+        /// <param name="player">player character</param>
+        /// <returns>returns if command found</returns>
         public static bool Handle(string input, Player player)
         {
             if (input != "map") return false;

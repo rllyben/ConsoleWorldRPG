@@ -213,7 +213,8 @@ namespace ConsoleWorldRPG.Systems
                         if (quest.KillProgress.All(kp => kp.Value >= quest.RequiredKills[kp.Key]))
                         {
                             quest.Status = QuestStatus.Completed;
-                            Console.WriteLine($"✅ Quest '{quest.Name}' is now complete! Return to the quest board.");
+                            Console.WriteLine($"✅ Quest '{quest.Name}' is now complete!");
+                            quest.GrantRewards(player);
                         }
 
                     }

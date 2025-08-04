@@ -41,11 +41,9 @@ namespace ConsoleWorldRPG.Entities
             CurrentMana = stats.MaxMana;
             ExpForNextLvl = (long)(Math.Pow(Level, 2)) * 50;
         }
-
-        public void ShowStatus()
-        {
-            Console.WriteLine($"{Name}'s Health: {CurrentHealth}/{MaxHealth}");
-        }
+        /// <summary>
+        /// Handels level ups
+        /// </summary>
         public void CheckForLevelup()
         {
             while (ExpForNextLvl < Experience)
@@ -56,6 +54,9 @@ namespace ConsoleWorldRPG.Entities
             }
 
         }
+        /// <summary>
+        /// Applies an death penalty if the player dies
+        /// </summary>
         public void ApplyDeathXpPenalty()
         {
             long penalty = (long)(ExpForNextLvl * 0.01f);
@@ -64,6 +65,10 @@ namespace ConsoleWorldRPG.Entities
 
             Console.WriteLine($"🩸 You lost {actualLoss} XP as a penalty for dying.");
         }
+        /// <summary>
+        /// equips an equipment item to its slot
+        /// </summary>
+        /// <param name="item">item to equip</param>
         public void Equip(EquipmentItem item)
         {
             switch (item.SlotType)
@@ -84,6 +89,9 @@ namespace ConsoleWorldRPG.Entities
 
             Console.WriteLine($"Equipped: {item.Name}");
         }
+        /// <summary>
+        /// updates stats for an Level up
+        /// </summary>
         public void LevelUp()
         {
             var profile = ClassProfile.All[Class];
@@ -104,6 +112,11 @@ namespace ConsoleWorldRPG.Entities
             Console.WriteLine($"\n🎉 You reached level {Level}!");
             Console.WriteLine($"HP: {Stats.MaxHealth}, Mana: {Stats.MaxMana}");
         }
+        /// <summary>
+        /// returns the bonus from equiped gear
+        /// </summary>
+        /// <param name="selector">function to select from</param>
+        /// <returns>the bonmus as an int</returns>
         public int GetBonusFromGear(Func<EquipmentItem, int> selector)
         {
             int total = 0;
@@ -112,6 +125,11 @@ namespace ConsoleWorldRPG.Entities
             if (AccessorySlot != null) total += selector(AccessorySlot);
             return total;
         }
+        /// <summary>
+        /// Checks if the player has gather equipment
+        /// </summary>
+        /// <param name="type">athering type of the source</param>
+        /// <returns>if the player can gather</returns>
         public bool HasToolFor(GatheringType type)
         {
             return type switch

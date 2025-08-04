@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Enums;
+using ConsoleWorldRPG.Services;
 
 namespace ConsoleWorldRPG.Entities
 {
@@ -24,6 +25,41 @@ namespace ConsoleWorldRPG.Entities
         public int RewardXp { get; set; }
         public int RewardGold { get; set; }
         public List<string> RewardItems { get; set; } = new();
+
+        public void GrantRewards(Player player)
+        {
+            Console.WriteLine($"🎉 Quest Complete: {Name}!");
+
+            if (RewardXp > 0)
+            {
+                player.Experience += RewardXp;
+                player.CheckForLevelup();
+                Console.WriteLine($"+{RewardXp} XP");
+            }
+
+            if (RewardGold > 0)
+            {
+                player.Money.TryAdd(RewardGold);
+                Console.WriteLine($"+{RewardGold} gold");
+            }
+
+            foreach (var itemId in RewardItems)
+            {
+                if (ItemFactory.TryCreateItem(itemId, out var item))
+                {
+                    if (player.Inventory.AddItem(item, player))
+                        Console.WriteLine($"+ {item.Name}");
+                    else
+                    {
+                        Console.WriteLine($"❌ Could not carry reward item: {item.Name}");
+                        Console.WriteLine($"Please go to the {GiverNpc} to get the reward");
+                    }
+                }
+
+            }
+
+        }
+
     }
 
 }

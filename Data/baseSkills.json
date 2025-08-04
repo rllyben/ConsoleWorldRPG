@@ -1,0 +1,57 @@
+﻿[
+  {
+    "Id": "piercing_shot",
+    "Name": "Piercing Shot",
+    "Description": "A high-velocity arrow that pierces enemy armor.",
+    "ComponentType": [ "Physical", "Single", "ArmorPierce" ],
+    "Class": "Archer",
+    "ManaCost": 12,
+    "ScalingFactor": 1.4,
+    "StatToScaleFrom": "DEX",
+    "RequiredLevel": 1
+  },
+  {
+    "Id": "volley",
+    "Name": "Volley",
+    "Description": "Unleashes a flurry of arrows over a wide area.",
+    "ComponentType": [ "Physical", "Area", "MultiHit" ],
+    "Class": "Archer",
+    "ManaCost": 25,
+    "ScalingFactor": 0.9,
+    "StatToScaleFrom": "DEX",
+    "RequiredLevel": 6
+  },
+  {
+    "Id": "eagle_eye",
+    "Name": "Eagle Eye",
+    "Description": "Sharpen your focus to increase aim and critical chance.",
+    "ComponentType": [ "Buff", "Self", "AimBoost", "CritBoost" ],
+    "Class": "Archer",
+    "ManaCost": 10,
+    "ScalingFactor": 0.0,
+    "StatToScaleFrom": "",
+    "RequiredLevel": 10
+  },
+  {
+    "Id": "crippling_shot",
+    "Name": "Crippling Shot",
+    "Description": "Aimed shot that slows the enemy.",
+    "ComponentType": [ "Physical", "Single", "Debuff", "Slow" ],
+    "Class": "Archer",
+    "ManaCost": 15,
+    "ScalingFactor": 1.2,
+    "StatToScaleFrom": "DEX",
+    "RequiredLevel": 14
+  },
+  {
+    "Id": "camouflage",
+    "Name": "Camouflage",
+    "Description": "Blend with your surroundings to become harder to hit.",
+    "ComponentType": [ "Stealth", "Buff", "EvasionBoost", "Self" ],
+    "Class": "Archer",
+    "ManaCost": 20,
+    "ScalingFactor": 0.0,
+    "StatToScaleFrom": "",
+    "RequiredLevel": 16
+  }
+]

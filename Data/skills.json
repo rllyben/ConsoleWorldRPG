@@ -1,5 +1,53 @@
 ﻿[
   {
+    "Id": "piercing_arrow",
+    "Name": "Piercing Arrow",
+    "Description": "Fires an arrow that ignores part of the enemy's defense.",
+    "Class": "Archer",
+    "ManaCost": 15,
+    "Type": "Physical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.5,
+    "StatToScaleFrom": "STR",
+    "MinLevel": 4
+  },
+  {
+    "Id": "multi_shot",
+    "Name": "Multi-Shot",
+    "Description": "Fires multiple arrows, hitting all enemies with reduced damage.",
+    "Class": "Archer",
+    "ManaCost": 30,
+    "Type": "Physical",
+    "Target": "AllEnemies",
+    "ScalingFactor": 1.0,
+    "StatToScaleFrom": "STR",
+    "MinLevel": 10
+  },
+  {
+    "Id": "trap_set",
+    "Name": "Set Trap",
+    "Description": "Sets a trap that damages the enemy over time.",
+    "Class": "Hunter",
+    "ManaCost": 20,
+    "Type": "Physical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.3,
+    "StatToScaleFrom": "DEX",
+    "MinLevel": 6
+  },
+  {
+    "Id": "call_of_the_wild",
+    "Name": "Call of the Wild",
+    "Description": "Summons the spirit of a beast to strike your enemy.",
+    "Class": "Hunter",
+    "ManaCost": 35,
+    "Type": "Physical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.8,
+    "StatToScaleFrom": "DEX",
+    "MinLevel": 12
+  },
+  {
     "Id": "fire_burst",
     "Name": "Fire Burst",
     "Description": "Explode a fireball on a single enemy.",
@@ -7,9 +55,57 @@
     "ManaCost": 20,
     "Type": "Magical",
     "Target": "SingleEnemy",
-    "ScalingFactor": 1.8,
+    "ScalingFactor": 2,
     "StatToScaleFrom": "MATK",
     "MinLevel": 10
+  },
+  {
+    "Id": "arcane_storm",
+    "Name": "Arcane Storm",
+    "Description": "Unleashes a storm of arcane bolts on all enemies.",
+    "Class": "ArcanMage",
+    "ManaCost": 40,
+    "Type": "Magical",
+    "Target": "AllEnemies",
+    "ScalingFactor": 1.2,
+    "StatToScaleFrom": "MATK",
+    "MinLevel": 12
+  },
+  {
+    "Id": "soul_burn",
+    "Name": "Soul Burn",
+    "Description": "Burns the enemy with cursed flame drawn from your own soul.",
+    "Class": "SoulsKnight",
+    "ManaCost": 25,
+    "Type": "Magical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.6,
+    "StatToScaleFrom": "INT",
+    "MinLevel": 10
+  },
+  {
+    "Id": "shield_bash",
+    "Name": "Shield Bash",
+    "Description": "Bash the enemy with your shield, dealing damage and staggering them.",
+    "Class": "Knight",
+    "ManaCost": 15,
+    "Type": "Physical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.2,
+    "StatToScaleFrom": "ATK",
+    "MinLevel": 4
+  },
+  {
+    "Id": "rage_strike",
+    "Name": "Rage Strike",
+    "Description": "Unleash a powerful melee attack fueled by rage.",
+    "Class": "Barbarian",
+    "ManaCost": 15,
+    "Type": "Physical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.8,
+    "StatToScaleFrom": "STR",
+    "MinLevel": 5
   },
   {
     "Id": "power_strike",
@@ -19,9 +115,33 @@
     "ManaCost": 10,
     "Type": "Physical",
     "Target": "SingleEnemy",
-    "ScalingFactor": 1.5,
+    "ScalingFactor": 1.6,
     "StatToScaleFrom": "ATK",
-    "MinLevel": 5
+    "MinLevel": 10
+  },
+  {
+    "Id": "power_strike",
+    "Name": "Power Strike",
+    "Description": "A powerful physical attack.",
+    "Class": "Fighter",
+    "ManaCost": 10,
+    "Type": "Physical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.6,
+    "StatToScaleFrom": "ATK",
+    "MinLevel": 10
+  },
+  {
+    "Id": "shadow_strike",
+    "Name": "Shadow Strike",
+    "Description": "A precise strike from the shadows. Higher crit chance.",
+    "Class": "Rogue",
+    "ManaCost": 10,
+    "Type": "Physical",
+    "Target": "SingleEnemy",
+    "ScalingFactor": 1.8,
+    "StatToScaleFrom": "DEX",
+    "MinLevel": 4
   },
   {
     "Id": "greater_heal",
@@ -35,5 +155,18 @@
     "StatToScaleFrom": "SPR",
     "MinLevel": 10,
     "IsHealing": true
+  },
+  {
+    "Id": "nature_heal",
+    "Name": "Nature's Heal",
+    "Description": "Heals yourself with the power of the forest.",
+    "Class": "Druid",
+    "ManaCost": 25,
+    "Type": "Magical",
+    "Target": "Self",
+    "ScalingFactor": 1.4,
+    "StatToScaleFrom": "SPR",
+    "IsHealing": true,
+    "MinLevel": 6
   }
 ]

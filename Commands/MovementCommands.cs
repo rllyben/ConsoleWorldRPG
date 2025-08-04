@@ -12,6 +12,12 @@ namespace ConsoleWorldRPG.Commands
 {
     public static class MovementCommands
     {
+        /// <summary>
+        /// Handles movement commands
+        /// </summary>
+        /// <param name="input">player input</param>
+        /// <param name="player">player</param>
+        /// <returns>if command was found</returns>
         public static bool Handle(string input, Player player)
         {
             if (input == "look")
@@ -37,11 +43,17 @@ namespace ConsoleWorldRPG.Commands
         {
             if (player.CurrentRoom.Exits.TryGetValue(direction, out Room nextRoom))
             {
+                // check if room has monsters an set cleared if yes
+                if (nextRoom.IsDungeonRoom && nextRoom.Monsters.Count == 0)
+                    nextRoom.IsCleared = true;
+
+                // check if current room is cleared
                 if (player.CurrentRoom.IsDungeonRoom && !player.CurrentRoom.IsCleared)
                 {
                     Console.WriteLine("🚪 You cannot continue until all enemies in this room are defeated.");
                     return;
                 }
+                // check if next room is not part of the dungon and reset
                 else if (player.CurrentRoom.IsDungeonRoom && !nextRoom.IsDungeonRoom)
                 {
                     Console.WriteLine("🌀 You feel the dungeon magic reset behind you...");
@@ -52,6 +64,7 @@ namespace ConsoleWorldRPG.Commands
                     }
 
                 }
+                // check if next room has an enter requirement
                 if (nextRoom.RequirementType != RoomRequirementType.None)
                 {
                     if (nextRoom.RequirementType == RoomRequirementType.Level && player.Level < nextRoom.AccessLevel)
@@ -61,10 +74,12 @@ namespace ConsoleWorldRPG.Commands
                     }
 
                 }
+                // check if entering a city with healer and sets respawn point
                 if (nextRoom.IsCity && nextRoom.Npcs.Contains("Healer"))
                 {
                     player.LastHealerRoomId = nextRoom.Id;
                 }
+
                 player.CurrentRoom = nextRoom;
                 Console.WriteLine($"\nYou move {direction}.");
                 player.CurrentRoom.Describe();

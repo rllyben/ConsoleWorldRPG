@@ -15,6 +15,12 @@ namespace ConsoleWorldRPG.Entities
         public int Capacity { get; set; } = 20;
         public List<Item> Items { get; set; } = new(); // could become Item class later
 
+        /// <summary>
+        /// tries to add item to the inventory
+        /// </summary>
+        /// <param name="item">item to add</param>
+        /// <param name="player">player character</param>
+        /// <returns>if the item was added</returns>
         public bool AddItem(Item item, Player player)
         {
             foreach (var quest in player.ActiveQuests.Where(q => q.Status == QuestStatus.InProgress))
@@ -62,10 +68,16 @@ namespace ConsoleWorldRPG.Entities
 
             return false; // inventory full
         }
-
+        /// <summary>
+        /// removes an item from the inventory
+        /// </summary>
+        /// <param name="item">item to remove</param>
+        /// <returns>if the item was removed</returns>
         public bool RemoveItem(Item item) => Items.Remove(item);
 
-
+        /// <summary>
+        /// prints the inventory
+        /// </summary>
         public void ListItems()
         {
             Console.WriteLine("Your Inventory:");
@@ -83,6 +95,13 @@ namespace ConsoleWorldRPG.Entities
             }
 
         }
+        /// <summary>
+        /// tries to sell an item
+        /// </summary>
+        /// <param name="name">item name</param>
+        /// <param name="quantity">amount to be sold</param>
+        /// <param name="player">player character</param>
+        /// <returns>if the item was successfully sold</returns>
         public bool SellItem(string name, int quantity, ref Player player)
         {
             var item = Items.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));

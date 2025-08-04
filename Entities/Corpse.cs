@@ -18,7 +18,9 @@ namespace ConsoleWorldRPG.Entities
             Name = name;
             Loot = loot;
         }
-
+        /// <summary>
+        /// discribes the corpse
+        /// </summary>
         public void Describe()
         {
             if (IsLooted || Loot.Count == 0)
