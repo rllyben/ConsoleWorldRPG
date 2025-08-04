@@ -59,7 +59,10 @@ namespace ConsoleWorldRPG.Services
 
             return roomMap;
         }
-
+        public static Room GetRoomById(int id)
+        {
+            return AllRooms.FirstOrDefault(r => r.Id == id);
+        }
     }
 
 }

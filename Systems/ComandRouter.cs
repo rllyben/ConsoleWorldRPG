@@ -29,8 +29,9 @@ namespace ConsoleWorldRPG.Systems
                 MovementCommands.Handle(input, _player) ||
                 CombatCommands.Handle(input, _player) ||
                 LootCommands.Handle(input, _player) ||
-                DebugCommands.Handle(input, _player)||
-                GatherCommands.Handle(input, _player);
+                DebugCommands.Handle(input, _player) ||
+                GatherCommands.Handle(input, _player) ||
+                MapCommands.Handle(input, _player);
         }
 
     }
