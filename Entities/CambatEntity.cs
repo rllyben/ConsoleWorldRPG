@@ -41,7 +41,7 @@ namespace ConsoleWorldRPG.Entities
 
         public int TotalEvasion =>
             (int)(TotalDEX * 0.85f) + GetBonusFromGear(g => g.BonusEvasion);
-        public float CritChance => GetBonusFromGear(g => g.BonusDEX) * 0.01f + GetBonusFromGear(g => g.BonusCrit);
+        public float CritChance => GetBonusFromGear(g => g.BonusDEX) * 0.1f + GetBonusFromGear(g => g.BonusCrit);
         public float BlockChance
         {
             get
