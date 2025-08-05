@@ -53,8 +53,11 @@ namespace ConsoleWorldRPG.Entities
                     existing.StackSize += toAdd;
                     item.StackSize -= toAdd;
 
+                    Restack();
+                    
                     if (item.StackSize == 0)
                         return true;
+                        
                 }
 
             }
@@ -63,6 +66,7 @@ namespace ConsoleWorldRPG.Entities
             if (Items.Count < Capacity)
             {
                 Items.Add(item);
+                Restack();
                 return true;
             }
 
@@ -124,11 +128,39 @@ namespace ConsoleWorldRPG.Entities
                 {
                     item.StackSize -= quantity;
                 }
-
+                Restack();
                 return true;
             }
             else
                 return false;
+        }
+        public void Restack()
+        {
+            var grouped = Items
+                .Where(i => i.MaxStackSize > 1)
+                .GroupBy(i => i.Id)
+                .ToList();
+
+            foreach (var group in grouped)
+            {
+                var sorted = group.OrderByDescending(i => i.StackSize).ToList();
+                var primary = sorted[0];
+
+                for (int i = 1; i < sorted.Count; i++)
+                {
+                    var donor = sorted[i];
+                    int space = primary.MaxStackSize - primary.StackSize;
+                    int move = Math.Min(space, donor.StackSize);
+
+                    primary.StackSize += move;
+                    donor.StackSize -= move;
+
+                    if (donor.StackSize <= 0)
+                        Items.Remove(donor);
+                }
+
+            }
+
         }
 
     }

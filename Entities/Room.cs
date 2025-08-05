@@ -20,6 +20,8 @@ namespace ConsoleWorldRPG.Entities
         public string RequiredQuestId { get; set; } = null!;
         public bool RequiresParty { get; set; } = false;
         public bool IsCity { get; set; } = false; 
+        public bool IsCaveRoom { get; set; } = false;
+        public string? CaveId { get; set; } = null;
         public bool IsDungeonRoom { get; set; } = false;
         public bool IsBossRoom { get; set; } = false;
         public bool IsCleared { get; set; } = false; // unlocked once monsters defeated

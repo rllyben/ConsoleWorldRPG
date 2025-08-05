@@ -37,7 +37,7 @@ namespace ConsoleWorldRPG.Systems
 
             if (player.CurrentRoom.IsDungeonRoom && player.CurrentRoom.CurrentMonsters.Count < 1)
             {
-                if (player.CurrentRoom.IsBossRoom && player.CurrentRoom.Monsters.Count > 0)
+                if (player.CurrentRoom.IsBossRoom && player.CurrentRoom.Monsters.Count < 0)
                 {
                     player.CurrentRoom.CurrentMonsters.Add(player.CurrentRoom.Monsters[0]);
                 }

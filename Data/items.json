@@ -35,8 +35,40 @@
     "Rarity": "Legendary"
   },
   {
+    "Id": "starter_dagger",
+    "Name": "Practice Dagger",
+    "SlotType": 0,
+    "MaxStackSize": 1,
+    "AllowedClasses": ["Rogue"],
+    "BonusATK": 3,
+    "BonusDEX": 5,
+    "BuyPrice": 50,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "rogue_cloak",
+    "Name": "Shrouded Cloak",
+    "SlotType": 1,
+    "MaxStackSize": 1,
+    "AllowedClasses": ["Rogue"],
+    "BonusEvasion": 6,
+    "BuyPrice": 45,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "crit_band",
+    "Name": "Crit Band",
+    "SlotType": 2,
+    "MaxStackSize": 1,
+    "AllowedClasses": ["Rogue"],
+    "BonusCrit": 10,
+    "BuyPrice": 70,
+    "Rarity": "Common"
+  },
+  {
     "Id": "steel_sword",
     "Name": "Steel Sword",
+    "Rarity": "Common",
     "Description": "A balanced sword for melee fighters.",
     "Type": "equipment",
     "MaxStackSize": 1,
@@ -44,13 +76,55 @@
     "BuyPrice": 300,
     "BonusATK": 15,
     "BonusAim": 7,
-    "AllowedClasses": [ "Knight", "Barbarian" ]
+    "AllowedClasses": [ "Knight", "Barbarian", "Fighter" ]
+  },
+  {
+    "Id": "starter_armor",
+    "Name": "Rusty Armor",
+    "SlotType": 1,
+    "AllowedClasses": ["Knight, Fighter"],
+    "MaxStackSize": 1,
+    "BonusDEF": 5,
+    "BuyPrice": 45,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "iron_band",
+    "Name": "Iron Band",
+    "SlotType": 2,
+    "AllowedClasses": ["Knight, Fighter"],
+    "MaxStackSize": 1,
+    "BonusHP": 20,
+    "BuyPrice": 55,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "fur_vest",
+    "Name": "Fur Vest",
+    "SlotType": 1,
+    "AllowedClasses": ["Barbarian"],
+    "MaxStackSize": 1,
+    "BonusDEF": 2,
+    "BonusEND": 1,
+    "BuyPrice": 40,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "power_charm",
+    "Name": "Power Charm",
+    "SlotType": 2,
+    "AllowedClasses": ["Barbarian"],
+    "MaxStackSize": 1,
+    "BonusSTR": 2,
+    "BuyPrice": 65,
+    "Rarity": "Common"
   },
   {
     "Id": "leather_bow",
     "Name": "Leather Bow",
     "Description": "A light bow ideal for agile archers.",
     "Type": "equipment",
+    "Rarity": "Common",
     "MaxStackSize": 1,
     "SlotType": 0,
     "BuyPrice": 280,
@@ -59,10 +133,130 @@
     "AllowedClasses": [ "Archer", "Hunter" ]
   },
   {
+    "Id": "archer_garb",
+    "Name": "Archer's Garb",
+    "MaxStackSize": 1,
+    "SlotType": 1,
+    "AllowedClasses": ["Archer"],
+    "BonusEvasion": 3,
+    "BonusDEX": 2,
+    "BuyPrice": 45,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "focus_band",
+    "Name": "Focus Band",
+    "MaxStackSize": 1,
+    "SlotType": 2,
+    "AllowedClasses": ["Archer"],
+    "BonusAim": 4,
+    "BuyPrice": 60,
+    "Rarity": "Common"
+  },
+  {
+  "Id": "starter_crossbow",
+  "Name": "Worn Crossbow",
+  "MaxStackSize": 1,
+  "SlotType": 0,
+  "AllowedClasses": ["Hunter"],
+  "BonusATK": 4,
+  "BonusDEX": 5,
+  "BuyPrice": 55,
+  "Rarity": "Common"
+  },
+  {
+    "Id": "hunter_coat",
+    "Name": "Hunter's Coat",
+    "MaxStackSize": 1,
+    "SlotType": 1,
+    "AllowedClasses": ["Hunter"],
+    "BonusEvasion": 8,
+    "BonusAim": 4,
+    "BuyPrice": 45,
+    "Rarity": "Common"
+  },
+  {
+  "Id": "starter_gauntlets",
+  "Name": "Training Gauntlets",
+  "MaxStackSize": 1,
+  "SlotType": 0,
+  "AllowedClasses": ["Fighter"],
+  "BonusATK": 10,
+  "BonusSTR": 3,
+  "BuyPrice": 55,
+  "Rarity": "Common"
+  },
+  {
+    "Id": "padded_armor",
+    "Name": "Padded Vest",
+    "MaxStackSize": 1,
+    "SlotType": 1,
+    "AllowedClasses": ["Fighter"],
+    "BonusDEF": 10,
+    "BonusEND": 3,
+    "BuyPrice": 50,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "fighter_token",
+    "Name": "Fighter's Token",
+    "MaxStackSize": 1,
+    "SlotType": 2,
+    "AllowedClasses": ["Fighter"],
+    "BonusHP": 7,
+    "BonusMana": 5,
+    "BuyPrice": 60,
+    "Rarity": "Common"
+  },
+  {
+  "Id": "starter_mace",
+  "Name": "Iron Mace",
+  "MaxStackSize": 1,
+  "SlotType": 0,
+  "AllowedClasses": ["Cleric"],
+  "BonusATK": 3,
+  "BonusAim": 2,
+  "BuyPrice": 55,
+  "Rarity": "Common"
+  },
+  {
+    "Id": "prayer_robes",
+    "Name": "Prayer Robes",
+    "MaxStackSize": 1,
+    "SlotType": 1,
+    "AllowedClasses": ["Cleric"],
+    "BonusDEF": 6,
+    "BonusSPR": 3,
+    "BuyPrice": 45,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "faith_charm",
+    "Name": "Faith Charm",
+    "MaxStackSize": 1,
+    "SlotType": 2,
+    "AllowedClasses": ["Cleric"],
+    "BonusHP": 10,
+    "BonusMana": 20,
+    "BuyPrice": 60,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "tracker_band",
+    "Name": "Tracker Band",
+    "MaxStackSize": 1,
+    "SlotType": 2,
+    "AllowedClasses": ["Hunter"],
+    "BonusAim": 4,
+    "BuyPrice": 60,
+    "Rarity": "Common"
+  },
+  {
     "Id": "flamecaster_staff",
     "Name": "Flamecaster's Staff",
     "Description": "A staff imbued with flame runes, enhancing magic power.",
     "Type": "equipment",
+    "Rarity": "Common",
     "MaxStackSize": 1,
     "SlotType": 0,
     "BuyPrice": 500,
@@ -75,6 +269,7 @@
     "Name": "Robes of the Storm",
     "Description": "Flowing robes crackling with arcane wind energy.",
     "Type": "equipment",
+    "Rarity": "Common",
     "MaxStackSize": 1,
     "SlotType": 1,
     "BuyPrice": 450,
@@ -84,10 +279,44 @@
     "BonusEvasion": 8
   },
   {
+  "Id": "starter_branch",
+  "Name": "Sprout Wand",
+    "MaxStackSize": 1,
+  "SlotType": 0,
+  "AllowedClasses": ["Druid"],
+  "BonusMATK": 4,
+  "BonusSPR": 5,
+  "BuyPrice": 50,
+  "Rarity": "Common"
+  },
+  {
+    "Id": "nature_robe",
+    "Name": "Nature Robe",
+    "MaxStackSize": 1,
+    "SlotType": 1,
+    "AllowedClasses": ["Druid"],
+    "BonusMDEF": 3,
+    "BonusEND": 1,
+    "BonusSPR": 2,
+    "BuyPrice": 45,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "life_leaf",
+    "Name": "Life Leaf",
+    "MaxStackSize": 1,
+    "SlotType": 2,
+    "AllowedClasses": ["Druid"],
+    "BonusHP": 15,
+    "BuyPrice": 55,
+    "Rarity": "Common"
+  },
+  {
     "Id": "crystal_focus_band",
     "Name": "Crystal Focus Band",
     "Description": "A magical circlet that sharpens focus and channels power.",
     "Type": "equipment",
+    "Rarity": "Common",
     "MaxStackSize": 1,
     "SlotType": 2,
     "BuyPrice": 300,
@@ -95,6 +324,60 @@
     "BonusMATK": 5,
     "BonusINT": 2,
     "BonusSPR": 1
+  },
+  {
+    "Id": "mage_robe",
+    "Name": "Apprentice Robe",
+    "SlotType": 1,
+    "AllowedClasses": ["ArcanMage", "ElementalMage"],
+    "MaxStackSize": 1,
+    "BonusMDEF": 3,
+    "BonusSPR": 1,
+    "BuyPrice": 40,
+   "Rarity": "Common"
+  },
+  {
+    "Id": "mana_ring",
+    "Name": "Mana Ring",
+    "SlotType": 2,
+    "AllowedClasses": ["ArcanMage", "ElementalMage", "SoulsKnight"],
+    "MaxStackSize": 1,
+    "BonusMana": 25,
+    "Rarity": "Common",
+    "BuyPrice": 60
+  },
+  {
+  "Id": "souls_blade",
+  "Name": "Soulsmith Blade",
+  "MaxStackSize": 1,
+  "SlotType": 0,
+  "AllowedClasses": ["SoulsKnight"],
+  "BonusATK": 3,
+  "BonusMATK": 3,
+  "BuyPrice": 60,
+  "Rarity": "Common"
+  },
+  {
+    "Id": "bone_plate",
+    "Name": "Boneweave Plate",
+    "MaxStackSize": 1,
+    "SlotType": 1,
+    "AllowedClasses": ["SoulsKnight"],
+    "BonusDEF": 4,
+    "BonusMDEF": 4,
+    "BuyPrice": 60,
+    "Rarity": "Common"
+  },
+  {
+    "Id": "soul_shard",
+    "Name": "Soul Shard",
+    "MaxStackSize": 1,
+    "SlotType": 2,
+    "AllowedClasses": ["SoulsKnight"],
+    "BonusMana": 25,
+    "BonusINT": 1,
+    "BuyPrice": 65,
+    "Rarity": "Common"
   },
   {
     "Id": "beast_fang",
@@ -202,7 +485,10 @@
     "Type": "equipment",
     "SlotType": 0,
     "BuyPrice": 100,
-    "AllowedClasses": [],
+    "BonusATK": 24,
+    "BonusAim": 3,
+    "BonusCrit": 5,
+    "AllowedClasses": ["Barbarian"],
     "MaxStackSize": 1
   },
   {

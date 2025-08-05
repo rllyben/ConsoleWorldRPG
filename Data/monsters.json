@@ -21,13 +21,13 @@
     "Name": "Troll",
     "Description": "A big dumb brute with a club.",
     "Type": 5,
-    "Exp": 9,
+    "Exp": 13,
     "Stats": {
-      "Strength": 14,
-      "Dexterity": 3,
-      "Endurance": 8,
+      "Strength": 21,
+      "Dexterity": 6,
+      "Endurance": 12,
       "Intelligence": 2,
-      "Spirit": 9,
+      "Spirit": 6,
       "BaseHealth": 30,
       "BaseMana": 0
     }

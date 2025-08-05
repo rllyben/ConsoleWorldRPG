@@ -29,6 +29,18 @@ namespace ConsoleWorldRPG.Commands
             if (input.StartsWith("move "))
             {
                 string dir = input.Substring(5).Trim();
+                if (dir.Length < 2)
+                {
+                    switch (dir)
+                    {
+                        case "n": dir = "north"; break;
+                        case "e": dir = "east"; break;
+                        case "s": dir = "south"; break;
+                        case "w": dir = "west"; break;
+                    }
+
+                }
+                
                 Move(player, dir);
                 return true;
             }

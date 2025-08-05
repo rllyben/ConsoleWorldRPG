@@ -107,18 +107,21 @@ namespace ConsoleWorldRPG.Utils
         public static void ShowHelp()
         {
             Console.WriteLine("\nAvailable commands:");
-            Console.WriteLine("  move <direction>   - Move to another room (e.g., move north)");
-            Console.WriteLine("  look               - Re-describe the current room or start an encounter");
-            Console.WriteLine("  status             - Show your current health, mana, stats and equipt items");
-            Console.WriteLine("  inventory          - Show your inventory and moneybag");
-            Console.WriteLine("  go to <npc name>   - Go to the specified NPC (e.g., go to healer)");
-            Console.WriteLine("  equip <item name>  - Equips the specified item and puts the currently equiped one back into the inventory (e.g., equip Staff)");
-            Console.WriteLine("  use <item name>    - Uses the specified item (e.g., use simple Healing Potion)");
-            Console.WriteLine("  loot corpse        - loots the first dropped corpse in the current room");
-            Console.WriteLine("  look corpses       - Show all current corpses that arent looted in the current room");
-            Console.WriteLine("  heal ||LAGACY||    - (LAGACY: not in use anymoe!) Heals your character to full HP");
-            Console.WriteLine("  help               - Show this help message");
-            Console.WriteLine("  exit               - Save and Quit the game");
+            Console.WriteLine("  move <direction>           - Move to another room (e.g., move north)");
+            Console.WriteLine("  look                       - Re-describe the current room");
+            Console.WriteLine("  fight                      - Starts an encounter if monsters are present");
+            Console.WriteLine("  status                     - Show your current health, mana, stats and equipt items");
+            Console.WriteLine("  inventory                  - Show your inventory and moneybag");
+            Console.WriteLine("  go to <npc name>           - Go to the specified NPC (e.g., go to healer)");
+            Console.WriteLine("  equip <item name>          - Equips the specified item and puts the currently equiped one back into the inventory (e.g., equip Staff)");
+            Console.WriteLine("  use <item name>            - Uses the specified item (e.g., use simple Healing Potion)");
+            Console.WriteLine("  loot                       - loots the first dropped corpse in the current room");
+            Console.WriteLine("  look corpses || LAGECY ||  - (LAGACY: not in use anymoe!) Show all current corpses that arent looted in the current room");
+            Console.WriteLine("  gather <source name>       - Gathers material from the given source");
+            Console.WriteLine("  map                        - Prints  the World- or Dungon- map");
+            Console.WriteLine("  heal ||LAGACY||            - (LAGACY: not in use anymoe!) Heals your character to full HP");
+            Console.WriteLine("  help                       - Show this help message");
+            Console.WriteLine("  exit                       - Save and Quit the game");
         }
         public static void ShowDebugHelp()
         {

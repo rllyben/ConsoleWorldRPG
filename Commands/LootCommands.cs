@@ -24,7 +24,7 @@ namespace ConsoleWorldRPG.Commands
                 return true;
             }
 
-            if (input == "loot corpse")
+            if (input == "loot")
             {
                 LootFirstCorpse(player);
                 return true;

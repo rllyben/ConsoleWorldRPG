@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Enums;
+using System.Text.Json.Serialization;
 
 namespace ConsoleWorldRPG.Items
 {
@@ -14,6 +15,7 @@ namespace ConsoleWorldRPG.Items
         public string Name { get; set; }
         public string Description { get; set; }
         public virtual ItemRarity Rarity { get; set; } = ItemRarity.Common;
+        [JsonInclude]
         public int StackSize { get; set; } = 1;
         public virtual int MaxStackSize => 50;
 

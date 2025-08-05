@@ -41,6 +41,8 @@ namespace ConsoleWorldRPG.Services
             else
                 item.Rarity = ItemRarity.Common; // fallback
 
+                item.StackSize = def.StackSize > 0 ? def.StackSize : 1;
+
             return item;
         }
         public static bool TryCreateItem(string id, out Item item)

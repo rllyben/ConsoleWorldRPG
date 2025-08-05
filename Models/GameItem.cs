@@ -13,6 +13,7 @@ namespace ConsoleWorldRPG.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int StackSize { get; set; } = 1;
         public string Rarity { get; set; } = "Common"; // read from JSON
         public int BuyPrice { get; set; }
         public int MaxStackSize { get; set; } = 1;

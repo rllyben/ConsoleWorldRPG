@@ -28,6 +28,8 @@ namespace ConsoleWorldRPG.Services
                 ConnectMonsterRooms();
                 NotifyUser("dungons");
                 DungeonRegistry.Load();
+                NotifyUser("caves");
+                CaveRegistry.Load();
                 NotifyUser("items");
                 ItemFactory.LoadItems();
                 NotifyUser("quests");

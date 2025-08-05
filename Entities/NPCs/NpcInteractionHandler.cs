@@ -9,6 +9,7 @@ using ConsoleWorldRPG.Enums;
 using ConsoleWorldRPG.Items;
 using ConsoleWorldRPG.Services;
 using ConsoleWorldRPG.Systems;
+using ConsoleWorldRPG.Utils;
 
 namespace ConsoleWorldRPG.Entities.NPCs
 {
@@ -296,8 +297,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
             Console.Write("Enter the item name to sell: ");
             string? itemName = Console.ReadLine()?.Trim();
 
-            var item = player.Inventory.Items
-                .FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+            var item = InventoryUtils.ResolveInventoryItem(itemName, player);
 
             if (item == null)
             {

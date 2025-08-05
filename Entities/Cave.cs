@@ -1,7 +1,6 @@
-
 namespace ConsoleWorldRPG.Entities
 {
-    public class Dungeon
+    public class Cave
     {
         public string Id { get; set; }
         public string Name { get; set; }

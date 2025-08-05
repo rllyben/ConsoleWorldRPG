@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Enums;
 using ConsoleWorldRPG.Items;
+using ConsoleWorldRPG.Utils;
 
 namespace ConsoleWorldRPG.Commands
 {
@@ -66,8 +67,7 @@ namespace ConsoleWorldRPG.Commands
         /// <param name="itemName">the item NAME</param>
         private static void EquipItem(string itemName, Player player)
         {
-            var match = player.Inventory.Items
-                .FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+            var match = InventoryUtils.ResolveInventoryItem(itemName, player);
 
             if (match is not EquipmentItem equipment)
             {
@@ -128,8 +128,7 @@ namespace ConsoleWorldRPG.Commands
         /// <param name="itemName">the item NAME</param>
         private static void UseItem(string itemName, Player player)
         {
-            var item = player.Inventory.Items
-                .FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+            var item = InventoryUtils.ResolveInventoryItem(itemName, player);
 
             if (item == null)
             {
@@ -155,8 +154,7 @@ namespace ConsoleWorldRPG.Commands
         /// <param name="itemName">item name</param>
         private static void ShowItem(Player player, string itemName)
         {
-            Item? item = player.Inventory.Items
-                .FirstOrDefault(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase));
+            var item = InventoryUtils.ResolveInventoryItem(itemName, player);
 
             // also check equipped items
             item ??= player.WeaponSlot;

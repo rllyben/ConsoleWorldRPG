@@ -9,20 +9,34 @@
       "7": 1
     },
     "RequiredItems": {},
-    "RewardXp": 2500,
-    "RewardGold": 1000
+    "RewardXp": 25000,
+    "RewardGold": 10500
   },
   {
     "Id": "wraith_problem",
     "Name": "Wraith Problem",
     "Description": "Kill the Wraith in the Chamber of the Hollow Crypt!",
     "GiverNPC": "Quest Board",
-    "RequiredLevel": 1,
+    "RequiredLevel": 5,
     "RequiredKills": {
       "3": 10
     },
     "RequiredItems": {},
-    "RewardXp": 100,
-    "RewardGold": 100
+    "RewardXp": 1050,
+    "RewardGold": 500
+  },
+  {
+    "Id": "unsave_caves",
+    "Name": "Disaperance of Townsfolk",
+    "Description": "The Trolls and Goblins in the Deep Caves are getting restless, kill some to keep them at bay.",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 1,
+    "RequiredKills": {
+      "2": 10,
+      "1": 10
+    },
+    "RequiredItems": {},
+    "RewardXp": 150,
+    "RewardGold": 250
   }
 ]
