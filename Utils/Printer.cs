@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
@@ -118,7 +119,7 @@ namespace ConsoleWorldRPG.Utils
             Console.WriteLine("  loot                       - loots the first dropped corpse in the current room");
             Console.WriteLine("  look corpses || LAGECY ||  - (LAGACY: not in use anymoe!) Show all current corpses that arent looted in the current room");
             Console.WriteLine("  gather <source name>       - Gathers material from the given source");
-            Console.WriteLine("  map                        - Prints  the World- or Dungon- map");
+            Console.WriteLine("  map                        - Prints  the World-, Dungon-, Cave-, Forest- or City- map can have world or the name of the general room (eg. Dungon name) as a suffix");
             Console.WriteLine("  heal ||LAGACY||            - (LAGACY: not in use anymoe!) Heals your character to full HP");
             Console.WriteLine("  help                       - Show this help message");
             Console.WriteLine("  exit                       - Save and Quit the game");
@@ -135,7 +136,10 @@ namespace ConsoleWorldRPG.Utils
         public static void ShowStatus(Player _player)
         {
             Console.WriteLine($"\n{_player.Name}'s Status:");
-            Console.WriteLine($"  Level: {_player.Level}    Exp: {_player.Experience}/{_player.ExpForNextLvl}");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"  Class: {_player.Class}");
+            Console.ResetColor();
+            Console.WriteLine($"  Level: {_player.Level}    Exp: {_player.Experience}/{_player.ExpForNextLvl}\n");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"  HP: {_player.CurrentHealth}/{_player.Stats.MaxHealth}");
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -148,12 +152,14 @@ namespace ConsoleWorldRPG.Utils
             Console.WriteLine($"  SPR: {_player.Stats.Spirit} + {_player.GetBonusFromGear(g => g.BonusSPR)} from gear");
             Console.WriteLine("\n");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"  ATK: {_player.TotalPhysicalAttack}");
-            Console.WriteLine($"  DEF: {_player.TotalPhysicalDefense}");
-            Console.WriteLine($"  MATK: {_player.TotalMagicAttack}");
-            Console.WriteLine($"  MDEF: {_player.TotalMagicDefense}");
-            Console.WriteLine($"  Crit: {_player.CritChance:P0}");
-            Console.WriteLine($"  Block: {_player.BlockChance:P0}");
+            Console.WriteLine($"  ATK: {_player.TotalPhysicalAttack - _player.GetBonusFromGear(g => g.BonusATK)} + {_player.GetBonusFromGear(g => g.BonusATK)} from gear");
+            Console.WriteLine($"  DEF: {_player.TotalPhysicalDefense - _player.GetBonusFromGear(g => g.BonusDEF)} + {_player.GetBonusFromGear(g => g.BonusDEF)} from gear");
+            Console.WriteLine($"  MATK: {_player.TotalMagicAttack - _player.GetBonusFromGear(g => g.BonusMATK)} + {_player.GetBonusFromGear(g => g.BonusMATK)} from gear");
+            Console.WriteLine($"  MDEF: {_player.TotalMagicDefense - _player.GetBonusFromGear(g => g.BonusMDEF)} + {_player.GetBonusFromGear(g => g.BonusMDEF)} from gear");
+            Console.WriteLine($"  Aim: {_player.TotalAim - _player.GetBonusFromGear(g => g.BonusAim)} + {_player.GetBonusFromGear(g => g.BonusAim)} from gear");
+            Console.WriteLine($"  Evation: {_player.TotalEvasion - _player.GetBonusFromGear(g => g.BonusEvasion)} + {_player.GetBonusFromGear(g => g.BonusEvasion)} from gear");
+            Console.WriteLine($"  Crit: {_player.CritChance:P0} | {_player.GetBonusFromGear(g => g.BonusCrit)} from gear");
+            Console.WriteLine($"  Block: {_player.BlockChance:P0} | {_player.GetBonusFromGear(g => g.BonusBlock)} from gear");
             Console.ResetColor();
             Console.WriteLine("");
             Console.WriteLine("\nEquipped:");

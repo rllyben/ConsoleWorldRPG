@@ -17,25 +17,32 @@ namespace ConsoleWorldRPG.Models
             Name = def.Name;
             Description = def.Description;
             StackSize = 1;
+            MaxStackSize = def.MaxStackSize;
             BuyPrice = def.BuyPrice;
             SlotType = Enum.Parse<EquipmentType>(def.SlotType.ToString());
             AllowedClasses = def.AllowedClasses?
                 .Select(c => Enum.Parse<PlayerClass>(c)).ToList() ?? new();
 
-            BaseBonusSTR = def.BonusSTR;
-            BaseBonusDEX = def.BonusDEX;
-            BaseBonusEND = def.BonusEND;
-            BaseBonusINT = def.BonusINT;
-            BaseBonusSPR = def.BonusSPR;
+            BaseBonusHP = def.BaseBonusHP;
+            BaseBonusMP = def.BaseBonusMP;
+            BaseBonusSTR = def.BaseBonusSTR;
+            BaseBonusDEX = def.BaseBonusDEX;
+            BaseBonusEND = def.BaseBonusEND;
+            BaseBonusINT = def.BaseBonusINT;
+            BaseBonusSPR = def.BaseBonusSPR;
 
-            BaseBonusATK = def.BonusATK;
-            BaseBonusDEF = def.BonusDEF;
-            BaseBonusMATK = def.BonusMATK;
-            BaseBonusMDEF = def.BonusMDEF;
-            BaseBonusAim = def.BonusAim;
-            BaseBonusEvasion = def.BonusEvasion;
+            BaseBonusATK = def.BaseBonusATK;
+            BaseBonusDEF = def.BaseBonusDEF;
+            BaseBonusMATK = def.BaseBonusMATK;
+            BaseBonusMDEF = def.BaseBonusMDEF;
+            BaseBonusAim = def.BaseBonusAim;
+            BaseBonusEvasion = def.BaseBonusEvasion;
+            BaseBonusCrit = def.BaseBonusCrit;
+            BaseBonusBlock = def.BaseBonusBlock;
 
             // Core stat bonuses
+            BonusHP = def.BonusHP;
+            BonusMP = def.BonusMP;
             BonusSTR = def.BonusSTR;
             BonusDEX = def.BonusDEX;
             BonusEND = def.BonusEND;
@@ -49,6 +56,8 @@ namespace ConsoleWorldRPG.Models
             BonusMDEF = def.BonusMDEF;
             BonusAim = def.BonusAim;
             BonusEvasion = def.BonusEvasion;
+            BonusCrit = def.BonusCrit;
+            BonusBlock = def.BonusBlock;
         }
 
     }

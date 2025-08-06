@@ -1,7 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ConsoleWorldRPG.Entities
+namespace ConsoleWorldRPG.Entities.RoomTypes
 {
-    public class Dungeon
+    public class Forest
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -11,5 +16,4 @@ namespace ConsoleWorldRPG.Entities
 
         public bool ContainsRoom(Room room) => RoomIds.Contains(room.Id);
     }
-
 }

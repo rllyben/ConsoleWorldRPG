@@ -312,6 +312,11 @@ namespace ConsoleWorldRPG.Systems
                 "MATK" => player.TotalMagicAttack,
                 "SPR" => player.TotalSPR,
                 "INT" => player.TotalINT,
+                "DEX" => player.TotalDEX,
+                "Aim" => (player.TotalAim * 2),
+                "Eva" => (player.TotalEvasion * 2),
+                "END" => player.TotalEND,
+                "STR" => player.TotalSTR,
                 _ => player.TotalPhysicalAttack
             };
 
@@ -331,6 +336,38 @@ namespace ConsoleWorldRPG.Systems
                 target.TakeDamage(value);
             }
 
+        }
+        public static int CalculateDamage(ICombatant attacker, ICombatant defender, int attackDmg, bool magic = false)
+        {
+            float matk = 0;
+            if (magic)
+                matk = attackDmg;
+            float atk = attackDmg;
+            float def = defender.TotalPhysicalDefense;
+            float mdef = defender.TotalMagicDefense;
+
+            Console.WriteLine($"\n{attacker.Name} attacks {defender.Name}!");
+
+            if (!TryHit(attacker, defender))
+            {
+                Console.WriteLine($"{attacker.Name} missed!");
+                return 0;
+            }
+
+            float pdmg = atk * (atk / (atk + def));
+            float mdmg = matk * (matk / (matk + mdef));
+            float dmg = Math.Max(pdmg, mdmg);
+            if (dmg < 1)
+                dmg = 1;
+            // Check for block
+            float blockRoll = (float)_random.NextDouble();
+            if (blockRoll < defender.GetBlockChance())
+            {
+                Console.WriteLine($"{defender.Name} blocked the attack!");
+                dmg /= 2;
+            }
+
+            return (int)dmg;
         }
         public static int CalculateDamage(ICombatant attacker, ICombatant defender)
         {

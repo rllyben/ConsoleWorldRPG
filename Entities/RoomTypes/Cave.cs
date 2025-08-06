@@ -1,4 +1,4 @@
-namespace ConsoleWorldRPG.Entities
+namespace ConsoleWorldRPG.Entities.RoomTypes
 {
     public class Cave
     {

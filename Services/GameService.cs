@@ -30,6 +30,10 @@ namespace ConsoleWorldRPG.Services
                 DungeonRegistry.Load();
                 NotifyUser("caves");
                 CaveRegistry.Load();
+                NotifyUser("cities");
+                CityRegistry.Load();
+                NotifyUser("forests");
+                ForestRegistry.Load();
                 NotifyUser("items");
                 ItemFactory.LoadItems();
                 NotifyUser("quests");

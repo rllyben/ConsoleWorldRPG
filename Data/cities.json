@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "city_lumina",
+    "Name": "Lumina's Rise",
+    "RoomIds": [11, 12, 13]
+  },
+  {
+    "Id": "city_of_ceralith",
+    "Name": "City of Ceralith",
+    "RoomIds": []
+  },
+  {
+    "Id": "city_of_elorium",
+    "Name": "City of Elorium",
+    "IsBig": true,
+    "RoomIds": []
+  }
+]

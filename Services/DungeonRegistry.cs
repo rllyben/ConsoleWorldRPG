@@ -1,4 +1,5 @@
 using ConsoleWorldRPG.Entities;
+using ConsoleWorldRPG.Entities.RoomTypes;
 using System.Text.Json;
 
 namespace ConsoleWorldRPG.Services
@@ -32,6 +33,8 @@ namespace ConsoleWorldRPG.Services
         /// <returns>the found dungeon or null</returns>
         public static Dungeon? GetDungeonById(string id) =>
             _dungeons.TryGetValue(id, out var d) ? d : null;
+        public static Dungeon? GetDungeonByName(string name) =>
+            _dungeons.Values.FirstOrDefault(d => d.Name.ToLower() == name);
     }
 
 }

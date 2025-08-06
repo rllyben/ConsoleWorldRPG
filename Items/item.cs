@@ -17,7 +17,7 @@ namespace ConsoleWorldRPG.Items
         public virtual ItemRarity Rarity { get; set; } = ItemRarity.Common;
         [JsonInclude]
         public int StackSize { get; set; } = 1;
-        public virtual int MaxStackSize => 50;
+        public virtual int MaxStackSize { get; set; } = 50;
 
         public virtual int BuyPrice { get; set; } = 100; // default value
         public virtual int SellValue => (int)(BuyPrice * 0.75);

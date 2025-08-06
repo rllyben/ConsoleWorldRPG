@@ -38,12 +38,15 @@ namespace ConsoleWorldRPG.Entities.NPCs
 
             switch (npc.ToLower())
             {
+                case "h":
                 case "healer":
                     HealerMenu(ref player);
                     break;
+                case "s":
                 case "smith":
                     SmithMenu(ref player);
                     break;
+                case "q":
                 case "quest board":
                 case "questboard":
                     InteractWithQuestBoard(player);
@@ -68,25 +71,40 @@ namespace ConsoleWorldRPG.Entities.NPCs
                 return;
             }
 
-            for (int i = 0; i < available.Count; i++)
+            while (true)
             {
-                var q = available[i];
-                Console.WriteLine($"{i + 1}. {q.Name} - {q.Description}");
-            }
+                if (available.Count < 1)
+                    return;
+                for (int i = 0; i < available.Count; i++)
+                {
+                    var q = available[i];
+                    Console.WriteLine($"{i + 1}. {q.Name} - {q.Description}");
+                }
 
-            Console.Write("Select quest to accept (0 to cancel): ");
-            if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= available.Count)
-            {
-                var quest = available[choice - 1];
-                quest.Status = QuestStatus.InProgress; 
+                Console.Write("Select quest to accept (0 to cancel): ");
+                if (int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    if (choice > 0 && choice <= available.Count)
+                    {
+                        var quest = available[choice - 1];
+                        quest.Status = QuestStatus.InProgress;
 
-                foreach (var key in quest.RequiredKills.Keys)
-                    quest.KillProgress[key] = 0;
-                foreach (var itemId in quest.RequiredItems.Keys)
-                    quest.ItemProgress[itemId] = 0;
+                        foreach (var key in quest.RequiredKills.Keys)
+                            quest.KillProgress[key] = 0;
+                        foreach (var itemId in quest.RequiredItems.Keys)
+                            quest.ItemProgress[itemId] = 0;
 
-                player.ActiveQuests.Add(quest);
-                Console.WriteLine($"✔ You accepted the quest: {quest.Name}");
+                        player.ActiveQuests.Add(quest);
+                        Console.WriteLine($"✔ You accepted the quest: {quest.Name}");
+                    }
+                    else if (choice == 0)
+                        return;
+                    else
+                        Console.WriteLine("That Quest doesn't exists");
+
+                }
+                else
+                    Console.WriteLine("Wrong input type! Please only write a number.");
             }
 
         }
@@ -135,52 +153,64 @@ namespace ConsoleWorldRPG.Entities.NPCs
         /// <param name="player">player character</param>
         private static void HandleCrafting(Player player)
         {
-            Console.WriteLine("\n🧪 Available Crafting Options:");
-            Console.WriteLine("1. Craft Upgrade Stone (requires: 3 iron_ore)");
-            Console.WriteLine("0. Cancel");
-
-            Console.Write("Choose: ");
-            string? input = Console.ReadLine();
-            if (input == "1")
+            while (true)
             {
-                const string requiredMaterial = "iron_ore";
-                const string craftedItemId = "upgrade_stone";
-                const int cost = 3;
+                Console.WriteLine("\n🧪 Available Crafting Options:");
+                Console.WriteLine("1. Craft Upgrade Stone (requires: 3 iron_ore)");
+                Console.WriteLine("0. Cancel");
 
-                if (player.Inventory.Items.Any(i => i.Id == requiredMaterial))
+                Console.Write("Choose: ");
+                string? input = Console.ReadLine();
+                if (input == "1")
                 {
-                    int have = player.Inventory.Items.FirstOrDefault(i => i.Id == requiredMaterial).StackSize;
+                    const string requiredMaterial = "iron_ore";
+                    const string craftedItemId = "upgrade_stone";
+                    const int cost = 3;
 
-                    if (have < cost)
+                    if (player.Inventory.Items.Any(i => i.Id == requiredMaterial))
+                    {
+                        int have = player.Inventory.Items.FirstOrDefault(i => i.Id == requiredMaterial).StackSize;
+
+                        if (have < cost)
+                        {
+                            Console.WriteLine($"❌ You need at least {cost} iron ore to craft an Upgrade Stone.");
+                            continue;
+                        }
+
+                    }
+                    else
                     {
                         Console.WriteLine($"❌ You need at least {cost} iron ore to craft an Upgrade Stone.");
-                        return;
+                        continue;
+                    }
+
+                    var toRemove = player.Inventory.Items
+                        .Where(i => i.Id == requiredMaterial && i.StackSize == cost)
+                        .ToList();
+                    var toReduce = player.Inventory.Items
+                        .Where(i => i.Id == requiredMaterial && i.StackSize > cost)
+                        .ToList();
+                    foreach (var item in toRemove)
+                        player.Inventory.RemoveItem(item);
+                    foreach (var item in toReduce)
+                    {
+                        Item itemToReduce = player.Inventory.Items.FirstOrDefault(i => i.Id == item.Id);
+                        itemToReduce.StackSize -= cost;
+                    }
+
+                    if (ItemFactory.TryCreateItem(craftedItemId, out var crafted))
+                    {
+                        player.Inventory.AddItem(crafted, player);
+                        Console.WriteLine($"✔ You crafted 1 {crafted.Name}.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"❌ Could not create item '{craftedItemId}'.");
                     }
 
                 }
-                else
-                {
-                    Console.WriteLine($"❌ You need at least {cost} iron ore to craft an Upgrade Stone.");
+                else if (input == "0")
                     return;
-                }
-
-                var toRemove = player.Inventory.Items
-                    .Where(i => i.Id == requiredMaterial)
-                    .Take(cost)
-                    .ToList();
-
-                foreach (var item in toRemove)
-                    player.Inventory.RemoveItem(item);
-
-                if (ItemFactory.TryCreateItem(craftedItemId, out var crafted))
-                {
-                    player.Inventory.AddItem(crafted, player);
-                    Console.WriteLine($"✔ You crafted 1 {crafted.Name}.");
-                }
-                else
-                {
-                    Console.WriteLine($"❌ Could not create item '{craftedItemId}'.");
-                }
 
             }
 
@@ -199,22 +229,25 @@ namespace ConsoleWorldRPG.Entities.NPCs
                 Console.WriteLine("❌ You have no equipment that can be upgraded.");
                 return;
             }
-
-            Console.WriteLine("\n🔧 Select equipment to upgrade:");
-            for (int i = 0; i < upgradable.Count; i++)
-                Console.WriteLine($"{i + 1}. {upgradable[i].Name} +{upgradable[i].UpgradeLevel}");
-
-            Console.Write("Choice (0 to cancel): ");
-            if (!int.TryParse(Console.ReadLine(), out int choice) || choice < 1 || choice > upgradable.Count)
+            while (true)
             {
-                Console.WriteLine("Cancelled.");
-                return;
+                Console.WriteLine("\n🔧 Select equipment to upgrade:");
+                for (int i = 0; i < upgradable.Count; i++)
+                    Console.WriteLine($"{i + 1}. {upgradable[i].Name} +{upgradable[i].UpgradeLevel}");
+
+                Console.Write("Choice (0 to cancel): ");
+                if (!int.TryParse(Console.ReadLine(), out int choice) || choice < 1 || choice > upgradable.Count)
+                {
+                    Console.WriteLine("Cancelled.");
+                    return;
+                }
+
+                var item = upgradable[choice - 1];
+
+                if (item.TryUpgrade(player))
+                    Console.WriteLine($"🛠 {item.Name} is now +{item.UpgradeLevel}!");
             }
 
-            var item = upgradable[choice - 1];
-
-            if (item.TryUpgrade(player))
-                Console.WriteLine($"🛠 {item.Name} is now +{item.UpgradeLevel}!");
         }
         /// <summary>
         /// prints the smith's stock for character class
@@ -238,14 +271,29 @@ namespace ConsoleWorldRPG.Entities.NPCs
                 return;
             }
 
-            for (int i = 0; i<stock.Count; i++)
-                Console.WriteLine($"{i + 1}. {stock[i].Name} - {stock[i].BuyPrice} bronze");
+            while (true)
+            {
+                for (int i = 0; i < stock.Count; i++)
+                    Console.WriteLine($"{i + 1}. {stock[i].Name} - {stock[i].BuyPrice} bronze");
 
-            Console.Write("Choose item to buy (0 to cancel): ");
-            if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= stock.Count)
-                TryBuyItem(stock[choice - 1], stock[choice - 1].BuyPrice, ref player);
-            else
-                Console.WriteLine("Cancelled.");
+                Console.Write("Choose item to buy (0 to cancel): ");
+                if (int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    if (choice > 0 && choice <= stock.Count)
+                        TryBuyItem(stock[choice - 1], stock[choice - 1].BuyPrice, ref player);
+                    else if (choice == 0)
+                    {
+                        Console.WriteLine("Cancelled.");
+                        return;
+                    }
+                    else
+                        Console.WriteLine("❌ The smith does not sell such item");
+
+                }
+                else
+                    Console.WriteLine("❌ Wrong input type! Please only write a number.");
+            }
+
         }
         /// <summary>
         /// Handles the encounter wiht the healer
@@ -253,37 +301,44 @@ namespace ConsoleWorldRPG.Entities.NPCs
         private static void HealerMenu(ref Player player)
         {
             Console.WriteLine("\n🧙 You approach the healer.");
-            Console.WriteLine("1. Heal (Free)");
-            if (player.PotionTierAvailable < 2)
+            while (true)
             {
-                Console.WriteLine("2. Buy simple Healing Potion (100 bronze)");
-                Console.WriteLine("3. Buy simple Mana Potion (120 bronze)");
-            }
-            Console.WriteLine("4. Sell Item");
-            Console.WriteLine("5. Leave");
+                Console.WriteLine("1. Heal (Free)");
+                if (player.PotionTierAvailable < 2)
+                {
+                    Console.WriteLine("2. Buy simple Healing Potion (100 bronze)");
+                    Console.WriteLine("3. Buy simple Mana Potion (120 bronze)");
+                }
+                Console.WriteLine("4. Sell Item");
+                Console.WriteLine("5. Leave");
 
-            Console.Write("Choice: ");
-            string? choice = Console.ReadLine()?.Trim();
+                Console.Write("Choice: ");
+                string? choice = Console.ReadLine()?.Trim();
 
-            switch (choice)
-            {
-                case "1":
-                    player.CurrentHealth = player.Stats.MaxHealth;
-                    player.CurrentMana = player.Stats.MaxMana;
-                    Console.WriteLine("✨ You are fully healed.");
-                    break;
-                case "2":
-                    TryBuyItem(ItemFactory.CreateItem("t1_healing_potion"), 100, ref player);
-                    break;
-                case "3":
-                    TryBuyItem(ItemFactory.CreateItem("t1_mana_potion"), 120, ref player);
-                    break;
-                case "4":
-                    SellItem(player);
-                    break;
-                default:
-                    Console.WriteLine("You leave the healer.");
-                    break;
+                switch (choice)
+                {
+                    case "1":
+                        player.CurrentHealth = player.Stats.MaxHealth;
+                        player.CurrentMana = player.Stats.MaxMana;
+                        Console.WriteLine("✨ You are fully healed.");
+                        break;
+                    case "2":
+                        TryBuyItem(ItemFactory.CreateItem("t1_healing_potion"), 100, ref player);
+                        break;
+                    case "3":
+                        TryBuyItem(ItemFactory.CreateItem("t1_mana_potion"), 120, ref player);
+                        break;
+                    case "4":
+                        SellItem(player);
+                        break;
+                    case "5":
+                        Console.WriteLine("You leave the healer.");
+                        return;
+                    default:
+                        Console.WriteLine("❌ Wrong input");
+                        break;
+                }
+
             }
 
         }
@@ -293,45 +348,54 @@ namespace ConsoleWorldRPG.Entities.NPCs
         /// <param name="player">player character</param>
         private static void SellItem(Player player)
         {
-            player.Inventory.ListItems();
-            Console.Write("Enter the item name to sell: ");
-            string? itemName = Console.ReadLine()?.Trim();
-
-            var item = InventoryUtils.ResolveInventoryItem(itemName, player);
-
-            if (item == null)
+            while (true)
             {
-                Console.WriteLine($"❌ You don't have an item named '{itemName}'.");
-                return;
-            }
+                player.Inventory.ListItems();
+                Console.Write("Enter the item name to sell or type back to exit: ");
+                string? itemName = Console.ReadLine()?.Trim();
 
-            Console.WriteLine($"You have {item.StackSize}x {item.Name}. Each sells for {item.SellValue} bronze.");
-            Console.Write("How many would you like to sell? ");
-            if (!int.TryParse(Console.ReadLine(), out int amount) || amount <= 0 || amount > item.StackSize)
-            {
-                Console.WriteLine("Invalid quantity.");
-                return;
-            }
+                if (itemName == "back" || itemName == "exit" || itemName == "0")
+                    return;
 
-            int total = amount * item.SellValue;
-            Console.Write($"Sell {amount}x {item.Name} for {total} bronze? (yes/no): ");
-            string? confirm = Console.ReadLine()?.Trim().ToLower();
+                var item = InventoryUtils.ResolveInventoryItem(itemName, player);
 
-            if (confirm == "yes" || confirm == "y")
-            {
-                if (player.Inventory.SellItem(itemName, amount, ref player))
+                if (item == null)
                 {
-                    Console.WriteLine($"🪙 Sold {amount}x {item.Name} for {total} bronze.");
+                    Console.WriteLine($"❌ You don't have an item named '{itemName}'.");
+                    continue;
+                }
+
+                Console.WriteLine($"You have {item.StackSize}x {item.Name}. Each sells for {item.SellValue} bronze.");
+                Console.Write("How many would you like to sell? ");
+
+                if (!int.TryParse(Console.ReadLine(), out int amount) || amount <= 0 || amount > item.StackSize)
+                {
+                    Console.WriteLine("❌ Invalid quantity.");
+                    continue;
+                }
+
+                int total = amount * item.SellValue;
+                Console.Write($"Sell {amount}x {item.Name} for {total} bronze? (yes/no): ");
+                string? confirm = Console.ReadLine()?.Trim().ToLower();
+
+                if (confirm == "yes" || confirm == "y")
+                {
+                    if (player.Inventory.SellItem(itemName, amount, ref player))
+                    {
+                        Console.WriteLine($"🪙 Sold {amount}x {item.Name} for {total} bronze.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("❌ Something went wrong while selling.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("❌ Something went wrong while selling.");
+                    Console.WriteLine("Cancelled.");
                 }
+
             }
-            else
-            {
-                Console.WriteLine("Cancelled.");
-            }
+
         }
         /// <summary>
         /// Checks if the selected item to buy can be bought and adds it to the player's inventory
@@ -348,7 +412,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
                     Console.WriteLine("❌ Inventory full!");
             }
             else
-                Console.WriteLine("Not enough money.");
+                Console.WriteLine("❌ Not enough money.");
         }
         public static void SkillMasterMenu(Player player)
         {
@@ -357,7 +421,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
             var baseSkills = SkillFactory.GetBaseSkillsFor(player);
             if (!baseSkills.Any())
             {
-                Console.WriteLine("You don't know any base skills yet.");
+                Console.WriteLine("❌ You don't know any base skills yet.");
                 return;
             }
 

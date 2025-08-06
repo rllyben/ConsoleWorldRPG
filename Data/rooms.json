@@ -192,10 +192,36 @@
     "Name": "Lumina's Rise",
     "Description": "A peaceful hilltop city where adventureres begin their journey.",
     "IsCity": true,
-    "Npcs": ["Healer", "Smith", "Quest Board"],
+    "Npcs": ["Healer", "Quest Board"],
     "ExitIds":
     {
-      "south": 5
+      "south": 5,
+      "north": 12,
+      "east": 13
+    }
+
+  },
+  {
+    "Id": 12,
+    "Name": "Lumina Northern Gate",
+    "Description": "The northern gate of the city, you can hear the sound of a smith hammering away at the metal.",
+    "IsCity": true,
+    "Npcs": ["Smith"],
+    "ExitIds":
+    {
+      "south": 11
+    }
+
+  },
+  {
+    "Id": 13,
+    "Name": "Lumina Eastern Gate",
+    "Description": "The eastern Gate of the City, you can hear the sounds of the Forest Edge. Many adventurers are passing by.",
+    "IsCity": true,
+    "Npcs": ["Quest Board"],
+    "ExitIds":
+    {
+      "west": 11
     }
 
   }

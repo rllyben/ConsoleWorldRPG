@@ -27,10 +27,10 @@
     "SlotType": 2,
     "BuyPrice": 38750,
     "AllowedClasses": [ "ArcanMage", "ElementalMage", "Druid", "SoulsKnight" ],
-    "BonusMATK": 160,
-    "BonusMDEF": 65,
-    "BonusSPR": 18,
-    "BonusINT": 10,
+    "BaseBonusMATK": 160,
+    "BaseBonusMDEF": 65,
+    "BaseBonusSPR": 18,
+    "BaseBonusINT": 10,
     "MaxStackSize": 1,
     "Rarity": "Legendary"
   },
@@ -40,9 +40,10 @@
     "SlotType": 0,
     "MaxStackSize": 1,
     "AllowedClasses": ["Rogue"],
-    "BonusATK": 3,
-    "BonusDEX": 5,
+    "BaseBonusATK": 3,
+    "BaseBonusDEX": 5,
     "BuyPrice": 50,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -51,8 +52,9 @@
     "SlotType": 1,
     "MaxStackSize": 1,
     "AllowedClasses": ["Rogue"],
-    "BonusEvasion": 6,
+    "BaseBonusEvasion": 6,
     "BuyPrice": 45,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -61,8 +63,9 @@
     "SlotType": 2,
     "MaxStackSize": 1,
     "AllowedClasses": ["Rogue"],
-    "BonusCrit": 10,
+    "BaseBonusCrit": 10,
     "BuyPrice": 70,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -74,8 +77,8 @@
     "MaxStackSize": 1,
     "SlotType": 0,
     "BuyPrice": 300,
-    "BonusATK": 15,
-    "BonusAim": 7,
+    "BaseBonusATK": 15,
+    "BaseBonusAim": 7,
     "AllowedClasses": [ "Knight", "Barbarian", "Fighter" ]
   },
   {
@@ -84,8 +87,9 @@
     "SlotType": 1,
     "AllowedClasses": ["Knight, Fighter"],
     "MaxStackSize": 1,
-    "BonusDEF": 5,
+    "BaseBonusDEF": 5,
     "BuyPrice": 45,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -94,8 +98,9 @@
     "SlotType": 2,
     "AllowedClasses": ["Knight, Fighter"],
     "MaxStackSize": 1,
-    "BonusHP": 20,
+    "BaseBonusHP": 20,
     "BuyPrice": 55,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -104,9 +109,10 @@
     "SlotType": 1,
     "AllowedClasses": ["Barbarian"],
     "MaxStackSize": 1,
-    "BonusDEF": 2,
-    "BonusEND": 1,
+    "BaseBonusDEF": 2,
+    "BaseBonusEND": 1,
     "BuyPrice": 40,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -115,8 +121,9 @@
     "SlotType": 2,
     "AllowedClasses": ["Barbarian"],
     "MaxStackSize": 1,
-    "BonusSTR": 2,
+    "BaseBonusSTR": 2,
     "BuyPrice": 65,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -128,8 +135,8 @@
     "MaxStackSize": 1,
     "SlotType": 0,
     "BuyPrice": 280,
-    "BonusATK": 10,
-    "BonusAim": 12,
+    "BaseBonusATK": 10,
+    "BaseBonusAim": 12,
     "AllowedClasses": [ "Archer", "Hunter" ]
   },
   {
@@ -138,9 +145,10 @@
     "MaxStackSize": 1,
     "SlotType": 1,
     "AllowedClasses": ["Archer"],
-    "BonusEvasion": 3,
-    "BonusDEX": 2,
+    "BaseBonusEvasion": 3,
+    "BaseBonusDEX": 2,
     "BuyPrice": 45,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -149,8 +157,9 @@
     "MaxStackSize": 1,
     "SlotType": 2,
     "AllowedClasses": ["Archer"],
-    "BonusAim": 4,
+    "BaseBonusAim": 4,
     "BuyPrice": 60,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -159,9 +168,10 @@
   "MaxStackSize": 1,
   "SlotType": 0,
   "AllowedClasses": ["Hunter"],
-  "BonusATK": 4,
-  "BonusDEX": 5,
+  "BaseBonusATK": 4,
+  "BaseBonusDEX": 5,
   "BuyPrice": 55,
+    "Type": "equipment",
   "Rarity": "Common"
   },
   {
@@ -170,9 +180,10 @@
     "MaxStackSize": 1,
     "SlotType": 1,
     "AllowedClasses": ["Hunter"],
-    "BonusEvasion": 8,
-    "BonusAim": 4,
+    "BaseBonusEvasion": 8,
+    "BaseBonusAim": 4,
     "BuyPrice": 45,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -181,8 +192,8 @@
   "MaxStackSize": 1,
   "SlotType": 0,
   "AllowedClasses": ["Fighter"],
-  "BonusATK": 10,
-  "BonusSTR": 3,
+  "BaseBonusATK": 10,
+  "BaseBonusSTR": 3,
   "BuyPrice": 55,
   "Rarity": "Common"
   },
@@ -192,9 +203,10 @@
     "MaxStackSize": 1,
     "SlotType": 1,
     "AllowedClasses": ["Fighter"],
-    "BonusDEF": 10,
-    "BonusEND": 3,
+    "BaseBonusDEF": 10,
+    "BaseBonusEND": 3,
     "BuyPrice": 50,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -203,9 +215,10 @@
     "MaxStackSize": 1,
     "SlotType": 2,
     "AllowedClasses": ["Fighter"],
-    "BonusHP": 7,
-    "BonusMana": 5,
+    "BaseBonusHP": 7,
+    "BaseBonusMana": 5,
     "BuyPrice": 60,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -214,8 +227,8 @@
   "MaxStackSize": 1,
   "SlotType": 0,
   "AllowedClasses": ["Cleric"],
-  "BonusATK": 3,
-  "BonusAim": 2,
+  "BaseBonusATK": 3,
+  "BaseBonusAim": 2,
   "BuyPrice": 55,
   "Rarity": "Common"
   },
@@ -225,9 +238,10 @@
     "MaxStackSize": 1,
     "SlotType": 1,
     "AllowedClasses": ["Cleric"],
-    "BonusDEF": 6,
-    "BonusSPR": 3,
+    "BaseBonusDEF": 6,
+    "BaseBonusSPR": 3,
     "BuyPrice": 45,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -236,9 +250,10 @@
     "MaxStackSize": 1,
     "SlotType": 2,
     "AllowedClasses": ["Cleric"],
-    "BonusHP": 10,
-    "BonusMana": 20,
+    "BaseBonusHP": 10,
+    "BaseBonusMana": 20,
     "BuyPrice": 60,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -247,8 +262,9 @@
     "MaxStackSize": 1,
     "SlotType": 2,
     "AllowedClasses": ["Hunter"],
-    "BonusAim": 4,
+    "BaseBonusAim": 4,
     "BuyPrice": 60,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -261,8 +277,8 @@
     "SlotType": 0,
     "BuyPrice": 500,
     "AllowedClasses": [ "ArcanMage", "ElementalMage" ],
-    "BonusMATK": 20,
-    "BonusAim": 5
+    "BaseBonusMATK": 20,
+    "BaseBonusAim": 5
   },
   {
     "Id": "storm_robes",
@@ -274,9 +290,9 @@
     "SlotType": 1,
     "BuyPrice": 450,
     "AllowedClasses": [ "ElementalMage", "Druid" ],
-    "BonusMATK": 10,
-    "BonusMDEF": 15,
-    "BonusEvasion": 8
+    "BaseBonusMATK": 10,
+    "BaseBonusMDEF": 15,
+    "BaseBonusEvasion": 8
   },
   {
   "Id": "starter_branch",
@@ -284,9 +300,10 @@
     "MaxStackSize": 1,
   "SlotType": 0,
   "AllowedClasses": ["Druid"],
-  "BonusMATK": 4,
-  "BonusSPR": 5,
+  "BaseBonusMATK": 4,
+  "BaseBonusSPR": 5,
   "BuyPrice": 50,
+    "Type": "equipment",
   "Rarity": "Common"
   },
   {
@@ -295,10 +312,11 @@
     "MaxStackSize": 1,
     "SlotType": 1,
     "AllowedClasses": ["Druid"],
-    "BonusMDEF": 3,
-    "BonusEND": 1,
-    "BonusSPR": 2,
+    "BaseBonusMDEF": 3,
+    "BaseBonusEND": 1,
+    "BaseBonusSPR": 2,
     "BuyPrice": 45,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -307,8 +325,9 @@
     "MaxStackSize": 1,
     "SlotType": 2,
     "AllowedClasses": ["Druid"],
-    "BonusHP": 15,
+    "BaseBonusHP": 15,
     "BuyPrice": 55,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -321,9 +340,9 @@
     "SlotType": 2,
     "BuyPrice": 300,
     "AllowedClasses": [ "ElementalMage" ],
-    "BonusMATK": 5,
-    "BonusINT": 2,
-    "BonusSPR": 1
+    "BaseBonusMATK": 5,
+    "BaseBonusINT": 2,
+    "BaseBonusSPR": 1
   },
   {
     "Id": "mage_robe",
@@ -331,9 +350,10 @@
     "SlotType": 1,
     "AllowedClasses": ["ArcanMage", "ElementalMage"],
     "MaxStackSize": 1,
-    "BonusMDEF": 3,
-    "BonusSPR": 1,
+    "BaseBonusMDEF": 3,
+    "BaseBonusSPR": 1,
     "BuyPrice": 40,
+    "Type": "equipment",
    "Rarity": "Common"
   },
   {
@@ -342,7 +362,8 @@
     "SlotType": 2,
     "AllowedClasses": ["ArcanMage", "ElementalMage", "SoulsKnight"],
     "MaxStackSize": 1,
-    "BonusMana": 25,
+    "BaseBonusMana": 25,
+    "Type": "equipment",
     "Rarity": "Common",
     "BuyPrice": 60
   },
@@ -352,9 +373,10 @@
   "MaxStackSize": 1,
   "SlotType": 0,
   "AllowedClasses": ["SoulsKnight"],
-  "BonusATK": 3,
-  "BonusMATK": 3,
+  "BaseBonusATK": 3,
+  "BaseBonusMATK": 3,
   "BuyPrice": 60,
+    "Type": "equipment",
   "Rarity": "Common"
   },
   {
@@ -363,9 +385,10 @@
     "MaxStackSize": 1,
     "SlotType": 1,
     "AllowedClasses": ["SoulsKnight"],
-    "BonusDEF": 4,
-    "BonusMDEF": 4,
+    "BaseBonusDEF": 4,
+    "BaseBonusMDEF": 4,
     "BuyPrice": 60,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -374,9 +397,10 @@
     "MaxStackSize": 1,
     "SlotType": 2,
     "AllowedClasses": ["SoulsKnight"],
-    "BonusMana": 25,
-    "BonusINT": 1,
+    "BaseBonusMana": 25,
+    "BaseBonusINT": 1,
     "BuyPrice": 65,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -485,9 +509,9 @@
     "Type": "equipment",
     "SlotType": 0,
     "BuyPrice": 100,
-    "BonusATK": 24,
-    "BonusAim": 3,
-    "BonusCrit": 5,
+    "BaseBonusATK": 24,
+    "BaseBonusAim": 3,
+    "BaseBonusCrit": 5,
     "AllowedClasses": ["Barbarian"],
     "MaxStackSize": 1
   },

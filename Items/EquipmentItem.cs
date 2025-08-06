@@ -15,11 +15,25 @@ namespace ConsoleWorldRPG.Items
         public EquipmentType SlotType { get; set; }
         public override int BuyPrice { get; set; } = 300; // base cost
 
-        public int BaseBonusATK, BaseBonusDEF, BaseBonusMATK, BaseBonusMDEF;
-        public int BaseBonusAim, BaseBonusEvasion;
-        public int BaseBonusSTR, BaseBonusDEX, BaseBonusEND, BaseBonusINT, BaseBonusSPR;
+        public int BaseBonusHP { get; set; }
+        public int BaseBonusMP { get; set; }
+        public int BaseBonusATK { get; set; }
+        public int BaseBonusDEF { get; set; }
+        public int BaseBonusMATK { get; set; }
+        public int BaseBonusMDEF { get; set; }
+        public int BaseBonusAim { get; set; }
+        public int BaseBonusEvasion { get; set; }
+        public float BaseBonusCrit { get; set; }
+        public float BaseBonusBlock { get; set; }
+        public int BaseBonusSTR { get; set; }
+        public int BaseBonusDEX { get; set; }
+        public int BaseBonusEND { get; set; }
+        public int BaseBonusINT { get; set; }
+        public int BaseBonusSPR { get; set; }
 
         // Core stat bonuses (used by rare/special gear)
+        public int BonusHP { get; set; }
+        public int BonusMP { get; set; }
         public int BonusSTR { get; set; }
         public int BonusDEX { get; set; }
         public int BonusEND { get; set; }
@@ -64,11 +78,19 @@ namespace ConsoleWorldRPG.Items
                 Console.WriteLine($"❌ You need an {requiredItemId.Replace("_", " ")} to upgrade this item.");
                 return false;
             }
-
-            player.Inventory.RemoveItem(material);
+            if (material.StackSize < 2)
+                player.Inventory.RemoveItem(material);
+            else
+                material.StackSize--;
 
             UpgradeLevel++;
-            float multiplier = 1 + UpgradeLevel * 0.1f;
+            float multiplier = 1.1f;
+            if (UpgradeLevel < 4)
+                multiplier = 1 + (UpgradeLevel * 0.1f);
+            else if (UpgradeLevel < 7)
+                multiplier = 1 + (UpgradeLevel * 0.3f);
+            else if (UpgradeLevel < 10)
+                multiplier = 1 + (UpgradeLevel * 0.7f);
 
             BonusATK = (int)(BaseBonusATK * multiplier);
             BonusDEF = (int)(BaseBonusDEF * multiplier);
@@ -81,6 +103,8 @@ namespace ConsoleWorldRPG.Items
             BonusEND = (int)(BaseBonusEND * multiplier);
             BonusINT = (int)(BaseBonusINT * multiplier);
             BonusSPR = (int)(BaseBonusSPR * multiplier);
+            BonusHP = (int)(BaseBonusHP * multiplier);
+            BonusMP = (int)(BaseBonusMP * multiplier);
 
             return true;
         }

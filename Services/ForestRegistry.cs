@@ -1,20 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Entities.RoomTypes;
-using System.Text.Json;
 
 namespace ConsoleWorldRPG.Services
 {
-    public static class CaveRegistry
+    public static class ForestRegistry
     {
-        private static Dictionary<string, Cave> _caves = new();
+        private static Dictionary<string, Forest> _caves = new();
         /// <summary>
         /// loads all dungons
         /// </summary>
         /// <param name="path">path to an dungon file, default is Data/dungeons.json</param>
-        public static void Load(string path = "Data/caves.json")
+        public static void Load(string path = "Data/forests.json")
         {
             var json = File.ReadAllText(path);
-            var list = JsonSerializer.Deserialize<List<Cave>>(json);
+            var list = JsonSerializer.Deserialize<List<Forest>>(json);
             _caves = list.ToDictionary(d => d.Id);
         }
         /// <summary>
@@ -22,7 +27,7 @@ namespace ConsoleWorldRPG.Services
         /// </summary>
         /// <param name="room">a room of the dungeon</param>
         /// <returns>the found dungon or null</returns>
-        public static Cave? GetCaveByRoom(Room room)
+        public static Forest? GetForestByRoom(Room room)
         {
             return _caves.Values.FirstOrDefault(d => d.ContainsRoom(room));
         }
@@ -31,10 +36,10 @@ namespace ConsoleWorldRPG.Services
         /// </summary>
         /// <param name="id">the dungon id of the wanted dungeon</param>
         /// <returns>the found dungeon or null</returns>
-        public static Cave? GetCaveById(string id) =>
+        public static Forest? GetForestById(string id) =>
             _caves.TryGetValue(id, out var d) ? d : null;
-        public static Cave? GetCaveByName(string name) =>
-            _caves.Values.FirstOrDefault(c => c.Name.ToLower() == name);
+        public static Forest? GetForestByName(string name) =>
+            _caves.Values.FirstOrDefault(f => f.Name.ToLower() == name);
     }
 
 }
