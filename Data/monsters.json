@@ -191,5 +191,39 @@
     "BaseMana": 30
     }
 
+  },
+  {
+  "Id": 12,
+  "Name": "Maka Maka Scout",
+  "Description": "A Lizardman from the Maka Maka folk, an Scout looking for prey for the hunters.", 
+  "Type": 4,
+  "Exp": 56,
+  "Stats": {
+    "Strength": 58,
+    "Dexterity": 102,
+    "Endurance": 63,
+    "Intelligence": 54,
+    "Spirit": 76,
+    "BaseHealth": 30,
+    "BaseMana": 20
+    }
+
+  },
+  {
+  "Id": 13,
+  "Name": "River Spirit",
+  "Description": "An powerful waterspirit learking in unaware travellers.",
+  "Type": 1,
+  "Exp": 71,
+  "Stats": {
+    "Strength": 66,
+    "Dexterity": 82,
+    "Endurance": 77,
+    "Intelligence": 104,
+    "Spirit": 93,
+    "BaseHealth": 35,
+    "BaseMana": 40
+    }
+
   }
 ]
