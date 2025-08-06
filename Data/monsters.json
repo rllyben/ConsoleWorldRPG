@@ -140,5 +140,56 @@
       "BaseMana": 20
     }
   
+  },
+  {
+    "Id": 9,
+    "Name": "Forest Spider",
+    "Description": "An large green Spider that hides in the bushes zo ambush it's prey.",
+    "Type": 0,
+    "Exp": 133,
+    "Stats": {
+      "Strength": 187,
+      "Dexterity": 165,
+      "Endurance": 209,
+      "Intelligence": 132,
+      "Spirit": 176,
+      "BaseHealth": 40,
+      "BaseMana": 20
+     }
+
+  },
+  {
+    "Id": 10,
+    "Name": "River Raptor"
+    "Description": "An Bird of prey that hunts unaware souls from the riverbank",
+    "Type": 0,
+    "Exp": ,
+    "Stats": {
+      "Strength": 90,
+      "Dexterity": 76,
+      "Endurance": 49,
+      "Intelligence": 65,
+      "Spirit": 45,
+      "BaseHealth": 20,
+      "BaseMana": 10
+    }
+
+  },
+  {
+  "Id": 11,
+  "Name": "Maka Maka Hunter"
+  "Description": "A Lizardman from the Maka Maka folk, an good Hunter home to the Cera Valley."
+  "Type": 4,
+  "Exp": ,
+  "Stats": {
+    "Strength": 93,
+    "Dexterity": 104,
+    "Endurance": 88,
+    "Intelligence": 88,
+    "Spirit": 94,
+    "BaseHealth": 35,
+    "BaseMana": 30
+    }
+
   }
 ]
