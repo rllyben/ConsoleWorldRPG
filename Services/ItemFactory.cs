@@ -22,7 +22,7 @@ namespace ConsoleWorldRPG.Services
             _itemDefs = list.ToDictionary(i => i.Id, i => i);
         }
 
-        public static Item CreateItem(string id)
+        public static Item CreateItem(string id, int stackSize = 1)
         {
             if (!_itemDefs.TryGetValue(id, out var def))
                 throw new Exception($"Item with ID '{id}' not found.");
@@ -40,8 +40,10 @@ namespace ConsoleWorldRPG.Services
                 item.Rarity = parsed;
             else
                 item.Rarity = ItemRarity.Common; // fallback
-
+            if (stackSize == 1)
                 item.StackSize = def.StackSize > 0 ? def.StackSize : 1;
+            else
+                item.StackSize = stackSize;
 
             return item;
         }

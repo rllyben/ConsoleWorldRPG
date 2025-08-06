@@ -17,7 +17,7 @@ namespace ConsoleWorldRPG.Models
             Description = def.Description;
             HealAmount = def.HealAmount;
             ManaRestore = def.ManaRestore;
-            StackSize = 1;
+            StackSize = def.StackSize;
             _buyPrice = def.BuyPrice;
             _maxStack = def.MaxStackSize;
         }

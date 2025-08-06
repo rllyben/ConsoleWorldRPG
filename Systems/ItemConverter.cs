@@ -19,10 +19,13 @@ namespace ConsoleWorldRPG.Systems
 
             if (!root.TryGetProperty("Id", out var idProp))
                 throw new JsonException("Missing 'Id' field in item.");
+            int stackSize = 1;
+            if (doc.RootElement.TryGetProperty("StackSize", out var stackSizeProp))
+                stackSize = stackSizeProp.GetInt32(); // ✅ apply saved value
 
             string id = idProp.GetString();
 
-            return ItemFactory.CreateItem(id);
+            return ItemFactory.CreateItem(id, stackSize);
         }
 
         public override void Write(Utf8JsonWriter writer, Item value, JsonSerializerOptions options)

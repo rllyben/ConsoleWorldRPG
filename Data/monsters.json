@@ -119,10 +119,26 @@
     "UniqueLootTable": [
       {
         "ItemId": "soulbound_phylactery",
-        "DropChance": 1.00
+        "DropChance": 0.05
       }
     ]
 
-  }
+  },
+  {
+    "Id": 8,
+    "Name": "Thornhopper",
+    "Description": "A large, spiny frog that ambushes its prey.",
+    "Type": 0,
+    "Exp": 42,
+    "Stats": {
+      "Strength": 63,
+      "Dexterity": 48,
+      "Endurance": 35,
+      "Intelligence": 35,
+      "Spirit": 49,
+      "BaseHealth": 50,
+      "BaseMana": 20
+    }
   
+  }
 ]

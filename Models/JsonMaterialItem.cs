@@ -14,7 +14,7 @@ namespace ConsoleWorldRPG.Models
             Id = def.Id;
             Name = def.Name;
             Description = def.Description;
-            StackSize = 1;
+            StackSize = def.StackSize;
             _buyPrice = def.BuyPrice;
             _maxStack = def.MaxStackSize;
         }

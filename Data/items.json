@@ -216,7 +216,7 @@
     "SlotType": 2,
     "AllowedClasses": ["Fighter"],
     "BaseBonusHP": 7,
-    "BaseBonusMana": 5,
+    "BaseBonusMP": 5,
     "BuyPrice": 60,
     "Type": "equipment",
     "Rarity": "Common"
@@ -251,7 +251,7 @@
     "SlotType": 2,
     "AllowedClasses": ["Cleric"],
     "BaseBonusHP": 10,
-    "BaseBonusMana": 20,
+    "BaseBonusMP": 20,
     "BuyPrice": 60,
     "Type": "equipment",
     "Rarity": "Common"
@@ -362,7 +362,7 @@
     "SlotType": 2,
     "AllowedClasses": ["ArcanMage", "ElementalMage", "SoulsKnight"],
     "MaxStackSize": 1,
-    "BaseBonusMana": 25,
+    "BaseBonusMP": 25,
     "Type": "equipment",
     "Rarity": "Common",
     "BuyPrice": 60

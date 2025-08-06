@@ -16,7 +16,7 @@ namespace ConsoleWorldRPG.Models
             Id = def.Id;
             Name = def.Name;
             Description = def.Description;
-            StackSize = 1;
+            StackSize = def.StackSize;
             MaxStackSize = def.MaxStackSize;
             BuyPrice = def.BuyPrice;
             SlotType = Enum.Parse<EquipmentType>(def.SlotType.ToString());
