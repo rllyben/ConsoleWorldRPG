@@ -160,10 +160,10 @@
   },
   {
     "Id": 10,
-    "Name": "River Raptor"
+    "Name": "River Raptor",
     "Description": "An Bird of prey that hunts unaware souls from the riverbank",
     "Type": 0,
-    "Exp": ,
+    "Exp": 51,
     "Stats": {
       "Strength": 90,
       "Dexterity": 76,
@@ -176,53 +176,70 @@
 
   },
   {
-  "Id": 11,
-  "Name": "Maka Maka Hunter"
-  "Description": "A Lizardman from the Maka Maka folk, an good Hunter home to the Cera Valley.",
-  "Type": 4,
-  "Exp": ,
-  "Stats": {
-    "Strength": 93,
-    "Dexterity": 104,
-    "Endurance": 88,
-    "Intelligence": 88,
-    "Spirit": 94,
-    "BaseHealth": 35,
-    "BaseMana": 30
+    "Id": 11,
+    "Name": "Maka Maka Hunter",
+    "Description": "A Lizardman from the Maka Maka folk, an good Hunter home to the Cera Valley.",
+    "Type": 4,
+    "Exp": 76,
+    "Stats": {
+      "Strength": 93,
+      "Dexterity": 104,
+      "Endurance": 88,
+      "Intelligence": 88,
+      "Spirit": 94,
+      "BaseHealth": 35,
+      "BaseMana": 30
     }
 
   },
   {
-  "Id": 12,
-  "Name": "Maka Maka Scout",
-  "Description": "A Lizardman from the Maka Maka folk, an Scout looking for prey for the hunters.", 
-  "Type": 4,
-  "Exp": 56,
-  "Stats": {
-    "Strength": 58,
-    "Dexterity": 102,
-    "Endurance": 63,
-    "Intelligence": 54,
-    "Spirit": 76,
-    "BaseHealth": 30,
-    "BaseMana": 20
+    "Id": 12,
+    "Name": "Maka Maka Scout",
+    "Description": "A Lizardman from the Maka Maka folk, an Scout looking for prey for the hunters.", 
+    "Type": 4,
+    "Exp": 56,
+    "Stats": {
+      "Strength": 58,
+      "Dexterity": 102,
+      "Endurance": 63,
+      "Intelligence": 54,
+      "Spirit": 76,
+      "BaseHealth": 30,
+      "BaseMana": 20
     }
 
   },
   {
-  "Id": 13,
-  "Name": "River Spirit",
-  "Description": "An powerful waterspirit learking in unaware travellers.",
-  "Type": 1,
-  "Exp": 71,
-  "Stats": {
-    "Strength": 66,
-    "Dexterity": 82,
-    "Endurance": 77,
-    "Intelligence": 104,
-    "Spirit": 93,
-    "BaseHealth": 35,
-    "BaseMana": 40
+    "Id": 13,
+    "Name": "River Spirit",
+    "Description": "An powerful waterspirit learking in unaware travellers.",
+    "Type": 1,
+    "Exp": 71,
+    "Stats": {
+      "Strength": 66,
+      "Dexterity": 82,
+      "Endurance": 77,
+      "Intelligence": 104,
+      "Spirit": 93,
+      "BaseHealth": 35,
+      "BaseMana": 40
+    }
+
+  },
+  {
+    "Id": 14,
+    "Name": "Mossback Boar",
+    "Description": "A thick-skinned boar with moss and fungus on its back.",
+    "Type": 0,
+    "Exp": 79,
+    "Stats": {
+      "Strength": 108,
+      "Dexterity": 84,
+      "Endurance": 124,
+      "Intelligence": 72,
+      "Spirit": 82,
+      "BaseHealth": 50,
+      "BaseMana": 30
     }
 
   }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ namespace ConsoleWorldRPG.Services
             if (!_itemDefs.TryGetValue(id, out var def))
                 throw new Exception($"Item with ID '{id}' not found.");
 
+            SetItemBonuses(def);
+
             Item item = def.Type switch
             {
                 "consumable" => new JsonConsumableItem(def),
@@ -40,11 +43,11 @@ namespace ConsoleWorldRPG.Services
                 item.Rarity = parsed;
             else
                 item.Rarity = ItemRarity.Common; // fallback
+
             if (stackSize == 1)
                 item.StackSize = def.StackSize > 0 ? def.StackSize : 1;
             else
                 item.StackSize = stackSize;
-
             return item;
         }
         public static bool TryCreateItem(string id, out Item item)
@@ -71,6 +74,24 @@ namespace ConsoleWorldRPG.Services
                 .Where(def => def.Type == "equipment" && (def.AllowedClasses.Contains(player.Class.ToString()) && def.Rarity == "Common"))
                 .Select(def => CreateItem(def.Id))
                 .ToList();
+        }
+        private static void SetItemBonuses(GameItem item)
+        {
+            item.BonusCrit = item.BaseBonusCrit;
+            item.BonusBlock = item.BaseBonusBlock;
+            item.BonusSTR = item.BaseBonusSTR;
+            item.BonusDEX = item.BaseBonusDEX;
+            item.BonusEND = item.BaseBonusEND;
+            item.BonusINT = item.BaseBonusINT;
+            item.BonusSPR = item.BaseBonusSPR;
+            item.BonusHP = item.BaseBonusHP;
+            item.BonusMP = item.BaseBonusMP;
+            item.BonusAim = item.BaseBonusAim;
+            item.BonusEvasion = item.BaseBonusEvasion;
+            item.BonusATK = item.BaseBonusATK;
+            item.BonusDEF = item.BaseBonusDEF;
+            item.BonusMATK = item.BaseBonusMATK;
+            item.BonusMDEF = item.BaseBonusMDEF;
         }
 
     }

@@ -25,7 +25,8 @@ namespace ConsoleWorldRPG.Entities
         public MoneyBag Money { get; set; } = new(); 
         public List<Skill> Skills => SkillFactory.GetSkillsFor(this); 
         public List<Quest> ActiveQuests { get; set; } = new();
-        public List<Quest> CompletedQuests { get; set; } = new();
+        public List<Quest> CompletedQuests { get; set; } = new(); 
+        public Dictionary<int, DateTime> RoomGatheringStatus { get; set; } = new();
 
         [JsonIgnore]
         public Room CurrentRoom { get; set; }

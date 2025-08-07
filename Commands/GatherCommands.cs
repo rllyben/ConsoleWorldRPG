@@ -20,8 +20,11 @@ namespace ConsoleWorldRPG.Commands
         {
             if (!input.StartsWith("gather ")) return false;
 
-            if (player.CurrentRoom.GathersRemaining <= 0)
+            if (player.CurrentRoom.GathersRemaining < 1 || player.RoomGatheringStatus.TryGetValue(player.CurrentRoom.Id, out var lastGatherTime) && lastGatherTime == DateTime.Now.Date)
             {
+                if (player.CurrentRoom.GathersRemaining < 1) 
+                    player.RoomGatheringStatus[player.CurrentRoom.Id] = DateTime.Now;
+
                 Console.WriteLine("🪓 You've already gathered everything useful here for today.");
                 return true;
             }

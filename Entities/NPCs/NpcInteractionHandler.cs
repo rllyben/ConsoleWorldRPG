@@ -365,6 +365,8 @@ namespace ConsoleWorldRPG.Entities.NPCs
                     continue;
                 }
 
+                itemName = item.Name;
+
                 Console.WriteLine($"You have {item.StackSize}x {item.Name}. Each sells for {item.SellValue} bronze.");
                 Console.Write("How many would you like to sell? ");
 

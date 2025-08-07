@@ -36,8 +36,8 @@ namespace ConsoleWorldRPG.Models
         public int BonusMATK { get; set; }
         public int BonusMDEF { get; set; }
         public int BonusAim { get; set; }
-        public int BonusCrit { get; set; }
-        public int BonusBlock { get; set; }
+        public float BonusCrit { get; set; }
+        public float BonusBlock { get; set; }
         public int BonusEvasion { get; set; }
         public int BaseBonusATK { get; set; }
         public int BaseBonusDEF { get; set; }

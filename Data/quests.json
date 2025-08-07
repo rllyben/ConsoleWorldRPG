@@ -38,5 +38,32 @@
     "RequiredItems": {},
     "RewardXp": 150,
     "RewardGold": 250
+  },
+  {
+    "Id": "lizzard_raids_1",
+    "Name": "Unsave Roads",
+    "Description": "The Maka Maka make the northwest road between Lumina and Ceralith unsave for travelers, we have to push them back!",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 10,
+    "RequiredKills": {
+      "11": 15,
+      "12": 10
+    },
+    "RequiredItems": {},
+    "RewardXp": 630,
+    "RewardGold": 520
+  },
+  {
+    "Id": "boar_hunting",
+    "Name": "Dangerous Boars",
+    "Description": "The Townsfolk is worried about the Mossy Boars, please kille a few so they can feel save again.",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 15,
+    "RequiredKills": {
+      "14": 25
+    },
+    "RequiredItems": {},
+    "RewardXp": 3840,
+    "RewardGold": 1250
   }
 ]

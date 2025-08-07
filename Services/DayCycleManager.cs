@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Enums;
+using ConsoleWorldRPG.Systems;
 
 namespace ConsoleWorldRPG.Services
 {
@@ -11,13 +13,15 @@ namespace ConsoleWorldRPG.Services
     {
         private static DateOnly _lastDay; 
         private static bool _running = false;
+        private static GameStatus _gameStatus = new();
         public static TimeSegment CurrentTimeSegment { get; private set; }
         /// <summary>
         /// initialises the session time
         /// </summary>
-        public static void Initialize()
+        public static void Initialize(Player player)
         {
             var now = DateTime.Now;
+
             _lastDay = DateOnly.FromDateTime(now);
             UpdateTimeSegment(now.Hour);
 
@@ -35,7 +39,7 @@ namespace ConsoleWorldRPG.Services
         /// starts the background time sync
         /// </summary>
         /// <param name="intervalMs"></param>
-        public static void StartBackgroundLoop(int intervalMs = 30000)
+        public static void StartBackgroundLoop(Player player, int intervalMs = 30000)
         {
             if (_running) return;
             _running = true;
@@ -46,7 +50,7 @@ namespace ConsoleWorldRPG.Services
                 {
                     try
                     {
-                        Update();
+                        Update(player);
                     }
                     catch (Exception ex)
                     {
@@ -62,7 +66,7 @@ namespace ConsoleWorldRPG.Services
         /// <summary>
         /// Updates the Session time
         /// </summary>
-        public static void Update()
+        public static void Update(Player player)
         {
             var now = DateTime.Now;
 
@@ -74,10 +78,14 @@ namespace ConsoleWorldRPG.Services
                 foreach (var room in RoomService.AllRooms)
                 {
                     if (room.GatheringSpots.Any())
-                        room.RollGatherLimit();
+                        room.RollGatherLimit(); 
+                    player.RoomGatheringStatus.Clear();
                 }
 
             }
+
+            _gameStatus.LastUpdateTime = DateTime.Now;
+            GameStatusService.Save(_gameStatus);
 
             UpdateTimeSegment(now.Hour);
         }
