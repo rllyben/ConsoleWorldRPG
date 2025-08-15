@@ -11,15 +11,18 @@ namespace ConsoleWorldRPG.Services
     {
         public static Dictionary<int, Room> rooms = new();
         private static List<Monster> monster = new();
+        public static GameStatus Game = new GameStatus();
         /// <summary>
         /// Loads all game data
         /// </summary>
         /// <returns>if all loadings where successful</returns>
-        public static bool InitializeGame()
+        public static bool InitializeGame(Player player)
         {
             bool success = false;
             try
             {
+                NotifyUser("Session");
+                Game = GameStatusService.Load();
                 NotifyUser("monster");
                 monster = MonsterService.LoadMonsters();
                 NotifyUser("rooms");
@@ -41,8 +44,8 @@ namespace ConsoleWorldRPG.Services
                 NotifyUser("skills");
                 SkillFactory.LoadSkills();
                 NotifyUser("Day cycle");
-                DayCycleManager.Initialize();
-                DayCycleManager.StartBackgroundLoop();
+                DayCycleManager.Initialize(player);
+                DayCycleManager.StartBackgroundLoop(player);
                 Console.WriteLine();
             }
             catch (Exception ex)

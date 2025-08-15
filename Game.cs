@@ -29,7 +29,7 @@ namespace ConsoleWorldRPG
         {
             // Initialization logic here
             Console.WriteLine("Game is starting...");
-            if (GameService.InitializeGame())
+            if (GameService.InitializeGame(_player))
             {
                 _player = ShowLoginMenu();
                 if (_player == null)

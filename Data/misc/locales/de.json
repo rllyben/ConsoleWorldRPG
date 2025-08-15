@@ -1,0 +1,11 @@
+{
+  "ui_login_title": "ConsoleWorldRPG",
+  "ui_login_username": "Benutzername",
+  "ui_login_password": "Passwort",
+  "ui_login": "Anmelden",
+  "ui_register": "Registrieren",
+  "ui_settings": "Einstellungen",
+  "ui_language": "Sprache",
+  "ui_back": "Zurück",
+  "msg_language_applied": "Sprache gesetzt auf {0}."
+}

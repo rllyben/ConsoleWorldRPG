@@ -22,7 +22,7 @@ namespace ConsoleWorldRPG.Services
         {
             var now = DateTime.Now;
 
-            _lastDay = DateOnly.FromDateTime(now);
+            _lastDay = DateOnly.FromDateTime(GameService.Game.LastUpdateTime);
             UpdateTimeSegment(now.Hour);
 
             Console.WriteLine($"🌅 New session started. Time: {now:HH:mm} ({CurrentTimeSegment})");
@@ -95,6 +95,7 @@ namespace ConsoleWorldRPG.Services
         /// <param name="hour">current hour</param>
         private static void UpdateTimeSegment(int hour)
         {
+            TimeSegment previousTime = CurrentTimeSegment;
             CurrentTimeSegment = hour switch
             {
                 >= 6 and < 12 => TimeSegment.Morning,
@@ -102,7 +103,8 @@ namespace ConsoleWorldRPG.Services
                 >= 17 and < 21 => TimeSegment.Evening,
                 _ => TimeSegment.Night
             };
-
+            if (CurrentTimeSegment != previousTime)
+                Console.WriteLine($"It is now {CurrentTimeSegment}");
         }
 
     }
