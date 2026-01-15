@@ -1,8 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using ConsoleWorldRPG.Enums;
 
-namespace ConsoleWorldRPG.Services
+namespace ConsoleWorldRPG.Systems
 {
     public static class Localization
     {
@@ -11,12 +16,13 @@ namespace ConsoleWorldRPG.Services
 
         public static void Load(GameLanguage lang)
         {
-            string file = lang switch
+            var file = lang switch
             {
                 GameLanguage.DE => "Data/misc/locales/de.json",
+                //GameLanguage.Fr => "Data/locales/fr.json",
+                //GameLanguage.Es => "Data/locales/es.json",
                 _ => "Data/misc/locales/en.json"
             };
-
             if (!File.Exists(file)) file = "Data/misc/locales/en.json";
 
             var json = File.ReadAllText(file);
@@ -26,6 +32,8 @@ namespace ConsoleWorldRPG.Services
             Culture = lang switch
             {
                 GameLanguage.DE => new CultureInfo("de-DE"),
+                //GameLanguage.Fr => new CultureInfo("fr-FR"),
+                //GameLanguage.Es => new CultureInfo("es-ES"),
                 _ => new CultureInfo("en-US")
             };
 
@@ -34,9 +42,9 @@ namespace ConsoleWorldRPG.Services
         public static string T(string key, params object[] args)
         {
             if (!_strings.TryGetValue(key, out var format))
-                return $"[{key}]";
+                return $"[{key}]"; // visible fallback so missing keys are easy to spot
 
-            return args.Length > 0
+            return args is { Length: > 0 }
                 ? string.Format(Culture, format, args)
                 : format;
         }

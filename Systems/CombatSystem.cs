@@ -204,7 +204,7 @@ namespace ConsoleWorldRPG.Systems
 
                 foreach (var quest in player.ActiveQuests.Where(q => q.Status == QuestStatus.InProgress))
                 {
-                    if (quest.RequiredKills.TryGetValue(monster.Id, out int required))
+                    if (quest.RequiredKills.TryGetValue(monster.Id, out int required) && required < quest.KillProgress[monster.Id])
                     {
                         quest.KillProgress[monster.Id]++;
                         int current = quest.KillProgress[monster.Id];

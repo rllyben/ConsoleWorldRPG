@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Enums;
+using ConsoleWorldRPG.Systems;
 
 namespace ConsoleWorldRPG.Items
 {
@@ -54,7 +55,7 @@ namespace ConsoleWorldRPG.Items
         public bool IsUsableBy(Player player) => AllowedClasses.Contains(player.Class);
         public override void Use(Player player)
         {
-            Console.WriteLine($"{Name} is a piece of equipment and cannot be used directly.");
+            Console.WriteLine(Name + Localization.T("msg.equipment_item_use"));
         }
         /// <summary>
         /// tries to upgrade the item

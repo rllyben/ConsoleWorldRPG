@@ -16,10 +16,21 @@
     <None Remove="Data\Maps\city_of_ceralith_map.json" />
     <None Remove="Data\Maps\city_of_elorium_map.json" />
     <None Remove="Data\Maps\whispering_woods_map.json" />
+    <None Remove="Data\misc\locales\de.json" />
+    <None Remove="Data\misc\locales\en.json" />
     <None Remove="Data\monsters.json" />
     <None Remove="Data\quests.json" />
     <None Remove="Data\rooms.json" />
     <None Remove="Data\skills.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\misc\locales\de.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\misc\locales\en.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

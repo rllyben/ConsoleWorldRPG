@@ -222,7 +222,8 @@
     "Npcs": ["Quest Board"],
     "ExitIds":
     {
-      "west": 11
+      "west": 12,
+      "east": 25
     }
 
   },
@@ -231,8 +232,9 @@
     "Name": "Cera Valley",
     "Description": "A valley in the mountains, the air is filled with the scent of pine trees.",
     "HasMonsters": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 10,
+    "ExitIds": {
       "south": 12,
       "north": 15
     },
@@ -241,7 +243,7 @@
       "9": 1,
       "10": 1,
       "11": 1,
-      "12":  1
+      "12": 1
     }
 
   },
@@ -250,8 +252,9 @@
     "Name": "River Crossing",
     "Description": "A river flows through the valley, the water is crystal clear. A Bridge spans the river, it looks like it's been there for a long time.",
     "HasMonsters": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 10,
+    "ExitIds": {
       "south": 14,
       "east": 16
     },
@@ -269,9 +272,10 @@
     "Name": "Cera Outskirts",
     "Description": "A small town nestled in the mountains, the town is filled with people, but it's mostly farmers.",
     "IsCity": true,
-    "Npcs": ["Smith"],
-    "ExitIds":
-    {
+    "Npcs": [ "Smith" ],
+    "RequirementType": 1,
+    "AccessLevel": 10,
+    "ExitIds": {
       "west": 15,
       "east": 17
     }
@@ -282,9 +286,10 @@
     "Name": "City of Ceralith",
     "Description": "The small City of Ceralith, it's a small town, but it's filled with people.",
     "IsCity": true,
-    "Npcs": ["Healer"],
-    "ExitIds":
-    {
+    "Npcs": [ "Healer" ],
+    "RequirementType": 1,
+    "AccessLevel": 10,
+    "ExitIds": {
       "west": 16,
       "east": 18
     }
@@ -295,9 +300,10 @@
     "Name": "Cera Eastern Gate",
     "Description": "You can already see the wide plains with many acres of farmland.",
     "IsCity": true,
-    "Npcs": ["Quest Board"],
-    "ExitIds":
-    {
+    "Npcs": [ "Quest Board" ],
+    "RequirementType": 1,
+    "AccessLevel": 10,
+    "ExitIds": {
       "west": 17,
       "south": 19
     }
@@ -308,9 +314,9 @@
     "Name": "Farmland Trail",
     "Description": "An small street with many farmes and fields.",
     "HasMonsters": true,
+    "RequirementType": 1,
     "AccessLevel": 20,
-    "ExitIds":
-    {
+    "ExitIds": {
       "north": 18,
       "south": 20
     },
@@ -323,8 +329,9 @@
     "Name": "Ridgewatch Hill",
     "Description": "A Hill on the edge of the forest, at the top you can see an small outpost.",
     "HasMonsters": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 19,
       "south": 21
     },
@@ -337,8 +344,9 @@
     "Name": "Forest Edge",
     "Description": "A small forest, the trees are tall and the air is filled with the scent of pine.",
     "HasMonsters": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 20,
       "south": 22
     },
@@ -351,8 +359,9 @@
     "Name": "Whispering Path",
     "Description": "A path through the eastern side of the forest, the path is covered in moss and the sound of a stream.",
     "HasMonsters": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 21,
       "east": 23
     },
@@ -365,8 +374,9 @@
     "Name": "Timber Crossroads",
     "Description": "A crossroads in the forest, to the south you can see the end of the forest, to the west it seems to go deeper into the woods.",
     "HasMonsters": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 22,
       "west": 24,
       "south": 26
@@ -380,8 +390,9 @@
     "Name": "Shaded Hollow",
     "Description": "A hollow in the forest, the air is filled with the scent of pine trees. You feel a sense of unease.",
     "HasMonsters": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "east": 23,
       "west": 25
     },
@@ -394,9 +405,9 @@
     "Name": "Lumina Sawmill",
     "Description": "A sawmill in the forest, the air is filled with the scent of pine trees. You can still see Lumina's Rise in the distance.",
     "HasMonsters": true,
+    "RequirementType": 1,
     "AccessLevel": 20,
-    "ExitIds":
-    {
+    "ExitIds": {
       "east": 24,
       "west": 13
     },
@@ -409,8 +420,9 @@
     "Name": "Sunstone Pass",
     "Description": "As you leave the forest, you see a small pass through the mountains. From up here you can see over the whole forest and even make out the farmlands of Ceralith.",
     "HasMonsters": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 23,
       "south": 27
     },
@@ -422,8 +434,9 @@
     "Id": 27,
     "Name": "Elor Plateau",
     "Description": "You reach an plateau after the steep incline through the mountain pass. You can see the great city of Elorium in the distance.",
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 26,
       "south": 28
     }
@@ -434,9 +447,10 @@
     "Name": "Elor Northern Gate",
     "Description": "The gate is gigantic, it's walls decorated with black marble. It's very lively, you can hear the sound of people talking and laughing.",
     "IsCity": true,
-    "Npcs": ["Quest Board"],
-    "ExitIds":
-    {
+    "Npcs": [ "Quest Board" ],
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 27,
       "south": 29
     }
@@ -447,8 +461,9 @@
     "Name": "Elor Northern District",
     "Description": "Even though you are at the outermost district of Elorium, the streets are still filled with people. You can see the cathedral in the distance.",
     "IsCity": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 28,
       "south": 30,
       "east": 31
@@ -460,8 +475,9 @@
     "Name": "Elor Spellbound Street",
     "Description": "The famous Spellbound Street, it's a big street with many shops and restaurants. Under which are many spell book stores.",
     "IsCity": true,
-    "ExitIds":
-    {
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 29,
       "south": 34
     }
@@ -471,9 +487,10 @@
     "Name": "Elor Smithery",
     "Description": "",
     "IsCity": true,
-    "Npcs": ["Smith"],
-    "ExitIds":
-    {
+    "Npcs": [ "Smith" ],
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "west": 29,
       "south": 32
     }
@@ -484,9 +501,10 @@
     "Name": "Elor Market",
     "Description": "A market in the forest, the air is filled with the scent of pine trees. You can still see Lumina's Rise in the distance.",
     "IsCity": true,
-    "Npcs": ["Healer", "Collector", "Herbalist", "Farmer", "Fisher"],
-    "ExitIds":
-    {
+    "Npcs": [ "Healer", "Collector", "Herbalist", "Farmer", "Fisher" ],
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "west": 30,
       "north": 31,
       "south": 33
@@ -498,9 +516,10 @@
     "Name": "Elor Cathedral",
     "Description": "A Cathedral in the forest, the air is filled with the scent of pine trees. You can still see Lumina's Rise in the distance.",
     "IsCity": true,
-    "Npcs": ["Healer"],
-    "ExitIds":
-    {
+    "Npcs": [ "Healer" ],
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 32,
       "west": 34,
       "east": 35,
@@ -513,9 +532,10 @@
     "Name": "Elorium Center",
     "Description": "The city center of Elorium, the streets are filled with people, you see the Guild Hall.",
     "IsCity": true,
-    "Npcs": ["Quest Board", "Guild Hall"],
-    "ExitIds":
-    {
+    "Npcs": [ "Quest Board", "Guild Hall" ],
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "north": 30,
       "south": 36
     }
@@ -526,73 +546,79 @@
     "Name": "Elor Eastern Gate",
     "Description": "The eastern gate seems to be closed, you can hear the sounds of an intense battle.",
     "IsCity": true,
-    "Npcs": ["Quest Board"],
-    "ExitIds":
-    {
+    "Npcs": [ "Quest Board" ],
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
       "west": 37
     }
 
-    },
-    {
-      "Id": 36,
-      "Name": "Elor Southern District",
-      "Description": "An huge District, though it seems to be mostly a slum. You can see the Cathedral Tower towering over the District like an laughing shadow",
-      "IsCity": true,
-      "Npcs": ["Bettler"],
-      "ExitIds":
-      {
-        "north": 34,
-        "east": 33
-      }
-
-    },
-    {
-      "Id": 37,
-      "Name": "Elor Eastern District",
-      "Description": "An buissy District, many people gather on the streets, you can make out an closter where the Clergy live.",
-      "IsCity": true,
-      "ExitIds":
-      {
-        "west": 33,
-        "east": 35
-      }
-
-    },
-    {
-      "Id": 38,
-      "Name": "Elor Manufacturers",
-      "Description": "The production heart of Elorium, many people comute here, to get their products to the market.",
-      "IsCity": true,
-      "ExitIds":
-      {
-        "west": 39,
-        "north": 40,
-        "east": 34
-      }
-
-    },
-    {
-      "Id": 39,
-      "Name": "Elorium Palace",
-      "Description": "An biutiful Palace, with an gigantic garden, the place is filled with people.",
-      "IsCity": true,
-      "ExitIds":
-      {
-        "east": 38
-      }
-
-    },
-    {
-      "Id": 40,
-      "Name": "Elorium Academy",
-      "Description": "The renound Academy of Elorium, here you can learn many skills, from magic to healing to fighting and shooting.",
-      "IsCity": true,
-      "Npcs": ["Skill Master"],
-      "ExitIds":
-      {
-        "west": 30,
-        "south": 38
-      }
-
+  },
+  {
+    "Id": 36,
+    "Name": "Elor Southern District",
+    "Description": "An huge District, though it seems to be mostly a slum. You can see the Cathedral Tower towering over the District like an laughing shadow",
+    "IsCity": true,
+    "Npcs": [ "Bettler" ],
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
+      "north": 34,
+      "east": 33
     }
+
+  },
+  {
+    "Id": 37,
+    "Name": "Elor Eastern District",
+    "Description": "An buissy District, many people gather on the streets, you can make out an closter where the Clergy live.",
+    "IsCity": true,
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
+      "west": 33,
+      "east": 35
+    }
+
+  },
+  {
+    "Id": 38,
+    "Name": "Elor Manufacturers",
+    "Description": "The production heart of Elorium, many people comute here, to get their products to the market.",
+    "IsCity": true,
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
+      "west": 39,
+      "north": 40,
+      "east": 34
+    }
+
+  },
+  {
+    "Id": 39,
+    "Name": "Elorium Palace",
+    "Description": "An biutiful Palace, with an gigantic garden, the place is filled with people.",
+    "IsCity": true,
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
+      "east": 38
+    }
+
+  },
+  {
+    "Id": 40,
+    "Name": "Elorium Academy",
+    "Description": "The renound Academy of Elorium, here you can learn many skills, from magic to healing to fighting and shooting.",
+    "IsCity": true,
+    "Npcs": [ "Skill Master" ],
+    "RequirementType": 1,
+    "AccessLevel": 20,
+    "ExitIds": {
+      "west": 30,
+      "south": 38
+    }
+
+  }
 ]

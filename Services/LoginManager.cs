@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
 using ConsoleWorldRPG.Enums;
 using ConsoleWorldRPG.Models;
+using ConsoleWorldRPG.Systems;
 
 namespace ConsoleWorldRPG.Services
 {
@@ -15,17 +16,17 @@ namespace ConsoleWorldRPG.Services
         public static UserAccount UserAccount { get; private set; }
         public static void Register()
         {
-            Console.Write("Choose a username: ");
+            Console.Write(Localization.T("ui_register_username"));
             string username = Console.ReadLine()?.Trim().ToLower();
 
             string path = Path.Combine("Data/users", $"{username}.json");
             if (File.Exists(path))
             {
-                Console.WriteLine("❌ That username already exists.");
+                Console.WriteLine(Localization.T("ui_register_user_exitsts"));
                 return;
             }
 
-            Console.Write("Choose a password: ");
+            Console.Write(Localization.T("ui_register_password"));
             string password = Console.ReadLine()?.Trim();
 
             var account = new UserAccount
@@ -40,7 +41,7 @@ namespace ConsoleWorldRPG.Services
             var json = JsonSerializer.Serialize(account, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, json);
 
-            Console.WriteLine("✅ Account created.");
+            Console.WriteLine(Localization.T("ui_register_successful"));
         }
         public static Player Login()
         {
@@ -48,17 +49,17 @@ namespace ConsoleWorldRPG.Services
             UserAccount user = null;
             while (!success)
             {
-                Console.Write("Username: ");
+                Console.Write(Localization.T("ui_login_username") + ": ");
                 string username = Console.ReadLine()?.Trim().ToLower();
                 string path = Path.Combine("Data/users", $"{username}.json");
 
                 if (!File.Exists(path))
                 {
-                    Console.WriteLine("❌ No such user.");
+                    Console.WriteLine(Localization.T("ui_login_no_user"));
                     continue;
                 }
 
-                Console.Write("Password: ");
+                Console.Write(Localization.T("ui_login_password") + ": ");
                 string password = Console.ReadLine()?.Trim();
 
                 var json = File.ReadAllText(path);
@@ -66,7 +67,7 @@ namespace ConsoleWorldRPG.Services
 
                 if (user!.Password != password)
                 {
-                    Console.WriteLine("❌ Incorrect password.");
+                    Console.WriteLine(Localization.T("ui_login_wrong_password"));
                     continue;
                 }
                 success = true;
@@ -75,19 +76,19 @@ namespace ConsoleWorldRPG.Services
 
             while (true)
             {
-                Console.WriteLine("\nChoose a character:");
+                Console.WriteLine("\n" + Localization.T("ui_character_menue"));
                 for (int i = 0; i < user.CharacterNames.Count; i++)
                     Console.WriteLine($"{i + 1}. {user.CharacterNames[i]}");
 
                 if (user.CharacterNames.Count < 5)
-                    Console.WriteLine("C. Create new character");
+                    Console.WriteLine(Localization.T("ui_character_create"));
 
-                Console.Write("Select (number or C): ");
+                Console.Write(Localization.T("ui_character_selection"));
                 string input = Console.ReadLine()!.Trim();
 
                 if (input.ToLower() == "c" && user.CharacterNames.Count < 5)
                 {
-                    Console.Write("Enter new character name: ");
+                    Console.Write(Localization.T("ui_character_creation_name"));
                     string charName = Console.ReadLine()!.Trim();
                     user.CharacterNames.Add(charName);
 
@@ -111,10 +112,9 @@ namespace ConsoleWorldRPG.Services
         {
             Player player = new Player("null", new Stats());
             player.Name = name;
-            Console.WriteLine($"Hero name is set to {player.Name}");
-            Console.WriteLine();
-            Console.WriteLine("Choose an hero class"); 
-            Console.WriteLine("Classes:");
+            Console.WriteLine(Localization.T("ui_creation_name_set") + player.Name + "\n");
+            Console.WriteLine(Localization.T("ui_creation_choose_class")); 
+            Console.WriteLine(Localization.T("ui_creation_classes"));
             foreach (PlayerClass klasse in ClassProfile.All.Keys)
             {
                 Console.WriteLine(klasse);
@@ -122,7 +122,7 @@ namespace ConsoleWorldRPG.Services
             Console.Write("> ");
             string input = Console.ReadLine()?.Trim().ToLower();
             HandleClassSelection(input, ref player);
-            Console.WriteLine($"Hero Class is set to {player.Class}");
+            Console.WriteLine(Localization.T("ui_creation_class_set") + player.Class);
             player.CurrentRoom = RoomService.AllRooms.FirstOrDefault(r => r.Id == 1);
             return player;
         }

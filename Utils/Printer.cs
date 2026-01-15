@@ -15,6 +15,8 @@ namespace ConsoleWorldRPG.Utils
         public static void ShowInvalidCommand()
         {
             Console.WriteLine("❌ Unknown command. Type 'help' to see available commands.");
+            Room baum = new Room("baum", "Grün");
+            Console.WriteLine(baum.Name);
         }
         public static void PrintColoredItemName(Item item)
         {
@@ -101,6 +103,16 @@ namespace ConsoleWorldRPG.Utils
                     Console.WriteLine($"  - {spot.Name}: {spot.Description}");
             }
 
+            if (room.HasMonsters)
+            {
+                Console.WriteLine("\nYou see the following Monsters:");
+                foreach (Monster monster in room.Monsters)
+                {
+                    Console.WriteLine($"  - {monster.Name}");
+                }
+
+            }
+
         }
         /// <summary>
         /// Prints the Help information into the Console
@@ -122,6 +134,7 @@ namespace ConsoleWorldRPG.Utils
             Console.WriteLine("  map                        - Prints  the World-, Dungon-, Cave-, Forest- or City- map can have world or the name of the general room (eg. Dungon name) as a suffix");
             Console.WriteLine("  heal ||LAGACY||            - (LAGACY: not in use anymoe!) Heals your character to full HP");
             Console.WriteLine("  help                       - Show this help message");
+            Console.WriteLine("  logout                     - Save and Log out");
             Console.WriteLine("  exit                       - Save and Quit the game");
         }
         public static void ShowDebugHelp()

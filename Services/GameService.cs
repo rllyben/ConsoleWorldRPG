@@ -43,6 +43,8 @@ namespace ConsoleWorldRPG.Services
                 QuestManager.LoadQuests();
                 NotifyUser("skills");
                 SkillFactory.LoadSkills();
+                SettingsService.Load();
+                Localization.Load(SettingsService.Current.Language);
                 NotifyUser("Day cycle");
                 DayCycleManager.Initialize(player);
                 DayCycleManager.StartBackgroundLoop(player);

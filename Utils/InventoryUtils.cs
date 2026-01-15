@@ -11,7 +11,7 @@ namespace ConsoleWorldRPG.Utils
                 .Where(i => i.Name.StartsWith(input, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-            if (matches.All(i => i.Name.ToLower() == input) || matches.Count < 2)
+            if (matches.All(i => i.Name.ToLower() == matches[0].Name.ToLower()) && matches.Count > 0)
                 return matches[0];
             else
                 return null;

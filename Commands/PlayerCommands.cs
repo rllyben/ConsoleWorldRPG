@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleWorldRPG.Entities;
+using ConsoleWorldRPG.Services;
 using ConsoleWorldRPG.Utils;
 
 namespace ConsoleWorldRPG.Commands
@@ -34,6 +35,13 @@ namespace ConsoleWorldRPG.Commands
                 //_player.CurrentHealth = _player.MaxHealth;
                 Console.WriteLine("The 'heal' command is no longer available. Use a potion or visit a healer.");
                 return true;
+            }
+            else if (input == "logout")
+            {
+                JsonSaveService.SaveCharacter(LoginManager.UserAccount, player);
+                GameService.InitializeGame(player);
+                Console.Clear();
+                Game.LogOut = true;
             }
 
                 return false;
