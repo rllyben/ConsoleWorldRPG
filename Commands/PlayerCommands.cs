@@ -1,22 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleWorldRPG.Entities;
-using ConsoleWorldRPG.Services;
-using ConsoleWorldRPG.Utils;
-
 namespace ConsoleWorldRPG.Commands
 {
     public static class PlayerCommands
     {
-        /// <summary>
-        /// Handels character commands
-        /// </summary>
-        /// <param name="input">player input</param>
-        /// <param name="player">player character</param>
-        /// <returns>if the command was found</returns>
         public static bool Handle(string input, Player player)
         {
             if (input == "status")
@@ -31,20 +16,18 @@ namespace ConsoleWorldRPG.Commands
             }
             else if (input == "heal")
             {
-                //Console.WriteLine("You take a break and heal all your wounds");
-                //_player.CurrentHealth = _player.MaxHealth;
                 Console.WriteLine("The 'heal' command is no longer available. Use a potion or visit a healer.");
                 return true;
             }
             else if (input == "logout")
             {
-                JsonSaveService.SaveCharacter(LoginManager.UserAccount, player);
-                GameService.InitializeGame(player);
+                CharacterService.SaveCharacter(LoginManager.UserAccount, player);
                 Console.Clear();
                 Game.LogOut = true;
+                return true;
             }
 
-                return false;
+            return false;
         }
 
     }

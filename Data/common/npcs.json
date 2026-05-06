@@ -1,0 +1,38 @@
+[
+  {
+    "id": "healer_default",
+    "nameKey": "game.npc.healer.default.name",
+    "descriptionKey": "game.npc.healer.default.desc",
+    "type": 0,
+    "services": [ "heal" ]
+  },
+  {
+    "id": "smith_default",
+    "nameKey": "game.npc.smith.default.name",
+    "descriptionKey": "game.npc.smith.default.desc",
+    "type": 2,
+    "services": [ "shop_equipment", "upgrade", "craft" ],
+    "itemNames": [ "starter_dagger", "rogue_cloak", "crit_band", "steel_sword", "starter_armor", "iron_band", "fur_vest", "power_charm", "leather_bow", "archer_garb", "focus_band", "starter_crossbow", "hunter_coat", "starter_gauntlets", "padded_armor", "fighter_token", "starter_mace", "prayer_robes", "faith_charm", "tracker_band", "flamecaster_staff", "storm_robes", "starter_branch", "nature_robe", "life_leaf", "crystal_focus_band", "mage_robe", "mana_ring", "souls_blade", "bone_plate", "soul_shard", "pickaxe", "woodcutter_axe" ]
+  },
+  {
+    "id": "trader_default",
+    "nameKey": "game.npc.trader.default.name",
+    "descriptionKey": "game.npc.trader.default.desc",
+    "type": 1,
+    "services": [ "buy_items", "sell_items", "shop_general" ]
+  },
+  {
+    "id": "villager_default",
+    "nameKey": "game.npc.villager.default.name",
+    "descriptionKey": "game.npc.villager.default.desc",
+    "type": 4,
+    "services": [ "talk" ]
+  },
+  {
+    "id": "skill_master_lumina",
+    "nameKey": "game.npc.skill_master.lumina.name",
+    "descriptionKey": "game.npc.skill_master.lumina.desc",
+    "type": 3,
+    "services": []
+  }
+]

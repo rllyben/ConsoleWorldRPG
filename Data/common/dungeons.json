@@ -1,0 +1,7 @@
+[
+  {
+    "Id": "hollow_crypt",
+    "Name": "dungeon.hollow",
+    "RoomIds": [ 6, 7, 8, 9, 10 ]
+  }
+]

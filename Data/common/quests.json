@@ -1,0 +1,115 @@
+[
+  {
+    "Id": "end_the_undying",
+    "Name": "End the Undying",
+    "Description": "Defeat the Lich lurking at the end of the Hollow Crypt.",
+    "GiverNpc": "Quest Board",
+    "RequiredLevel": 40,
+    "RequiredKills": {
+      "7": 1
+    },
+    "RequiredItems": {},
+    "RewardXp": 25000,
+    "RewardGold": 10500
+  },
+  {
+    "Id": "wraith_problem",
+    "Name": "Wraith Problem",
+    "Description": "Kill the Wraith in the Chamber of the Hollow Crypt!",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 5,
+    "IsRepeatable": true,
+    "RepeatMaxLevel": 10,
+    "RepeatDailyLimit": 0,
+    "RepeatTotalLimit": 0,
+    "RequiredKills": {
+      "3": 10
+    },
+    "RequiredItems": {},
+    "RewardXp": 1050,
+    "RewardGold": 500
+  },
+  {
+    "Id": "unsave_caves",
+    "Name": "Disaperance of Townsfolk",
+    "Description": "The Trolls and Goblins in the Deep Caves are getting restless, kill some to keep them at bay.",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 1,
+    "RequiredKills": {
+      "2": 10,
+      "1": 10
+    },
+    "RequiredItems": {},
+    "RewardXp": 150,
+    "RewardGold": 250
+  },
+  {
+    "Id": "cave_bats",
+    "Name": "Squeaky Problem",
+    "Description": "The bats in the deeper tunnels have grown aggressive — travellers report being dive-bombed the moment they leave the main passage. Clear some of them out.",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 3,
+    "PrerequisiteQuestIds": [ "unsave_caves" ],
+    "RequiredKills": {
+      "15": 8
+    },
+    "RequiredItems": {},
+    "RewardXp": 300,
+    "RewardGold": 150
+  },
+  {
+    "Id": "stone_imps",
+    "Name": "Rocky Nuisance",
+    "Description": "Stone Imps have been pilfering tools and supplies left near the cave entrance. Find them in the deeper tunnels and put a stop to it.",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 5,
+    "PrerequisiteQuestIds": [ "cave_bats" ],
+    "RequiredKills": {
+      "16": 10
+    },
+    "RequiredItems": {},
+    "RewardXp": 550,
+    "RewardGold": 300
+  },
+  {
+    "Id": "bone_crawlers",
+    "Name": "What Lies Beneath",
+    "Description": "Something is raising the dead in the ancient chamber below the abyss passage. The Bone Crawlers are spreading upward — deal with them before they reach the main tunnels.",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 7,
+    "PrerequisiteQuestIds": [ "stone_imps", "wraith_problem" ],
+    "RequiredKills": {
+      "17": 15
+    },
+    "RequiredItems": {},
+    "RewardXp": 2150,
+    "RewardGold": 450
+  },
+  {
+    "Id": "lizzard_raids_1",
+    "Name": "Unsave Roads",
+    "Description": "The Maka Maka make the northwest road between Lumina and Ceralith unsave for travelers, we have to push them back!",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 10,
+    "RequiredKills": {
+      "11": 15,
+      "12": 10
+    },
+    "RequiredItems": {},
+    "RewardXp": 8320,
+    "RewardGold": 520
+  },
+  {
+    "Id": "boar_hunting",
+    "Name": "Dangerous Boars",
+    "Description": "The Townsfolk is worried about the Mossy Boars, please kille a few so they can feel save again.",
+    "GiverNPC": "Quest Board",
+    "RequiredLevel": 15,
+    "RequiredKills": {
+      "14": 25
+    },
+    "RequiredItems": {},
+    "RewardXp": 13840,
+    "RewardGold": 1250
+  }
+]

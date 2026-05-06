@@ -1,33 +1,15 @@
-﻿using System;
-using ConsoleWorldRPG.Entities;
-using ConsoleWorldRPG.Enums;
-using ConsoleWorldRPG.Interfaces;
-using ConsoleWorldRPG.Items;
-using ConsoleWorldRPG.Models;
-using ConsoleWorldRPG.Services;
-using ConsoleWorldRPG.Skills;
-using ConsoleWorldRPG.Utils;
+using LibCombat = MyriaLib.Systems.CombatSystem;
 
 namespace ConsoleWorldRPG.Systems
 {
-    public static class CombatSystem
+    public static class EncounterRunner
     {
-        private class PendingAction
-        {
-            public int TurnsRemaining { get; set; }
-            public Action Execute { get; set; }
-        }
+        private static readonly Random _random = Random.Shared;
 
-        private static readonly Random _random = new();
-
-        /// <summary>
-        /// Starts an Encounter after the look command if the room has monsters, also handels the End of a fight
-        /// </summary>
         public static void StartEncounter(Player player)
         {
-            Random random = new Random();
             var encounters = player.CurrentRoom.EncounterableMonsters;
-            Monster monster = new Monster(-1, "null", new Stats(), "null", 0);
+            Monster monster;
 
             if (encounters == null || encounters.Count == 0 || player.CurrentRoom.IsCleared)
             {
@@ -37,56 +19,57 @@ namespace ConsoleWorldRPG.Systems
 
             if (player.CurrentRoom.IsDungeonRoom && player.CurrentRoom.CurrentMonsters.Count < 1)
             {
-                if (player.CurrentRoom.IsBossRoom && player.CurrentRoom.Monsters.Count < 0)
+                if (player.CurrentRoom.IsBossRoom && player.CurrentRoom.Monsters.Count > 0)
                 {
-                    player.CurrentRoom.CurrentMonsters.Add(player.CurrentRoom.Monsters[0]);
+                    player.CurrentRoom.CurrentMonsters.Add(player.CurrentRoom.Monsters[0].Clone());
                 }
                 else
                 {
-                    for (int count = 0; count < random.Next(1, 11); count++)
-                    {
-                        player.CurrentRoom.CurrentMonsters.Add(player.CurrentRoom.Monsters[random.Next(0, player.CurrentRoom.Monsters.Count)]);
-                    }
+                    int count = _random.Next(1, 11);
+                    for (int i = 0; i < count; i++)
+                        player.CurrentRoom.CurrentMonsters.Add(
+                            player.CurrentRoom.Monsters[_random.Next(0, player.CurrentRoom.Monsters.Count)].Clone());
                 }
-                monster = player.CurrentRoom.CurrentMonsters[random.Next(0, player.CurrentRoom.CurrentMonsters.Count)];
-                monster.ResetHealth();
+                monster = player.CurrentRoom.CurrentMonsters[_random.Next(0, player.CurrentRoom.CurrentMonsters.Count)];
             }
             else if (player.CurrentRoom.IsDungeonRoom)
             {
-                monster = player.CurrentRoom.CurrentMonsters[random.Next(0, player.CurrentRoom.CurrentMonsters.Count)];
-                monster.ResetHealth();
+                monster = player.CurrentRoom.CurrentMonsters[_random.Next(0, player.CurrentRoom.CurrentMonsters.Count)];
             }
             else
             {
-                monster = player.CurrentRoom.Monsters[random.Next(0, player.CurrentRoom.Monsters.Count)];
-                monster.ResetHealth();
+                monster = player.CurrentRoom.Monsters[_random.Next(0, player.CurrentRoom.Monsters.Count)].Clone();
             }
+            monster.ResetHealth();
 
             Console.WriteLine($"\nA wild {monster.Name} appears!");
             Console.WriteLine(monster.Description);
 
-            PendingAction? activeAction = null;
+            int pendingTurns = 0;
+            Action? pendingExecute = null;
             int recoveryTurns = 0;
 
             while (player.IsAlive && monster.IsAlive)
             {
-                if (activeAction != null)
+                if (pendingTurns > 0)
                 {
-                    activeAction.TurnsRemaining--;
-                    if (activeAction.TurnsRemaining < 1)
+                    pendingTurns--;
+                    if (pendingTurns < 1)
                     {
-                        activeAction.Execute();
-                        activeAction = null;
+                        pendingExecute?.Invoke();
+                        pendingExecute = null;
                     }
                 }
                 else if (recoveryTurns > 0)
-                    recoveryTurns--;
-
-                if (activeAction == null && recoveryTurns < 1)
                 {
-                    Console.WriteLine($"\nWhat will you do? (attack / cast <skill> / use <item name>)");
+                    recoveryTurns--;
+                }
+
+                if (pendingTurns < 1 && pendingExecute == null && recoveryTurns < 1)
+                {
+                    Console.WriteLine("\nWhat will you do? (attack / cast <skill> / use <item name>)");
                     Console.Write("> ");
-                    var input = Console.ReadLine()?.Trim().ToLower();
+                    var input = Console.ReadLine()?.Trim().ToLower() ?? "";
 
                     if (input == "attack")
                     {
@@ -97,42 +80,23 @@ namespace ConsoleWorldRPG.Systems
                         Console.WriteLine("Your Skills:");
                         if (player.Skills.Count < 1)
                             Console.WriteLine("no skills yet");
-                        foreach(Skill skill in player.Skills)
-                        {
-                            Console.WriteLine($"{skill.Name}");
-                        }
+                        foreach (var skill in player.Skills)
+                            Console.WriteLine($"  {skill.Name}");
                         continue;
                     }
                     else if (input.StartsWith("cast "))
                     {
-
                         var skillName = input.Substring(5).Trim();
                         var skill = player.Skills.FirstOrDefault(s =>
                             s.Name.Equals(skillName, StringComparison.OrdinalIgnoreCase));
 
-                        if (skill == null)
-                        {
-                            Console.WriteLine("❌ You don’t know that skill.");
-                            continue;
-                        }
-
-                        if (player.CurrentMana < skill.ManaCost)
-                        {
-                            Console.WriteLine("❌ Not enough mana.");
-                            continue;
-                        }
+                        if (skill == null) { Console.WriteLine("❌ You don't know that skill."); continue; }
+                        if (player.CurrentMana < skill.ManaCost) { Console.WriteLine("❌ Not enough mana."); continue; }
 
                         if (skill.CastTime > 0)
                         {
-                            activeAction = new PendingAction
-                            {
-                                TurnsRemaining = skill.CastTime,
-                                Execute = () =>
-                                {
-                                    UseSkill(player, monster, skill);
-                                    recoveryTurns = skill.RecoveryTime;
-                                }
-                            };
+                            pendingTurns = skill.CastTime;
+                            pendingExecute = () => { UseSkill(player, monster, skill); recoveryTurns = skill.RecoveryTime; };
                             Console.WriteLine($"{player.Name} begins casting {skill.Name}...");
                         }
                         else
@@ -140,38 +104,32 @@ namespace ConsoleWorldRPG.Systems
                             UseSkill(player, monster, skill);
                             recoveryTurns = skill.RecoveryTime;
                         }
-
                     }
                     else if (input.StartsWith("use "))
                     {
                         string itemName = input.Substring(4);
-                        var item = ItemService.GetItemByNameFromInventory(itemName, player.Inventory);
-                        if (item != null && item is ConsumableItem)
+                        var item = InventoryUtils.ResolveInventoryItem(itemName, player);
+                        if (item is ConsumableItem consumable)
                         {
-                            activeAction = new PendingAction
+                            pendingTurns = 1;
+                            pendingExecute = () =>
                             {
-                                TurnsRemaining = 1,
-                                Execute = () =>
-                                {
-                                    item.Use(player);
-                                    recoveryTurns = 1;
-                                    player.Inventory.RemoveItem(item);
-                                    Console.WriteLine($"{player.Name} drinks {item.Name}!");
-                                }
-
+                                consumable.Use(player);
+                                player.Inventory.RemoveItem(consumable);
+                                Console.WriteLine($"{player.Name} drinks {consumable.Name}!");
+                                recoveryTurns = 1;
                             };
                             Console.WriteLine($"{player.Name} begins to drink {item.Name}...");
                         }
-                        else if (item != null && item is not ConsumableItem)
+                        else if (item != null)
                         {
-                            Console.WriteLine("you can't use that item in battle!");
+                            Console.WriteLine("You can't use that item in battle!");
                         }
                         else
                         {
-                            Console.WriteLine("you don't have that item in your inventory!");
+                            Console.WriteLine("You don't have that item in your inventory!");
                             continue;
                         }
-
                     }
                     else if (input == "list")
                     {
@@ -180,33 +138,29 @@ namespace ConsoleWorldRPG.Systems
                     }
                     else
                     {
-                        Console.WriteLine("❓ Unknown command. Use 'attack' , 'cast <skill>' or 'use <item name>'");
+                        Console.WriteLine("❓ Unknown command. Use 'attack', 'cast <skill>' or 'use <item name>'");
                         continue;
                     }
 
-                    // Monster turn
                     if (monster.IsAlive)
                         BasicAttack(monster, player);
                 }
-
             }
 
             if (player.IsAlive)
             {
                 if (player.CurrentRoom.IsDungeonRoom && player.CurrentRoom.CurrentMonsters.Count > 0)
-                {
                     player.CurrentRoom.CurrentMonsters.Remove(monster);
-                }
-                Console.WriteLine($"\n✅ You defeated the {monster.Name}!"); 
-                player.Experience += monster.Exp;
-                player.CheckForLevelup();
-                SkillFactory.UpdateSkills(ref player); 
+
+                Console.WriteLine($"\n✅ You defeated the {monster.Name}!");
+                player.GainXp(monster.Exp);
+                SkillFactory.UpdateSkills(player);
 
                 foreach (var quest in player.ActiveQuests.Where(q => q.Status == QuestStatus.InProgress))
                 {
-                    if (quest.RequiredKills.TryGetValue(monster.Id, out int required) && required < quest.KillProgress[monster.Id])
+                    if (quest.RequiredKills.TryGetValue(monster.Id, out int required))
                     {
-                        quest.KillProgress[monster.Id]++;
+                        quest.KillProgress[monster.Id] = quest.KillProgress.GetValueOrDefault(monster.Id) + 1;
                         int current = quest.KillProgress[monster.Id];
                         Console.WriteLine($"📜 Quest '{quest.Name}': {monster.Name} slain ({current}/{required})");
 
@@ -216,19 +170,15 @@ namespace ConsoleWorldRPG.Systems
                             Console.WriteLine($"✅ Quest '{quest.Name}' is now complete!");
                             quest.GrantRewards(player);
                         }
-
                     }
-
                 }
 
                 var drops = LootGenerator.GetLootFor(monster);
-
                 if (drops.Count > 0)
                 {
                     if (monster.DropsCorpse)
                     {
-                        var corpse = new Corpse(monster.Name, drops);
-                        player.CurrentRoom.Corpses.Add(corpse);
+                        player.CurrentRoom.Corpses.Add(new Corpse(monster.Name, drops));
                         Console.WriteLine($"The corpse of {monster.Name} remains. You can loot it.");
                     }
                     else
@@ -237,96 +187,79 @@ namespace ConsoleWorldRPG.Systems
                         {
                             if (player.Inventory.AddItem(drop, player))
                             {
-                                Console.Write($"🪶 You found: ");
+                                Console.Write("🪶 You found: ");
                                 Printer.PrintColoredItemName(drop);
                                 Console.WriteLine();
                             }
                             else
                             {
-                                Console.Write($"❌ Inventory full. Could not take: ");
+                                Console.Write("❌ Inventory full. Could not take: ");
                                 Printer.PrintColoredItemName(drop);
                                 Console.WriteLine();
                             }
                         }
-
                     }
-
                 }
+
                 if (player.CurrentRoom.IsDungeonRoom && player.CurrentRoom.CurrentMonsters.Count < 1)
-{
+                {
                     player.CurrentRoom.IsCleared = true;
-                    Console.WriteLine($"✅ The room has been cleared. The path forward is open.");
+                    Console.WriteLine("✅ The room has been cleared. The path forward is open.");
                 }
-
             }
             else
-{
+            {
                 Console.WriteLine("💀 You were defeated...");
 
                 int respawnRoomId = player.LastHealerRoomId ?? 1;
-                Room respawnRoom = GameService.rooms[respawnRoomId];
+                var respawnRoom = GameService.Rooms[respawnRoomId];
 
                 player.CurrentRoom = respawnRoom;
                 player.CurrentRoomId = respawnRoomId;
-                player.CurrentHealth = player.Stats.MaxHealth;
-                player.CurrentMana = player.Stats.MaxMana;
+                player.CurrentHealth = player.MaxHealth;
+                player.CurrentMana = player.MaxMana;
 
-                Console.WriteLine($"🌀 You awaken in {respawnRoom.Name}."); 
+                Console.WriteLine($"🌀 You awaken in {respawnRoom.Name}.");
                 player.ApplyDeathXpPenalty();
             }
         }
-        public static bool TryHit(ICombatant attacker, ICombatant defender)
-        {
-            float aim = attacker.TotalAim;
-            float evasion = defender.TotalEvasion;
 
-            if (aim >= evasion)
-            {
-                return true; // Guaranteed hit
-            }
-            float hitChance = aim / evasion;
-            float roll = (float)_random.NextDouble();
-
-            return roll <= hitChance; // True = hit, False = miss
-        }
         private static void BasicAttack(ICombatant attacker, ICombatant defender)
         {
             Console.WriteLine($"{attacker.Name} attacks!");
-
-            if (!TryHit(attacker, defender))
+            int damage = LibCombat.CalculateDamage(attacker, defender);
+            if (damage == 0)
             {
                 Console.WriteLine($"{attacker.Name} missed!");
                 return;
             }
-
-            int damage = CalculateDamage(attacker, defender); // or add magic check
             defender.TakeDamage(damage);
         }
+
         private static void UseSkill(Player player, Monster target, Skill skill)
         {
             Console.WriteLine($"{player.Name} casts {skill.Name}!");
 
-            int baseStat = skill.StatToScaleFrom.ToUpper() switch
+            int baseStat = skill.StatToScaleFrom?.ToUpper() switch
             {
-                "ATK" => player.TotalPhysicalAttack,
+                "ATK"  => player.TotalPhysicalAttack,
                 "MATK" => player.TotalMagicAttack,
-                "SPR" => player.TotalSPR,
-                "INT" => player.TotalINT,
-                "DEX" => player.TotalDEX,
-                "Aim" => (player.TotalAim * 2),
-                "Eva" => (player.TotalEvasion * 2),
-                "END" => player.TotalEND,
-                "STR" => player.TotalSTR,
-                _ => player.TotalPhysicalAttack
+                "SPR"  => player.TotalSPR,
+                "INT"  => player.TotalINT,
+                "DEX"  => player.TotalDEX,
+                "AIM"  => player.TotalAim * 2,
+                "EVA"  => player.TotalEvasion * 2,
+                "END"  => player.TotalEND,
+                "STR"  => player.TotalSTR,
+                _      => player.TotalPhysicalAttack
             };
-
 
             int value = (int)(baseStat * skill.ScalingFactor);
             player.CurrentMana -= skill.ManaCost;
 
             if (skill.IsHealing)
             {
-                int healed = Math.Min(value, player.Stats.MaxHealth - player.CurrentHealth);
+                int healed = Math.Min(value, player.MaxHealth - player.CurrentHealth);
                 player.CurrentHealth += healed;
                 Console.WriteLine($"{player.Name} heals for {healed} HP!");
             }
@@ -335,69 +268,6 @@ namespace ConsoleWorldRPG.Systems
                 Console.WriteLine($"{target.Name} takes {value} damage from {skill.Name}!");
                 target.TakeDamage(value);
             }
-
-        }
-        public static int CalculateDamage(ICombatant attacker, ICombatant defender, int attackDmg, bool magic = false)
-        {
-            float matk = 0;
-            if (magic)
-                matk = attackDmg;
-            float atk = attackDmg;
-            float def = defender.TotalPhysicalDefense;
-            float mdef = defender.TotalMagicDefense;
-
-            Console.WriteLine($"\n{attacker.Name} attacks {defender.Name}!");
-
-            if (!TryHit(attacker, defender))
-            {
-                Console.WriteLine($"{attacker.Name} missed!");
-                return 0;
-            }
-
-            float pdmg = atk * (atk / (atk + def));
-            float mdmg = matk * (matk / (matk + mdef));
-            float dmg = Math.Max(pdmg, mdmg);
-            if (dmg < 1)
-                dmg = 1;
-            // Check for block
-            float blockRoll = (float)_random.NextDouble();
-            if (blockRoll < defender.GetBlockChance())
-            {
-                Console.WriteLine($"{defender.Name} blocked the attack!");
-                dmg /= 2;
-            }
-
-            return (int)dmg;
-        }
-        public static int CalculateDamage(ICombatant attacker, ICombatant defender)
-        {
-            float atk = attacker.TotalPhysicalAttack;
-            float matk = attacker.TotalMagicAttack;
-            float def = defender.TotalPhysicalDefense;
-            float mdef = defender.TotalMagicDefense;
-
-            Console.WriteLine($"\n{attacker.Name} attacks {defender.Name}!");
-
-            if (!TryHit(attacker, defender))
-            {
-                Console.WriteLine($"{attacker.Name} missed!");
-                return 0;
-            }
-
-            float pdmg = atk * (atk / (atk + def));
-            float mdmg = matk * (matk / (matk + mdef));
-            float dmg = Math.Max(pdmg, mdmg);
-            if (dmg < 1)
-                dmg = 1;
-            // Check for block
-            float blockRoll = (float)_random.NextDouble();
-            if (blockRoll < defender.GetBlockChance())
-            {
-                Console.WriteLine($"{defender.Name} blocked the attack!");
-                dmg /= 2;
-            }
-
-            return (int)dmg;
         }
 
     }

@@ -1,0 +1,457 @@
+[
+  {
+    "InputSkillIds": [ "aimed_shot", "crippling_shot" ],
+    "ResultId": "precise_cripple",
+    "ResultName": "Precise Cripple",
+    "ResultDescription": "A meticulously aimed shot that finds every weak point.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "volley", "quick_shot" ],
+    "ResultId": "rapid_volley",
+    "ResultName": "Rapid Volley",
+    "ResultDescription": "Unleashes a lightning-fast spread of arrows at all enemies.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 1.0,
+    "ManaCostOverride": 20
+  },
+  {
+    "InputSkillIds": [ "eagle_eye", "aimed_shot" ],
+    "ResultId": "hawkshot",
+    "ResultName": "Hawkshot",
+    "ResultDescription": "A single perfectly placed arrow fired with the focus of a hawk.",
+    "ScalingFactorOverride": 2.0,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "crippling_shot", "volley" ],
+    "ResultId": "crippling_volley",
+    "ResultName": "Crippling Volley",
+    "ResultDescription": "A spread of arrows each aimed at weak points.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 0.95,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "quick_shot", "quick_shot" ],
+    "ResultId": "twin_shot",
+    "ResultName": "Twin Shot",
+    "ResultDescription": "Two rapid shots fired in immediate succession.",
+    "ScalingFactorOverride": 1.6,
+    "ManaCostOverride": 10
+  },
+  {
+    "InputSkillIds": [ "mark_prey", "hunters_focus" ],
+    "ResultId": "death_mark",
+    "ResultName": "Death Mark",
+    "ResultDescription": "Marks the prey's vital spots then strikes with lethal precision.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 20
+  },
+  {
+    "InputSkillIds": [ "feral_slash", "swift_strike" ],
+    "ResultId": "savage_flurry",
+    "ResultName": "Savage Flurry",
+    "ResultDescription": "A burst of wild, rapid slashes.",
+    "ScalingFactorOverride": 1.5,
+    "ManaCostOverride": 14
+  },
+  {
+    "InputSkillIds": [ "snare", "feral_slash" ],
+    "ResultId": "entangling_slash",
+    "ResultName": "Entangling Slash",
+    "ResultDescription": "Snares the prey then tears through it.",
+    "ScalingFactorOverride": 1.6,
+    "ManaCostOverride": 16
+  },
+  {
+    "InputSkillIds": [ "hunters_focus", "feral_slash" ],
+    "ResultId": "predators_strike",
+    "ResultName": "Predator's Strike",
+    "ResultDescription": "Combines patient observation with savage force for a devastating blow.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "swift_strike", "swift_strike" ],
+    "ResultId": "blur_strike",
+    "ResultName": "Blur Strike",
+    "ResultDescription": "Strikes so quickly the enemy cannot track the movement.",
+    "ScalingFactorOverride": 1.7,
+    "ManaCostOverride": 10
+  },
+  {
+    "InputSkillIds": [ "guard_strike", "challenge" ],
+    "ResultId": "iron_challenge",
+    "ResultName": "Iron Challenge",
+    "ResultDescription": "Strikes while issuing an unbreakable challenge.",
+    "ScalingFactorOverride": 1.5,
+    "ManaCostOverride": 16
+  },
+  {
+    "InputSkillIds": [ "holy_strike", "crusader_strike" ],
+    "ResultId": "divine_crusade",
+    "ResultName": "Divine Crusade",
+    "ResultDescription": "A righteous, armored charge that channels holy power.",
+    "ScalingFactorOverride": 2.0,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "shield_wall", "guard_strike" ],
+    "ResultId": "fortress_strike",
+    "ResultName": "Fortress Strike",
+    "ResultDescription": "Channels defensive energy into a powerful counterattack.",
+    "ScalingFactorOverride": 1.4,
+    "ManaCostOverride": 18,
+    "IsHealingOverride": false
+  },
+  {
+    "InputSkillIds": [ "challenge", "crusader_strike" ],
+    "ResultId": "champions_charge",
+    "ResultName": "Champion's Charge",
+    "ResultDescription": "A challenge-fueled charge that overwhelms the enemy.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "holy_strike", "holy_strike" ],
+    "ResultId": "radiant_smash",
+    "ResultName": "Radiant Smash",
+    "ResultDescription": "A twin strike of concentrated holy energy.",
+    "ScalingFactorOverride": 2.0,
+    "ManaCostOverride": 20
+  },
+  {
+    "InputSkillIds": [ "heavy_blow", "slam" ],
+    "ResultId": "crushing_impact",
+    "ResultName": "Crushing Impact",
+    "ResultDescription": "Combines full-force impact with a brutal slam.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 16
+  },
+  {
+    "InputSkillIds": [ "war_cry", "battle_rush" ],
+    "ResultId": "battle_charge",
+    "ResultName": "Battle Charge",
+    "ResultDescription": "A war cry that propels a devastating charge.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "double_strike", "heavy_blow" ],
+    "ResultId": "triple_strike",
+    "ResultName": "Triple Strike",
+    "ResultDescription": "Three measured strikes delivering maximum force.",
+    "ScalingFactorOverride": 1.7,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "slam", "war_cry" ],
+    "ResultId": "thunderous_slam",
+    "ResultName": "Thunderous Slam",
+    "ResultDescription": "An earth-shaking slam accompanied by a fearsome roar.",
+    "ScalingFactorOverride": 1.7,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "battle_rush", "battle_rush" ],
+    "ResultId": "unstoppable_rush",
+    "ResultName": "Unstoppable Rush",
+    "ResultDescription": "A double charge that cannot be stopped.",
+    "ScalingFactorOverride": 2.0,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "berserk_blow", "reckless_strike" ],
+    "ResultId": "death_frenzy",
+    "ResultName": "Death Frenzy",
+    "ResultDescription": "A frenzied, reckless assault with zero self-preservation.",
+    "ScalingFactorOverride": 2.2,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "cleave", "primal_fury" ],
+    "ResultId": "primal_cleave",
+    "ResultName": "Primal Cleave",
+    "ResultDescription": "Channels primal fury into a devastating wide swing.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 1.4,
+    "ManaCostOverride": 30
+  },
+  {
+    "InputSkillIds": [ "battle_roar", "berserk_blow" ],
+    "ResultId": "warlord_strike",
+    "ResultName": "Warlord Strike",
+    "ResultDescription": "A roar that channels rage directly into a single crushing blow.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 16
+  },
+  {
+    "InputSkillIds": [ "reckless_strike", "primal_fury" ],
+    "ResultId": "annihilate",
+    "ResultName": "Annihilate",
+    "ResultDescription": "An all-consuming strike that holds nothing back.",
+    "ScalingFactorOverride": 2.4,
+    "ManaCostOverride": 25
+  },
+  {
+    "InputSkillIds": [ "berserk_blow", "berserk_blow" ],
+    "ResultId": "double_frenzy",
+    "ResultName": "Double Frenzy",
+    "ResultDescription": "Two berserk blows in a maddened rush.",
+    "ScalingFactorOverride": 2.0,
+    "ManaCostOverride": 14
+  },
+  {
+    "InputSkillIds": [ "holy_light", "smite" ],
+    "ResultId": "divine_wrath",
+    "ResultName": "Divine Wrath",
+    "ResultDescription": "Combines holy light with divine wrath for a devastating strike.",
+    "ScalingFactorOverride": 1.7,
+    "ManaCostOverride": 20
+  },
+  {
+    "InputSkillIds": [ "minor_heal", "blessing" ],
+    "ResultId": "sacred_renewal",
+    "ResultName": "Sacred Renewal",
+    "ResultDescription": "A deep divine blessing that restores significant health.",
+    "TargetOverride": "Self",
+    "ScalingFactorOverride": 1.6,
+    "ManaCostOverride": 18,
+    "IsHealingOverride": true
+  },
+  {
+    "InputSkillIds": [ "divine_strike", "smite" ],
+    "ResultId": "holy_judgment",
+    "ResultName": "Holy Judgment",
+    "ResultDescription": "A blessed melee strike accompanied by divine judgment from above.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "holy_light", "divine_strike" ],
+    "ResultId": "light_of_justice",
+    "ResultName": "Light of Justice",
+    "ResultDescription": "Channels holy light into a melee strike of pure justice.",
+    "ScalingFactorOverride": 1.6,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "smite", "smite" ],
+    "ResultId": "twin_smite",
+    "ResultName": "Twin Smite",
+    "ResultDescription": "Two bursts of divine wrath in rapid succession.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "backstab", "evasive_strike" ],
+    "ResultId": "shadow_dance",
+    "ResultName": "Shadow Dance",
+    "ResultDescription": "Weaves between evasion and backstabs in a lethal dance.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "poison_dagger", "exploit_weakness" ],
+    "ResultId": "venomous_exploit",
+    "ResultName": "Venomous Exploit",
+    "ResultDescription": "Poisons the wound while exploiting every gap in the defense.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "quick_slash", "backstab" ],
+    "ResultId": "ambush",
+    "ResultName": "Ambush",
+    "ResultDescription": "A quick slash that opens the enemy up for a devastating backstab.",
+    "ScalingFactorOverride": 1.7,
+    "ManaCostOverride": 14
+  },
+  {
+    "InputSkillIds": [ "evasive_strike", "exploit_weakness" ],
+    "ResultId": "expose_and_strike",
+    "ResultName": "Expose and Strike",
+    "ResultDescription": "Dances around the enemy to expose a fatal weakness before striking.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "backstab", "backstab" ],
+    "ResultId": "double_backstab",
+    "ResultName": "Double Backstab",
+    "ResultDescription": "Two consecutive backstabs from impossible angles.",
+    "ScalingFactorOverride": 2.1,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "flame_bolt", "frost_shard" ],
+    "ResultId": "steam_blast",
+    "ResultName": "Steam Blast",
+    "ResultDescription": "Fire meets ice in a scalding explosion of steam.",
+    "ScalingFactorOverride": 1.6,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "spark", "elemental_wave" ],
+    "ResultId": "lightning_storm",
+    "ResultName": "Lightning Storm",
+    "ResultDescription": "A wave of electricity that shocks all enemies.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 1.1,
+    "ManaCostOverride": 26
+  },
+  {
+    "InputSkillIds": [ "flame_bolt", "elemental_wave" ],
+    "ResultId": "inferno_wave",
+    "ResultName": "Inferno Wave",
+    "ResultDescription": "A scorching wave of fire that engulfs all enemies.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 1.2,
+    "ManaCostOverride": 28
+  },
+  {
+    "InputSkillIds": [ "frost_shard", "elemental_wave" ],
+    "ResultId": "blizzard",
+    "ResultName": "Blizzard",
+    "ResultDescription": "A blizzard of ice shards batters all enemies.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 1.1,
+    "ManaCostOverride": 26
+  },
+  {
+    "InputSkillIds": [ "flame_bolt", "flame_bolt" ],
+    "ResultId": "twin_flame",
+    "ResultName": "Twin Flame",
+    "ResultDescription": "Two flame bolts fired simultaneously.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "arcane_bolt", "void_spike" ],
+    "ResultId": "void_lance",
+    "ResultName": "Void Lance",
+    "ResultDescription": "Combines arcane force with void energy into a piercing lance.",
+    "ScalingFactorOverride": 2.0,
+    "ManaCostOverride": 22
+  },
+  {
+    "InputSkillIds": [ "arcane_blast", "arcane_surge" ],
+    "ResultId": "arcane_apocalypse",
+    "ResultName": "Arcane Apocalypse",
+    "ResultDescription": "A surge-powered blast that tears through all enemies.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 1.5,
+    "ManaCostOverride": 36
+  },
+  {
+    "InputSkillIds": [ "mana_drain", "void_spike" ],
+    "ResultId": "void_drain",
+    "ResultName": "Void Drain",
+    "ResultDescription": "Drains arcane energy while puncturing the enemy with void.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "arcane_bolt", "arcane_surge" ],
+    "ResultId": "arcane_barrage",
+    "ResultName": "Arcane Barrage",
+    "ResultDescription": "A surging barrage of pure arcane bolts.",
+    "ScalingFactorOverride": 2.1,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "arcane_bolt", "arcane_bolt" ],
+    "ResultId": "twin_arcane",
+    "ResultName": "Twin Arcane",
+    "ResultDescription": "Two arcane bolts fired as one.",
+    "ScalingFactorOverride": 2.0,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "thorn_lash", "wild_growth" ],
+    "ResultId": "natures_wrath",
+    "ResultName": "Nature's Wrath",
+    "ResultDescription": "Vines and growth combine to batter all enemies.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 1.1,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "nature_bolt", "wind_gust" ],
+    "ResultId": "gale_force",
+    "ResultName": "Gale Force",
+    "ResultDescription": "Nature's energy rides a gale wind for a powerful strike.",
+    "ScalingFactorOverride": 1.7,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "barkskin", "thorn_lash" ],
+    "ResultId": "thorned_bark",
+    "ResultName": "Thorned Bark",
+    "ResultDescription": "Hardens into bark while lashing thorns outward.",
+    "ScalingFactorOverride": 1.2,
+    "ManaCostOverride": 18,
+    "IsHealingOverride": false
+  },
+  {
+    "InputSkillIds": [ "wind_gust", "wild_growth" ],
+    "ResultId": "storm_growth",
+    "ResultName": "Storm Growth",
+    "ResultDescription": "A storm of wind and vines assaults all enemies.",
+    "TargetOverride": "AllEnemies",
+    "ScalingFactorOverride": 1.1,
+    "ManaCostOverride": 26
+  },
+  {
+    "InputSkillIds": [ "nature_bolt", "nature_bolt" ],
+    "ResultId": "twin_nature",
+    "ResultName": "Twin Nature",
+    "ResultDescription": "Two bolts of natural energy strike in unison.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 18
+  },
+  {
+    "InputSkillIds": [ "dark_slash", "necrotic_strike" ],
+    "ResultId": "necrotic_blade",
+    "ResultName": "Necrotic Blade",
+    "ResultDescription": "Dark-infused slashes that corrupt the enemy's very life force.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 20
+  },
+  {
+    "InputSkillIds": [ "soul_drain", "shadow_veil" ],
+    "ResultId": "soul_veil",
+    "ResultName": "Soul Veil",
+    "ResultDescription": "Cloaked in shadow, drains the enemy's soul with terrifying force.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "dark_shield", "soul_drain" ],
+    "ResultId": "life_siphon",
+    "ResultName": "Life Siphon",
+    "ResultDescription": "Drains the enemy's life force to restore your own health.",
+    "TargetOverride": "Self",
+    "ScalingFactorOverride": 1.2,
+    "ManaCostOverride": 22,
+    "IsHealingOverride": true
+  },
+  {
+    "InputSkillIds": [ "shadow_veil", "necrotic_strike" ],
+    "ResultId": "shrouded_decay",
+    "ResultName": "Shrouded Decay",
+    "ResultDescription": "A shadow-shrouded strike that rots the enemy from within.",
+    "ScalingFactorOverride": 1.9,
+    "ManaCostOverride": 24
+  },
+  {
+    "InputSkillIds": [ "dark_slash", "dark_slash" ],
+    "ResultId": "twin_dark_slash",
+    "ResultName": "Twin Dark Slash",
+    "ResultDescription": "Two slashes of dark energy delivered in rapid succession.",
+    "ScalingFactorOverride": 1.8,
+    "ManaCostOverride": 18
+  }
+]

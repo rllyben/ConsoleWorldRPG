@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using ConsoleWorldRPG.Entities;
-using ConsoleWorldRPG.Enums;
-using ConsoleWorldRPG.Models;
-using ConsoleWorldRPG.Systems;
 
 namespace ConsoleWorldRPG.Services
 {
-    public class LoginManager
+    public static class LoginManager
     {
         public static UserAccount UserAccount { get; private set; }
+
         public static void Register()
         {
             Console.Write(Localization.T("ui_register_username"));
-            string username = Console.ReadLine()?.Trim().ToLower();
+            string username = Console.ReadLine()?.Trim().ToLower() ?? "";
 
             string path = Path.Combine("Data/users", $"{username}.json");
             if (File.Exists(path))
@@ -27,22 +19,17 @@ namespace ConsoleWorldRPG.Services
             }
 
             Console.Write(Localization.T("ui_register_password"));
-            string password = Console.ReadLine()?.Trim();
+            string password = Console.ReadLine()?.Trim() ?? "";
 
-            var account = new UserAccount
-            {
-                Username = username,
-                Password = password
-            };
+            var account = new UserAccount { Username = username, Password = password };
 
-            if (!Path.Exists(path))
-                Directory.CreateDirectory("Data/users");
-
+            Directory.CreateDirectory("Data/users");
             var json = JsonSerializer.Serialize(account, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, json);
 
             Console.WriteLine(Localization.T("ui_register_successful"));
         }
+
         public static Player Login()
         {
             bool success = false;
@@ -50,7 +37,7 @@ namespace ConsoleWorldRPG.Services
             while (!success)
             {
                 Console.Write(Localization.T("ui_login_username") + ": ");
-                string username = Console.ReadLine()?.Trim().ToLower();
+                string username = Console.ReadLine()?.Trim().ToLower() ?? "";
                 string path = Path.Combine("Data/users", $"{username}.json");
 
                 if (!File.Exists(path))
@@ -60,7 +47,7 @@ namespace ConsoleWorldRPG.Services
                 }
 
                 Console.Write(Localization.T("ui_login_password") + ": ");
-                string password = Console.ReadLine()?.Trim();
+                string password = Console.ReadLine()?.Trim() ?? "";
 
                 var json = File.ReadAllText(path);
                 user = JsonSerializer.Deserialize<UserAccount>(json);
@@ -99,54 +86,41 @@ namespace ConsoleWorldRPG.Services
                     return CreateNewCharacter(charName);
                 }
 
-                if (int.TryParse(input, out int idx) &&
-                    idx > 0 && idx <= user.CharacterNames.Count)
-                {
-                    return JsonSaveService.LoadCharacter(user.CharacterNames[idx - 1], user);
-                }
-
+                if (int.TryParse(input, out int idx) && idx > 0 && idx <= user.CharacterNames.Count)
+                    return CharacterService.LoadCharacter(user.CharacterNames[idx - 1], user);
             }
-
         }
+
         private static Player CreateNewCharacter(string name)
         {
-            Player player = new Player("null", new Stats());
-            player.Name = name;
+            var player = new Player(name, new Stats());
             Console.WriteLine(Localization.T("ui_creation_name_set") + player.Name + "\n");
-            Console.WriteLine(Localization.T("ui_creation_choose_class")); 
+            Console.WriteLine(Localization.T("ui_creation_choose_class"));
             Console.WriteLine(Localization.T("ui_creation_classes"));
             foreach (PlayerClass klasse in ClassProfile.All.Keys)
-            {
                 Console.WriteLine(klasse);
-            }
+
             Console.Write("> ");
-            string input = Console.ReadLine()?.Trim().ToLower();
-            HandleClassSelection(input, ref player);
+            string input = Console.ReadLine()?.Trim().ToLower() ?? "";
+            player.Class = input switch
+            {
+                "archer"        => PlayerClass.Archer,
+                "arcanmage"     => PlayerClass.ArcanMage,
+                "barbarian"     => PlayerClass.Barbarian,
+                "cleric"        => PlayerClass.Cleric,
+                "druid"         => PlayerClass.Druid,
+                "elementalmage" => PlayerClass.ElementalMage,
+                "fighter"       => PlayerClass.Fighter,
+                "hunter"        => PlayerClass.Hunter,
+                "knight"        => PlayerClass.Knight,
+                "rogue"         => PlayerClass.Rogue,
+                "soulsknight"   => PlayerClass.SoulsKnight,
+                _               => PlayerClass.Fighter
+            };
+
             Console.WriteLine(Localization.T("ui_creation_class_set") + player.Class);
             player.CurrentRoom = RoomService.AllRooms.FirstOrDefault(r => r.Id == 1);
             return player;
-        }
-        /// <summary>
-        /// Handles the Class selection of the Player
-        /// </summary>
-        /// <param name="input"></param>
-        private static void HandleClassSelection(string input, ref Player player)
-        {
-            switch (input)
-            {
-                case "archer": player.Class = PlayerClass.Archer; break;
-                case "arcanmage": player.Class = PlayerClass.ArcanMage; break;
-                case "barbarian": player.Class = PlayerClass.Barbarian; break;
-                case "cleric": player.Class = PlayerClass.Cleric; break;
-                case "druid": player.Class = PlayerClass.Druid; break;
-                case "elementalmage": player.Class = PlayerClass.ElementalMage; break;
-                case "fighter": player.Class = PlayerClass.Fighter; break;
-                case "hunter": player.Class = PlayerClass.Hunter; break;
-                case "knight": player.Class = PlayerClass.Knight; break;
-                case "rogue": player.Class = PlayerClass.Rogue; break;
-                case "soulsknight": player.Class = PlayerClass.SoulsKnight; break;
-            }
-
         }
 
     }

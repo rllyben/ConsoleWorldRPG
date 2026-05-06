@@ -1,100 +1,29 @@
-using System;
-using System.Text.Json;
-using System.Xml.Linq;
-using ConsoleWorldRPG.Entities;
-using ConsoleWorldRPG.Interfaces;
-using ConsoleWorldRPG.Systems;
-
 namespace ConsoleWorldRPG.Services
 {
-    public class GameService
+    public static class GameService
     {
-        public static Dictionary<int, Room> rooms = new();
-        private static List<Monster> monster = new();
-        public static GameStatus Game = new GameStatus();
-        /// <summary>
-        /// Loads all game data
-        /// </summary>
-        /// <returns>if all loadings where successful</returns>
+        public static IReadOnlyDictionary<int, Room> Rooms => MyriaLib.Services.GameService.Rooms;
+
         public static bool InitializeGame(Player player)
         {
-            bool success = false;
             try
             {
-                NotifyUser("Session");
-                Game = GameStatusService.Load();
-                NotifyUser("monster");
-                monster = MonsterService.LoadMonsters();
-                NotifyUser("rooms");
-                success = LoadRooms();
-                NotifyUser("connect monster to their rooms");
-                ConnectMonsterRooms();
-                NotifyUser("dungons");
-                DungeonRegistry.Load();
-                NotifyUser("caves");
-                CaveRegistry.Load();
-                NotifyUser("cities");
-                CityRegistry.Load();
-                NotifyUser("forests");
-                ForestRegistry.Load();
-                NotifyUser("items");
-                ItemFactory.LoadItems();
-                NotifyUser("quests");
-                QuestManager.LoadQuests();
-                NotifyUser("skills");
-                SkillFactory.LoadSkills();
                 SettingsService.Load();
-                Localization.Load(SettingsService.Current.Language);
-                NotifyUser("Day cycle");
-                DayCycleManager.Initialize(player);
-                DayCycleManager.StartBackgroundLoop(player);
-                Console.WriteLine();
+                Localization.Load(Settings.Current.LanguageSettings.Local);
+
+                var progress = new Progress<string>(step =>
+                    Console.WriteLine($"Loading {step}..."));
+
+                MyriaLib.Services.GameService.InitializeGame(progress);
+                MyriaLib.Services.GameService.StartSession(player);
             }
             catch (Exception ex)
             {
-                success = false;
-                Console.WriteLine("Exited with error: ", ex.ToString());
-            }
-
-            return success;
-        }
-        /// <summary>
-        /// loads all rooms from RoomService
-        /// </summary>
-        /// <returns>returns if it was successful</returns>
-        private static bool LoadRooms()
-        {
-            rooms = RoomService.LoadRooms();
-            if (rooms.Count == 0)
-            {
-                Console.WriteLine("No rooms found! Exiting...");
+                Console.WriteLine($"Initialization failed: {ex.Message}");
                 return false;
             }
+
             return true;
-        }
-        /// <summary>
-        /// connects monsters to their saved rooms
-        /// </summary>
-        private static void ConnectMonsterRooms()
-        {
-            foreach (Monster mob in monster)
-            {
-                var selectedRooms = rooms.Values.Where(r => r.HasMonsters && r.EncounterableMonsters.ContainsKey(mob.Id));
-                foreach (Room room in selectedRooms)
-                {
-                    room.Monsters.Add(mob);
-                }
-
-            }
-
-        }
-        /// <summary>
-        /// prints an user notification what is loaded currently
-        /// </summary>
-        /// <param name="status">the info whats loaded</param>
-        private static void NotifyUser(string status)
-        {
-            Console.WriteLine($"Loading {status} ...");
         }
 
     }

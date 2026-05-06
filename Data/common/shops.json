@@ -1,0 +1,14 @@
+[
+  {
+    "id": "shop_general",
+    "itemIds": [ "iron_ore", "shadow_remnant", "hp_potion_small" ],
+    "buyMultiplier": 1.0,
+    "sellMultiplier": 0.75
+  },
+  {
+    "id": "shop_equipment",
+    "itemIds": [ "short_sword", "leather_armor", "ring_copper" ],
+    "buyMultiplier": 1.0,
+    "sellMultiplier": 0.75
+  }
+]
