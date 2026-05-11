@@ -141,10 +141,17 @@ namespace ConsoleWorldRPG.Entities.NPCs
 
         private static void HandleUpgrade(Player player)
         {
-            var upgradable = player.Inventory.Items.OfType<EquipmentItem>()
-                .Where(e => e.UpgradeLevel < 9).ToList();
+            int knowledgeLevel = JobXpService.GetLevel(JobManager.GetOrAdd(player, "blacksmith").KnowledgeXp);
+            int maxUpgrade = JobXpService.GetMaxUpgradeLevel(knowledgeLevel);
 
-            if (!upgradable.Any()) { Console.WriteLine("❌ You have no equipment that can be upgraded."); return; }
+            var upgradable = player.Inventory.Items.OfType<EquipmentItem>()
+                .Where(e => e.UpgradeLevel < maxUpgrade).ToList();
+
+            if (!upgradable.Any())
+            {
+                Console.WriteLine($"❌ You have no equipment that can be upgraded (max +{maxUpgrade} with your current knowledge).");
+                return;
+            }
 
             while (true)
             {
@@ -160,7 +167,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
                 }
 
                 var item = upgradable[choice - 1];
-                if (item.TryUpgrade(player))
+                if (item.TryUpgrade(player, maxUpgrade))
                 {
                     JobManager.GrantSkillXp(player, "blacksmith", 25);
                     Console.WriteLine($"🛠 {item.Name} is now +{item.UpgradeLevel}!");

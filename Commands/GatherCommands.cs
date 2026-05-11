@@ -6,11 +6,13 @@ namespace ConsoleWorldRPG.Commands
         {
             if (!input.StartsWith("gather ")) return false;
 
-            if (player.CurrentRoom.GathersRemaining < 1 ||
+            int gatherBonus = JobManager.GetGatherKnowledgeBonus(player);
+            int effectiveRemaining = player.CurrentRoom.GathersRemaining + gatherBonus;
+            if (effectiveRemaining < 1 ||
                 (player.RoomGatheringStatus.TryGetValue(player.CurrentRoom.Id, out var lastGather)
                  && lastGather == DateTime.Now.Date))
             {
-                if (player.CurrentRoom.GathersRemaining < 1)
+                if (effectiveRemaining < 1)
                     player.RoomGatheringStatus[player.CurrentRoom.Id] = DateTime.Now.Date;
 
                 Console.WriteLine("🪓 You've already gathered everything useful here for today.");
@@ -34,18 +36,20 @@ namespace ConsoleWorldRPG.Commands
                 return true;
             }
 
+            string jobId = spot.Type switch
+            {
+                GatheringType.Ore  => "miner",
+                GatheringType.Tree => "woodcutter",
+                GatheringType.Herb => "herbalist",
+                _                  => ""
+            };
+            if (!string.IsNullOrEmpty(jobId))
+                item.StackSize = JobManager.GetGatherAmount(player, jobId);
+
             if (player.Inventory.AddItem(item, player))
             {
-                Console.WriteLine($"🧺 You gathered: {item.Name}");
+                Console.WriteLine($"🧺 You gathered {item.StackSize}x {item.Name}");
                 player.CurrentRoom.GathersRemaining--;
-
-                string jobId = spot.Type switch
-                {
-                    GatheringType.Ore  => "miner",
-                    GatheringType.Tree => "woodcutter",
-                    GatheringType.Herb => "herbalist",
-                    _                  => ""
-                };
                 if (!string.IsNullOrEmpty(jobId))
                     JobManager.GrantSkillXp(player, jobId, 10);
             }
