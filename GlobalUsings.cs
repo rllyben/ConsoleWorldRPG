@@ -26,6 +26,7 @@ global using CharacterService = MyriaLib.Services.CharacterService;
 global using RoomService = MyriaLib.Services.RoomService;
 global using SettingsService = MyriaLib.Services.SettingsService;
 global using QuestManager = MyriaLib.Services.Manager.QuestManager;
+global using JobManager = MyriaLib.Services.Manager.JobManager;
 global using DayCycleManager = MyriaLib.Services.Manager.DayCycleManager;
 global using LootGenerator = MyriaLib.Systems.LootGenerator;
 global using SkillFusionSystem = MyriaLib.Systems.SkillFusionSystem;

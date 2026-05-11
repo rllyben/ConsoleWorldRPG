@@ -38,6 +38,16 @@ namespace ConsoleWorldRPG.Commands
             {
                 Console.WriteLine($"🧺 You gathered: {item.Name}");
                 player.CurrentRoom.GathersRemaining--;
+
+                string jobId = spot.Type switch
+                {
+                    GatheringType.Ore  => "miner",
+                    GatheringType.Tree => "woodcutter",
+                    GatheringType.Herb => "herbalist",
+                    _                  => ""
+                };
+                if (!string.IsNullOrEmpty(jobId))
+                    JobManager.GrantSkillXp(player, jobId, 10);
             }
             else
             {

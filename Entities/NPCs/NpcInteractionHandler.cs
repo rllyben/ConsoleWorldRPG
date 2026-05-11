@@ -129,6 +129,7 @@ namespace ConsoleWorldRPG.Entities.NPCs
                 if (ItemFactory.TryCreateItem(craftedItemId, out var crafted))
                 {
                     player.Inventory.AddItem(crafted, player);
+                    JobManager.GrantSkillXp(player, "blacksmith", 20);
                     Console.WriteLine($"✔ You crafted 1 {crafted.Name}.");
                 }
                 else
@@ -160,7 +161,10 @@ namespace ConsoleWorldRPG.Entities.NPCs
 
                 var item = upgradable[choice - 1];
                 if (item.TryUpgrade(player))
+                {
+                    JobManager.GrantSkillXp(player, "blacksmith", 25);
                     Console.WriteLine($"🛠 {item.Name} is now +{item.UpgradeLevel}!");
+                }
             }
         }
 
