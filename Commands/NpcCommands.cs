@@ -7,7 +7,7 @@ namespace ConsoleWorldRPG.Commands
             if (input.StartsWith("go to "))
             {
                 string npc = input.Substring(6).Trim();
-                NpcInteractionHandler.InteractWithNpc(npc, ref player);
+                NpcInteractionHandler.InteractWithNpc(npc, player);
                 return true;
             }
 

@@ -23,6 +23,7 @@ global using MyriaLib.Services.Regestries;  // DungeonRegistry, CaveRegistry, Ci
 // MyriaLib.Services.Manager: LoginManager, DayCycleManager  — LoginManager conflicts
 // MyriaLib.Systems: Localization conflicts with ConsoleWorldRPG.Systems.Localization
 global using CharacterService = MyriaLib.Services.CharacterService;
+global using NpcService = MyriaLib.Services.NpcService;
 global using RoomService = MyriaLib.Services.RoomService;
 global using SettingsService = MyriaLib.Services.SettingsService;
 global using QuestManager = MyriaLib.Services.Manager.QuestManager;
