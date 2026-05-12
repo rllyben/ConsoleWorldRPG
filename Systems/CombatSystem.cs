@@ -28,6 +28,12 @@ namespace ConsoleWorldRPG.Systems
                 return;
             }
 
+            if (ConsoleHubClient.IsConnected)
+            {
+                RunOnlineCombat(player);
+                return;
+            }
+
             var monster = SelectMonster(player);
             Console.WriteLine($"\nA wild {monster.Name} appears!");
             Console.WriteLine(monster.Description);
@@ -47,6 +53,140 @@ namespace ConsoleWorldRPG.Systems
             {
                 HandleDeath(player);
             }
+        }
+
+        // ── Online combat ────────────────────────────────────────────────────────
+
+        private static void RunOnlineCombat(Player player)
+        {
+            var start = ConsoleHubClient.StartCombatAsync(player.CurrentRoom.Id)
+                            .GetAwaiter().GetResult();
+            if (start is null || !start.Success)
+            {
+                Console.WriteLine($"❌ Could not start encounter: {start?.Reason ?? "server unavailable"}");
+                return;
+            }
+
+            string monsterName = start.MonsterName ?? "???";
+            Console.WriteLine($"\nA wild {monsterName} appears!");
+
+            string phase     = "PlayerTurn";
+            int monsterHp    = start.MonsterHp;
+            int monsterMaxHp = start.MonsterMaxHp;
+
+            while (true)
+            {
+                if (phase is "Casting" or "Recovery")
+                {
+                    Console.WriteLine($"\n[{phase}...] Press Enter to continue.");
+                    Console.ReadLine();
+                    var adv = ConsoleHubClient.PlayerAttackAsync().GetAwaiter().GetResult();
+                    if (adv is null) break;
+                    FlushOnlineLog(adv.LogEntries);
+                    player.CurrentHealth = adv.PlayerHp;
+                    monsterHp = adv.MonsterHp;
+                    phase     = adv.Phase;
+                    if (!adv.Finished) continue;
+                    if (adv.PlayerWon) OnlineWin(player, monsterName, adv);
+                    else               OnlineDeath(player);
+                    return;
+                }
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"\n[HP: {player.CurrentHealth}/{player.MaxHealth} | MP: {player.CurrentMana}/{player.MaxMana}]");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{monsterName} — HP: {monsterHp}/{monsterMaxHp}");
+                Console.ResetColor();
+                Console.WriteLine("What will you do? (attack / cast <skill> / list)");
+                Console.Write("> ");
+
+                var input = Console.ReadLine()?.Trim().ToLower() ?? "";
+                CombatTurnResult? result = null;
+
+                if (input == "attack")
+                {
+                    result = ConsoleHubClient.PlayerAttackAsync().GetAwaiter().GetResult();
+                }
+                else if (input.StartsWith("cast "))
+                {
+                    string skillName = input[5..].Trim();
+                    var skill = player.Skills.FirstOrDefault(s =>
+                        s.Name.Equals(skillName, StringComparison.OrdinalIgnoreCase));
+                    if (skill == null) { Console.WriteLine("❌ You don't know that skill."); continue; }
+                    result = ConsoleHubClient.PlayerCastSkillAsync(skill.Id).GetAwaiter().GetResult();
+                }
+                else if (input is "cast" or "cast ?")
+                {
+                    PrintSkillList(player);
+                    continue;
+                }
+                else if (input == "list")
+                {
+                    player.Inventory.ListItems();
+                    continue;
+                }
+                else
+                {
+                    Console.WriteLine("❓ Use 'attack', 'cast <skill>', or 'list'.");
+                    continue;
+                }
+
+                if (result is null || !result.Success)
+                {
+                    Console.WriteLine("❌ Action failed.");
+                    continue;
+                }
+
+                FlushOnlineLog(result.LogEntries);
+                player.CurrentHealth = result.PlayerHp;
+                monsterHp = result.MonsterHp;
+                phase     = result.Phase;
+
+                if (!result.Finished) continue;
+                if (result.PlayerWon) OnlineWin(player, monsterName, result);
+                else                  OnlineDeath(player);
+                return;
+            }
+        }
+
+        private static void FlushOnlineLog(List<CombatLogMessage> entries)
+        {
+            foreach (var entry in entries)
+                if (_logTemplates.TryGetValue(entry.Key, out var template))
+                    Console.WriteLine(string.Format(template, entry.Args));
+        }
+
+        private static void OnlineWin(Player player, string monsterName, CombatTurnResult result)
+        {
+            Console.WriteLine($"\n✅ You defeated the {monsterName}!");
+            if (result.XpGained > 0)
+            {
+                player.GainXp(result.XpGained);
+                Console.WriteLine($"⭐ +{result.XpGained} XP");
+            }
+            var drops = new List<(string name, int count)>();
+            foreach (var id in result.LootItemIds)
+                if (ItemFactory.TryCreateItem(id, out var item) && player.Inventory.AddItem(item, player))
+                    drops.Add((item.Name, item.StackSize));
+            if (drops.Count > 0)
+            {
+                Console.WriteLine("You found:");
+                foreach (var (name, count) in drops)
+                    Console.WriteLine($"  🪶 {count}x {name}");
+            }
+        }
+
+        private static void OnlineDeath(Player player)
+        {
+            Console.WriteLine("\n💀 You were defeated...");
+            int respawnRoomId   = player.LastHealerRoomId ?? 1;
+            var respawnRoom     = GameService.Rooms[respawnRoomId];
+            player.CurrentRoom  = respawnRoom;
+            player.CurrentRoomId = respawnRoomId;
+            player.CurrentHealth = player.MaxHealth;
+            player.CurrentMana   = player.MaxMana;
+            Console.WriteLine($"🌀 You awaken in {respawnRoom.Name}.");
         }
 
         // ── Monster selection ────────────────────────────────────────────────────

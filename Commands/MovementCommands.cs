@@ -68,6 +68,7 @@ namespace ConsoleWorldRPG.Commands
                 player.LastHealerRoomId = nextRoom.Id;
 
             player.CurrentRoom = nextRoom;
+            _ = ConsoleHubClient.JoinRoomAsync(player.CurrentRoom.Id);
             Console.WriteLine($"\nYou move {direction}.");
             player.CurrentRoom.Describe();
         }

@@ -1,0 +1,62 @@
+[
+  {
+    "Id": "woodcutter",
+    "Name": "Woodcutter",
+    "Description": "Harvest timber from forests and sell lumber to carpenters and builders across the realm.",
+    "Type": "Gathering"
+  },
+  {
+    "Id": "miner",
+    "Name": "Miner",
+    "Description": "Delve into caves and quarries to extract ore, gems, and stone for crafting and trade.",
+    "Type": "Gathering"
+  },
+  {
+    "Id": "herbalist",
+    "Name": "Herbalist",
+    "Description": "Collect rare plants and herbs used in alchemy, medicine, and magical rituals.",
+    "Type": "Gathering"
+  },
+  {
+    "Id": "blacksmith",
+    "Name": "Blacksmith",
+    "Description": "Forge weapons, armour, and tools from raw metals. Mastery unlocks rarer alloys and enchantable gear.",
+    "Type": "Crafting"
+  },
+  {
+    "Id": "alchemist",
+    "Name": "Alchemist",
+    "Description": "Brew potions, elixirs, and transmutation reagents from gathered herbs and minerals.",
+    "Type": "Crafting"
+  },
+  {
+    "Id": "cook",
+    "Name": "Cook",
+    "Description": "Prepare meals that grant temporary buffs to adventurers. Higher skill unlocks more powerful recipes.",
+    "Type": "Crafting"
+  },
+  {
+    "Id": "leathersmith",
+    "Name": "Leathersmith",
+    "Description": "Work hides and pelts into supple armour, cloaks, and footwear for rogues and hunters.",
+    "Type": "Crafting"
+  },
+  {
+    "Id": "tailor",
+    "Name": "Tailor",
+    "Description": "Weave cloth and sew robes worn by clerics, mages, and druids. Higher skill yields finer magical fabrics.",
+    "Type": "Crafting"
+  },
+  {
+    "Id": "artificer",
+    "Name": "Artificer",
+    "Description": "Craft rings, bands, and trinkets that channel latent power. Mastery unlocks rarer gemstone settings.",
+    "Type": "Crafting"
+  },
+  {
+    "Id": "enchanter",
+    "Name": "Enchanter",
+    "Description": "Imbue staves, tomes, and magical weapons with arcane energy. A rare and sought-after craft.",
+    "Type": "Crafting"
+  }
+]

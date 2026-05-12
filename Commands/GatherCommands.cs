@@ -28,6 +28,29 @@ namespace ConsoleWorldRPG.Commands
 
             if (!player.HasToolFor(spot.Type)) { Console.WriteLine("🛠 You don't have the required tool to gather here."); return true; }
 
+            if (ConsoleHubClient.IsConnected)
+            {
+                var result = ConsoleHubClient.GatherAsync(player.CurrentRoom.Id).GetAwaiter().GetResult();
+                if (result is null || !result.Success)
+                {
+                    Console.WriteLine($"❌ {result?.Reason ?? "Gather failed."}");
+                    return true;
+                }
+                if (result.ItemId != null && ItemFactory.TryCreateItem(result.ItemId, out var serverItem))
+                {
+                    serverItem.StackSize = result.Amount;
+                    if (player.Inventory.AddItem(serverItem, player))
+                        Console.WriteLine($"🧺 You gathered {result.Amount}x {serverItem.Name}");
+                    else
+                        Console.WriteLine("❌ Inventory full. You couldn't carry the item.");
+                }
+                if (!string.IsNullOrEmpty(result.JobId) && result.SkillXpGained > 0)
+                    JobManager.GrantSkillXp(player, result.JobId, (int)result.SkillXpGained);
+                if (result.RemainingGathers >= 0)
+                    player.CurrentRoom.GathersRemaining = result.RemainingGathers;
+                return true;
+            }
+
             if (!ItemFactory.TryCreateItem(spot.GatheredItemId, out var item))
             {
                 Console.ForegroundColor = ConsoleColor.Red;

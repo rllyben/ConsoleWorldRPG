@@ -15,7 +15,6 @@ namespace ConsoleWorldRPG.Services
                     Console.WriteLine($"Loading {step}..."));
 
                 MyriaLib.Services.GameService.InitializeGame(progress);
-                MyriaLib.Services.GameService.StartSession(player);
             }
             catch (Exception ex)
             {

@@ -11,6 +11,7 @@ global using MyriaLib.Entities.NPCs;
 global using MyriaLib.Systems.Enums;
 global using MyriaLib.Systems.Interfaces;
 global using MyriaLib.Models;
+global using MyriaLib.Models.Dto;
 global using MyriaLib.Models.Settings;
 global using MyriaLib.Utils;
 
@@ -28,15 +29,19 @@ global using RoomService = MyriaLib.Services.RoomService;
 global using SettingsService = MyriaLib.Services.SettingsService;
 global using QuestManager = MyriaLib.Services.Manager.QuestManager;
 global using JobManager = MyriaLib.Services.Manager.JobManager;
+global using ClassManager = MyriaLib.Services.Manager.ClassManager;
 global using JobXpService = MyriaLib.Services.JobXpService;
 global using DayCycleManager = MyriaLib.Services.Manager.DayCycleManager;
 global using LootGenerator = MyriaLib.Systems.LootGenerator;
 global using SkillFusionSystem = MyriaLib.Systems.SkillFusionSystem;
+global using SkillCombinationService = MyriaLib.Services.SkillCombinationService;
+global using SkillSlotService = MyriaLib.Services.SkillSlotService;
 global using GameLog = MyriaLib.Systems.GameLog;
 global using GameStatus = MyriaLib.Systems.GameStatus;
 global using ItemConverter = MyriaLib.Systems.ItemConverter;
 
 // ── ConsoleWorldRPG own types ─────────────────────────────────────────────
+global using ConsoleWorldRPG.Commands;       // SkillCommands, PlayerCommands, etc.
 global using ConsoleWorldRPG.Services;       // GameService, LoginManager (console wrappers)
 global using ConsoleWorldRPG.Systems;        // EncounterRunner, CommandRouter, Localization
 global using ConsoleWorldRPG.Utils;          // Printer
