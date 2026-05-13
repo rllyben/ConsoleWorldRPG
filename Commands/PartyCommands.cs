@@ -75,9 +75,25 @@ namespace ConsoleWorldRPG.Commands
                 _ = ConsoleHubClient.LeavePartyAsync();
                 Console.WriteLine("You left the party.");
             }
+            else if (sub.StartsWith("kick "))
+            {
+                string target = sub[5..].Trim();
+                _ = ConsoleHubClient.KickFromPartyAsync(target);
+                Console.WriteLine($"Kick request sent for {target}.");
+            }
+            else if (sub.StartsWith("promote "))
+            {
+                string target = sub[8..].Trim();
+                _ = ConsoleHubClient.TransferPartyLeaderAsync(target);
+                Console.WriteLine($"Leadership transfer requested for {target}.");
+            }
+            else if (sub.Length > 0)
+            {
+                _ = ConsoleHubClient.SendMessageAsync(sub, "party");
+            }
             else
             {
-                Console.WriteLine("Party commands: party | party invite <player> | party accept <id> | party decline <id> <from> | party leave");
+                Console.WriteLine("Party commands: party | party <message> | party invite <player> | party accept <id> | party decline <id> <from> | party leave | party kick <player> | party promote <player>");
             }
         }
     }

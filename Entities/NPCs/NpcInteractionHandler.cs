@@ -29,13 +29,18 @@ namespace ConsoleWorldRPG.Entities.NPCs
             // Service-specific menu
             switch (npc.Type)
             {
-                case NpcType.Healer:      HealerMenu(player, npc); break;
+                case NpcType.Healer:         HealerMenu(player, npc); break;
                 case NpcType.Smith:
                 case NpcType.Leathersmith:
                 case NpcType.Tailor:
                 case NpcType.Artificer:
-                case NpcType.Enchanter:   SmithMenu(player, npc); break;
-                case NpcType.Shop:        ShopMenu(player, npc); break;
+                case NpcType.Enchanter:
+                case NpcType.Alchemist:
+                case NpcType.Cook:           SmithMenu(player, npc); break;
+                case NpcType.Woodcutter:
+                case NpcType.Miner:
+                case NpcType.Herbalist:      GatheringMasterMenu(player, npc); break;
+                case NpcType.Shop:           ShopMenu(player, npc); break;
                 case NpcType.SkillMaster:
                     if (npc.Services.Contains("change_class"))
                         ClassMasterMenu(player);
@@ -128,7 +133,9 @@ namespace ConsoleWorldRPG.Entities.NPCs
         {
             // When GiverNpcId is set in quests.json, switch to:
             // var available = QuestManager.GetAcceptableForNpc(player, npc.Id);
-            var available = QuestManager.GetAvailableForPlayer(player)
+            // CurrentPartyMembers is the full party list (includes self); 0 means solo.
+            int partySize = Math.Max(1, ConsoleHubClient.CurrentPartyMembers.Count);
+            var available = QuestManager.GetAvailableForPlayer(player, partySize)
                 .Where(q => !player.ActiveQuests.Any(a => a.Id == q.Id))
                 .ToList();
 
@@ -152,12 +159,15 @@ namespace ConsoleWorldRPG.Entities.NPCs
             }
 
             var quest = template.Clone();
-            quest.Status = QuestStatus.InProgress;
+            quest.Status = quest.IsTalkOnly ? QuestStatus.Completed : QuestStatus.InProgress;
             foreach (var key in quest.RequiredKills.Keys) quest.KillProgress[key] = 0;
             foreach (var key in quest.RequiredItems.Keys) quest.ItemProgress[key] = 0;
+            quest.GrantAcceptItems(player);
             player.ActiveQuests.Add(quest);
 
-            Console.WriteLine($"✔ Quest accepted: {quest.Name}");
+            Console.WriteLine(quest.IsTalkOnly
+                ? $"✔ Quest accepted and completed: {quest.Name}"
+                : $"✔ Quest accepted: {quest.Name}");
         }
 
         // ── CN8: Quest dialog ─────────────────────────────────────────────────────
@@ -300,15 +310,17 @@ namespace ConsoleWorldRPG.Entities.NPCs
 
         private static void UpgradeMenu(Player player, Npc npc)
         {
-            int knowledgeLevel = JobXpService.GetLevel(JobManager.GetOrAdd(player, "blacksmith").KnowledgeXp);
-            int maxUpgrade     = JobXpService.GetMaxUpgradeLevel(knowledgeLevel);
+            string jobId       = npc.MasterJobId ?? "blacksmith"; // J16: use NPC's actual job
+            int    knowledgeLv = JobXpService.GetLevel(JobManager.GetOrAdd(player, jobId).KnowledgeXp);
+            int    maxUpgrade  = JobXpService.GetMaxUpgradeLevel(knowledgeLv); // J19
 
             var upgradable = player.Inventory.Items.OfType<EquipmentItem>()
-                .Where(e => e.UpgradeLevel < maxUpgrade).ToList();
+                .Where(e => e.UpgradeCategory == npc.UpgradeCategory && e.UpgradeLevel < maxUpgrade)
+                .ToList();
 
             if (upgradable.Count == 0)
             {
-                Console.WriteLine($"❌ No equipment can be upgraded (max +{maxUpgrade} at your knowledge level).");
+                Console.WriteLine($"No equipment eligible for upgrade here (max +{maxUpgrade} at your knowledge level).");
                 return;
             }
 
@@ -339,10 +351,17 @@ namespace ConsoleWorldRPG.Entities.NPCs
                 }
                 else
                 {
+                    // J16: apply skill quality before upgrading
+                    float quality = (float)JobXpService.GetSkillMultiplierFromXp(JobManager.GetOrAdd(player, jobId).SkillXp);
+                    if (quality > item.CraftQuality) item.CraftQuality = quality;
+
                     if (item.TryUpgrade(player, maxUpgrade))
                     {
-                        JobManager.GrantSkillXp(player, "blacksmith", 25);
+                        JobManager.GrantSkillXp(player, jobId, 25);
                         Console.WriteLine($"🛠 {item.Name} is now +{item.UpgradeLevel}!");
+                        upgradable = player.Inventory.Items.OfType<EquipmentItem>()
+                            .Where(e => e.UpgradeCategory == npc.UpgradeCategory && e.UpgradeLevel < maxUpgrade)
+                            .ToList();
                     }
                     else
                     {
@@ -354,62 +373,151 @@ namespace ConsoleWorldRPG.Entities.NPCs
 
         private static void CraftMenu(Player player, Npc npc)
         {
+            // J20: filter recipes by player's Knowledge level for this NPC's job
+            string jobId      = npc.MasterJobId ?? "blacksmith";
+            int    knowledge  = JobXpService.GetLevel(JobManager.GetOrAdd(player, jobId).KnowledgeXp);
+            var    recipes    = CraftingService.GetRecipes(npc.Id)
+                                    .Where(r => r.RequiredKnowledgeLevel <= knowledge)
+                                    .ToArray();
+
+            if (recipes.Length == 0)
+            {
+                Console.WriteLine("No recipes available at your current knowledge level.");
+                return;
+            }
+
             while (true)
             {
-                Console.WriteLine("\n🧪 Crafting:");
-                Console.WriteLine("1. Upgrade Stone (requires: 3 iron_ore)");
-                Console.WriteLine("0. Cancel");
-                Console.Write("> ");
-                var choice = Console.ReadLine()?.Trim();
-                if (choice == "0") return;
-                if (choice != "1") continue;
-
-                const string mat     = "iron_ore";
-                const string product = "upgrade_stone";
-                const int    cost    = 3;
-
-                var stack = player.Inventory.Items.FirstOrDefault(i => i.Id == mat);
-                if (stack == null || stack.StackSize < cost)
+                Console.WriteLine($"\n🧪 Crafting ({jobId}, knowledge Lv {knowledge}):");
+                for (int i = 0; i < recipes.Length; i++)
                 {
-                    Console.WriteLine($"❌ Need at least {cost}x iron ore.");
+                    var r = recipes[i];
+                    string ingredients = string.Join(", ", r.Ingredients.Select(ing => $"{ing.Amount}x {ing.ItemId}"));
+                    Console.WriteLine($"  {i + 1}. {r.OutputId}  [{ingredients}]  (XP: {r.XpReward})");
+                }
+                Console.WriteLine("  0. Cancel");
+                Console.Write("> ");
+
+                var input = Console.ReadLine()?.Trim();
+                if (input == "0") return;
+                if (!int.TryParse(input, out int choice) || choice < 1 || choice > recipes.Length)
+                {
+                    Console.WriteLine("❌ Invalid option.");
                     continue;
                 }
 
+                var recipe = recipes[choice - 1];
+
+                Console.Write("Quantity (default 1): ");
+                string? qInput = Console.ReadLine()?.Trim();
+                int qty = string.IsNullOrEmpty(qInput) ? 1 : (int.TryParse(qInput, out int q) && q > 0 ? q : 1);
+
                 if (ConsoleHubClient.IsConnected)
                 {
-                    var result = ConsoleHubClient.CraftAsync(npc.Id, product, 1).GetAwaiter().GetResult();
+                    var result = ConsoleHubClient.CraftAsync(npc.Id, recipe.OutputId, qty).GetAwaiter().GetResult();
                     if (result is null || !result.Success)
                     {
                         Console.WriteLine($"❌ {result?.Reason ?? "Craft failed."}");
                         continue;
                     }
-                    if (stack.StackSize == cost) player.Inventory.RemoveItem(stack);
-                    else stack.StackSize -= cost;
-
-                    if (result.ItemId != null && ItemFactory.TryCreateItem(result.ItemId, out var serverCrafted))
+                    // Apply server delta locally
+                    foreach (var ing in recipe.Ingredients)
                     {
-                        serverCrafted.StackSize = result.Amount;
-                        player.Inventory.AddItem(serverCrafted, player);
-                        Console.WriteLine($"✔ Crafted {result.Amount}x {serverCrafted.Name}.");
+                        int remaining = ing.Amount * qty;
+                        foreach (var stack in player.Inventory.Items.Where(i => i.Id == ing.ItemId).ToList())
+                        {
+                            if (remaining <= 0) break;
+                            int take = Math.Min(stack.StackSize, remaining);
+                            stack.StackSize -= take;
+                            remaining -= take;
+                            if (stack.StackSize <= 0) player.Inventory.RemoveItem(stack);
+                        }
+                    }
+                    if (result.ItemId != null && ItemFactory.TryCreateItem(result.ItemId, out var serverOut))
+                    {
+                        serverOut.StackSize = result.Amount;
+                        player.Inventory.AddItem(serverOut, player);
+                        Console.WriteLine($"✔ Crafted {result.Amount}x {serverOut.Name}.");
                     }
                     if (!string.IsNullOrEmpty(result.JobId) && result.SkillXpGained > 0)
                         JobManager.GrantSkillXp(player, result.JobId, (int)result.SkillXpGained);
                 }
                 else
                 {
-                    if (stack.StackSize == cost) player.Inventory.RemoveItem(stack);
-                    else stack.StackSize -= cost;
-
-                    if (ItemFactory.TryCreateItem(product, out var crafted))
+                    // Validate ingredients
+                    bool hasAll = true;
+                    foreach (var ing in recipe.Ingredients)
                     {
-                        player.Inventory.AddItem(crafted, player);
-                        JobManager.GrantSkillXp(player, "blacksmith", 20);
-                        Console.WriteLine($"✔ Crafted 1x {crafted.Name}.");
+                        int owned = player.Inventory.Items.Where(i => i.Id == ing.ItemId).Sum(i => i.StackSize);
+                        if (owned < ing.Amount * qty)
+                        {
+                            Console.WriteLine($"❌ Need {ing.Amount * qty}x {ing.ItemId} (have {owned}).");
+                            hasAll = false; break;
+                        }
+                    }
+                    if (!hasAll) continue;
+
+                    // Consume ingredients
+                    foreach (var ing in recipe.Ingredients)
+                    {
+                        int remaining = ing.Amount * qty;
+                        foreach (var stack in player.Inventory.Items.Where(i => i.Id == ing.ItemId).ToList())
+                        {
+                            if (remaining <= 0) break;
+                            int take = Math.Min(stack.StackSize, remaining);
+                            stack.StackSize -= take;
+                            remaining -= take;
+                            if (stack.StackSize <= 0) player.Inventory.RemoveItem(stack);
+                        }
+                    }
+
+                    if (ItemFactory.TryCreateItem(recipe.OutputId, out var output))
+                    {
+                        // J15: apply skill quality multiplier to equipment output
+                        if (output is EquipmentItem crafted)
+                        {
+                            crafted.CraftQuality = (float)JobXpService.GetSkillMultiplierFromXp(
+                                JobManager.GetOrAdd(player, jobId).SkillXp);
+                            crafted.Bonuses = crafted.BaseStats.Scale(crafted.CraftQuality);
+                        }
+                        output.StackSize = qty;
+                        player.Inventory.AddItem(output, player);
+                        JobManager.GrantSkillXp(player, jobId, recipe.XpReward * qty);
+                        Console.WriteLine($"✔ Crafted {qty}x {output.Name}.");
                     }
                     else
                     {
-                        Console.WriteLine("❌ Craft failed.");
+                        Console.WriteLine("❌ Craft failed — item not found.");
                     }
+                }
+            }
+        }
+
+        // ── Gathering master (woodcutter / miner / herbalist) ─────────────────────
+
+        private static void GatheringMasterMenu(Player player, Npc npc)
+        {
+            bool hasJobMaster = npc.Services.Contains("learn_job") && !string.IsNullOrEmpty(npc.MasterJobId);
+
+            while (true)
+            {
+                Console.WriteLine($"\n🌿 Welcome to the {npc.Type}!");
+                if (npc.Services.Contains("shop_equipment") || npc.Services.Contains("shop_general"))
+                    Console.WriteLine("1. Browse stock");
+                Console.WriteLine("4. Sell item");
+                if (hasJobMaster)
+                    Console.WriteLine($"5. Job progress ({npc.MasterJobId})");
+                Console.WriteLine("0. Leave");
+                Console.Write("> ");
+                var choice = Console.ReadLine()?.Trim();
+                switch (choice)
+                {
+                    case "1" when npc.Services.Contains("shop_equipment") || npc.Services.Contains("shop_general"):
+                        ShopMenu(player, npc); break;
+                    case "4": SellMenu(player, npc); break;
+                    case "5" when hasJobMaster: JobMasterMenu(player, npc.MasterJobId!); break;
+                    case "0": Console.WriteLine("You leave."); return;
+                    default:  Console.WriteLine("❌ Invalid option."); break;
                 }
             }
         }
@@ -575,6 +683,14 @@ namespace ConsoleWorldRPG.Entities.NPCs
                 if (raceProfile.ForbiddenClasses.Contains(chosen))
                 {
                     Console.WriteLine($"❌ {chosen} is not available for your race ({player.Race}).");
+                    continue;
+                }
+
+                if (!ClassManager.CanChangeClass(player))
+                {
+                    var remaining = ClassManager.GetClassChangeCooldownRemaining(player);
+                    int days = (int)Math.Ceiling(remaining.TotalDays);
+                    Console.WriteLine($"⏳ Class switch on cooldown — {days} day(s) remaining.");
                     continue;
                 }
 

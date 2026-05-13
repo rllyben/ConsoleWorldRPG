@@ -26,6 +26,7 @@ namespace ConsoleWorldRPG.Systems
                 DebugCommands.Handle(input, _player) ||
                 GatherCommands.Handle(input, _player) ||
                 MapCommands.Handle(input, _player) ||
+                SocialCommands.Handle(input, _player) ||
                 PartyCommands.Handle(input, _player);
         }
 

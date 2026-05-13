@@ -36,6 +36,7 @@ namespace ConsoleWorldRPG.Services
         public static event Action<string, string>?       PartyInviteReceived;     // fromUsername, partyId
         public static event Action<List<string>, string?>? PartyUpdated;           // members, leader
         public static event Action?                        PartyDisbanded;
+        public static event Action?                        KickedFromParty;
 
         // ── REST auth ────────────────────────────────────────────────────────────
         public static async Task<bool> LoginAsync(string username, string password)
@@ -98,6 +99,13 @@ namespace ConsoleWorldRPG.Services
                 CurrentPartyMembers.Clear();
                 CurrentPartyLeader = null;
                 PartyDisbanded?.Invoke();
+            });
+
+            _connection.On("KickedFromParty", () =>
+            {
+                CurrentPartyMembers.Clear();
+                CurrentPartyLeader = null;
+                KickedFromParty?.Invoke();
             });
 
             try
@@ -167,6 +175,18 @@ namespace ConsoleWorldRPG.Services
         {
             if (IsConnected)
                 try { await _connection!.InvokeAsync("LeaveParty"); } catch { }
+        }
+
+        public static async Task KickFromPartyAsync(string targetName)
+        {
+            if (IsConnected)
+                try { await _connection!.InvokeAsync("KickFromParty", targetName); } catch { }
+        }
+
+        public static async Task TransferPartyLeaderAsync(string targetName)
+        {
+            if (IsConnected)
+                try { await _connection!.InvokeAsync("TransferPartyLeader", targetName); } catch { }
         }
 
         // ── Hub combat / world actions ────────────────────────────────────────────
@@ -273,7 +293,63 @@ namespace ConsoleWorldRPG.Services
             catch { return null; }
         }
 
+        // ── REST friend operations ────────────────────────────────────────────────
+        public static async Task<List<FriendInfo>> GetFriendsAsync()
+        {
+            try
+            {
+                var resp = await _http.GetAsync($"{BaseUrl}/api/friends");
+                if (!resp.IsSuccessStatusCode) return new();
+                return await resp.Content.ReadFromJsonAsync<List<FriendInfo>>(_jsonOpts) ?? new();
+            }
+            catch { return new(); }
+        }
+
+        public static async Task<List<FriendRequestInfo>> GetFriendRequestsAsync()
+        {
+            try
+            {
+                var resp = await _http.GetAsync($"{BaseUrl}/api/friends/requests");
+                if (!resp.IsSuccessStatusCode) return new();
+                return await resp.Content.ReadFromJsonAsync<List<FriendRequestInfo>>(_jsonOpts) ?? new();
+            }
+            catch { return new(); }
+        }
+
+        public static async Task<bool> SendFriendRequestAsync(string characterName)
+        {
+            try
+            {
+                var resp = await _http.PostAsJsonAsync($"{BaseUrl}/api/friends/request",
+                    new { characterName }, _jsonOpts);
+                return resp.IsSuccessStatusCode;
+            }
+            catch { return false; }
+        }
+
+        public static async Task<bool> AcceptFriendRequestAsync(int friendshipId)
+        {
+            try
+            {
+                var resp = await _http.PostAsync($"{BaseUrl}/api/friends/{friendshipId}/accept", null);
+                return resp.IsSuccessStatusCode;
+            }
+            catch { return false; }
+        }
+
+        public static async Task<bool> RemoveFriendAsync(int friendshipId)
+        {
+            try
+            {
+                var resp = await _http.DeleteAsync($"{BaseUrl}/api/friends/{friendshipId}");
+                return resp.IsSuccessStatusCode;
+            }
+            catch { return false; }
+        }
+
         private record AuthResponse(string Token, string Username, DateTime ExpiresAt);
         private record CharacterLoadResponse(string DataJson, int Level, long Experience, int CurrentRoomId);
+        public record FriendInfo(int FriendshipId, string Username, bool IsOnline);
+        public record FriendRequestInfo(int FriendshipId, string FromUsername);
     }
 }

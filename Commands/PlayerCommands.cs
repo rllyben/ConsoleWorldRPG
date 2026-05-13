@@ -33,11 +33,21 @@ namespace ConsoleWorldRPG.Commands
                     _ = ConsoleHubClient.SendMessageAsync(msg, "room");
                 return true;
             }
-            else if (input.StartsWith("whisper "))
+            else if (input.StartsWith("g "))
             {
-                string rest = input[8..].Trim();
+                string msg = input[2..].Trim();
+                if (!ConsoleHubClient.IsConnected)
+                    Console.WriteLine("Not connected to server. (offline mode)");
+                else
+                    _ = ConsoleHubClient.SendMessageAsync(msg, "global");
+                return true;
+            }
+            else if (input.StartsWith("whisper ") || input.StartsWith("w "))
+            {
+                int prefixLen = input.StartsWith("w ") ? 2 : 8;
+                string rest   = input[prefixLen..].Trim();
                 int space = rest.IndexOf(' ');
-                if (space < 1) { Console.WriteLine("Usage: whisper <player> <message>"); return true; }
+                if (space < 1) { Console.WriteLine("Usage: w <player> <message>"); return true; }
                 string target = rest[..space];
                 string msg    = rest[(space + 1)..].Trim();
                 if (!ConsoleHubClient.IsConnected)

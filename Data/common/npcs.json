@@ -11,8 +11,49 @@
     "nameKey": "game.npc.smith.default.name",
     "descriptionKey": "game.npc.smith.default.desc",
     "type": 2,
-    "services": [ "shop_equipment", "upgrade", "craft" ],
-    "itemNames": [ "starter_dagger", "rogue_cloak", "crit_band", "steel_sword", "starter_armor", "iron_band", "fur_vest", "power_charm", "leather_bow", "archer_garb", "focus_band", "starter_crossbow", "hunter_coat", "starter_gauntlets", "padded_armor", "fighter_token", "starter_mace", "prayer_robes", "faith_charm", "tracker_band", "flamecaster_staff", "storm_robes", "starter_branch", "nature_robe", "life_leaf", "crystal_focus_band", "mage_robe", "mana_ring", "souls_blade", "bone_plate", "soul_shard", "pickaxe", "woodcutter_axe" ]
+    "masterJobId": "blacksmith",
+    "upgradeCategory": "blacksmith",
+    "services": [ "shop_equipment", "upgrade", "craft", "learn_job" ],
+    "itemNames": [ "steel_sword", "iron_sword", "starter_armor", "chain_armor", "starter_gauntlets", "starter_mace", "souls_blade", "bone_plate", "pickaxe", "woodcutter_axe" ]
+  },
+  {
+    "id": "leathersmith_default",
+    "nameKey": "game.npc.leathersmith.default.name",
+    "descriptionKey": "game.npc.leathersmith.default.desc",
+    "type": 5,
+    "masterJobId": "leathersmith",
+    "upgradeCategory": "leathersmith",
+    "services": [ "shop_equipment", "upgrade", "craft", "learn_job" ],
+    "itemNames": [ "starter_dagger", "rogue_cloak", "fur_vest", "archer_garb", "hunter_coat", "leather_bow", "starter_crossbow", "padded_armor", "leather_vest" ]
+  },
+  {
+    "id": "tailor_default",
+    "nameKey": "game.npc.tailor.default.name",
+    "descriptionKey": "game.npc.tailor.default.desc",
+    "type": 6,
+    "masterJobId": "tailor",
+    "upgradeCategory": "tailor",
+    "services": [ "shop_equipment", "upgrade", "craft", "learn_job" ],
+    "itemNames": [ "prayer_robes", "storm_robes", "nature_robe", "mage_robe", "linen_robe", "bolt_of_cloth" ]
+  },
+  {
+    "id": "artificer_default",
+    "nameKey": "game.npc.artificer.default.name",
+    "descriptionKey": "game.npc.artificer.default.desc",
+    "type": 7,
+    "masterJobId": "artificer",
+    "upgradeCategory": "artificer",
+    "services": [ "shop_equipment", "upgrade", "craft", "learn_job" ],
+    "itemNames": [ "iron_band", "crit_band", "power_charm", "focus_band", "fighter_token", "faith_charm", "tracker_band", "crystal_focus_band", "mana_ring", "soul_shard", "life_leaf", "soulbound_phylactery", "imbued_ring" ]
+  },
+  {
+    "id": "enchanter_default",
+    "nameKey": "game.npc.enchanter.default.name",
+    "descriptionKey": "game.npc.enchanter.default.desc",
+    "type": 8,
+    "masterJobId": "enchanter",
+    "services": [ "shop_equipment", "learn_job" ],
+    "itemNames": [ "flamecaster_staff", "starter_branch", "mages_tome" ]
   },
   {
     "id": "trader_default",
@@ -29,10 +70,66 @@
     "services": [ "talk" ]
   },
   {
+    "id": "villager_lumina",
+    "nameKey": "game.npc.villager.lumina.name",
+    "descriptionKey": "game.npc.villager.lumina.desc",
+    "type": 4,
+    "services": [ "talk" ]
+  },
+  {
+    "id": "villager_ceralith",
+    "nameKey": "game.npc.villager.ceralith.name",
+    "descriptionKey": "game.npc.villager.ceralith.desc",
+    "type": 4,
+    "services": [ "talk" ]
+  },
+  {
     "id": "skill_master_lumina",
     "nameKey": "game.npc.skill_master.lumina.name",
     "descriptionKey": "game.npc.skill_master.lumina.desc",
     "type": 3,
-    "services": []
+    "services": [ "change_class" ]
+  },
+  {
+    "id": "woodcutter_master",
+    "nameKey": "game.npc.woodcutter.default.name",
+    "descriptionKey": "game.npc.woodcutter.default.desc",
+    "type": 9,
+    "masterJobId": "woodcutter",
+    "services": [ "learn_job", "shop_equipment" ],
+    "itemNames": [ "woodcutter_axe" ]
+  },
+  {
+    "id": "miner_master",
+    "nameKey": "game.npc.miner.default.name",
+    "descriptionKey": "game.npc.miner.default.desc",
+    "type": 10,
+    "masterJobId": "miner",
+    "services": [ "learn_job", "shop_equipment" ],
+    "itemNames": [ "pickaxe" ]
+  },
+  {
+    "id": "herbalist_master",
+    "nameKey": "game.npc.herbalist.default.name",
+    "descriptionKey": "game.npc.herbalist.default.desc",
+    "type": 11,
+    "masterJobId": "herbalist",
+    "services": [ "learn_job", "shop_general" ]
+  },
+  {
+    "id": "alchemist_master",
+    "nameKey": "game.npc.alchemist.default.name",
+    "descriptionKey": "game.npc.alchemist.default.desc",
+    "type": 12,
+    "masterJobId": "alchemist",
+    "services": [ "learn_job", "craft", "shop_general" ]
+  },
+  {
+    "id": "cook_master",
+    "nameKey": "game.npc.cook.default.name",
+    "descriptionKey": "game.npc.cook.default.desc",
+    "type": 13,
+    "masterJobId": "cook",
+    "services": [ "learn_job", "craft", "shop_general" ]
   }
 ]

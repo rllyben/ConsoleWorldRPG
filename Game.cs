@@ -15,6 +15,24 @@ namespace ConsoleWorldRPG
 
             MyriaLib.Services.GameService.SessionStarted += _ => DayCycleManager.StartInactivityTimer();
             MyriaLib.Services.GameService.SessionStarted += p => ClassManager.ApplyDailyPenalty(p);
+            MyriaLib.Services.GameService.SessionStarted += p =>
+            {
+                // J18: knowledge gather bonus for already-rolled room limits
+                int bonus = JobManager.GetGatherKnowledgeBonus(p);
+                if (bonus > 0)
+                    foreach (var room in RoomService.AllRooms.Where(r => r.GatheringSpots.Count > 0))
+                        room.AddGatherBonus(bonus);
+
+                // J11–J14: daily job ticks; J18: re-apply on each new day
+                DayCycleManager.DayAdvanced += day =>
+                {
+                    JobManager.ApplyDailyTicks(p, day);
+                    int b = JobManager.GetGatherKnowledgeBonus(p);
+                    if (b > 0)
+                        foreach (var r in RoomService.AllRooms.Where(r => r.GatheringSpots.Count > 0))
+                            r.AddGatherBonus(b);
+                };
+            };
 
             // Hub events — subscribed once; fire from background threads while hub is connected
             ConsoleHubClient.ChatMessageReceived += (sender, msg, channel) =>
@@ -58,6 +76,12 @@ namespace ConsoleWorldRPG
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine("\n  ** Your party has been disbanded.");
+                Console.ResetColor();
+            };
+            ConsoleHubClient.KickedFromParty += () =>
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n  ** You have been kicked from the party.");
                 Console.ResetColor();
             };
 

@@ -107,11 +107,21 @@ namespace ConsoleWorldRPG.Utils
             Console.WriteLine("  map                        - Print the world/dungeon/cave/forest/city map");
             Console.WriteLine("  help                       - Show this help message");
             Console.WriteLine("  say <message>              - Send a chat message to the room (online)");
-            Console.WriteLine("  whisper <player> <message> - Send a private message (online)");
+            Console.WriteLine("  g <message>                - Send a global chat message (online)");
+            Console.WriteLine("  w <player> <message>       - Send a private whisper (online)");
+            Console.WriteLine("  whisper <player> <message> - Alias for w");
             Console.WriteLine("  party                      - Show current party members");
+            Console.WriteLine("  party <message>            - Send a message to your party (online)");
             Console.WriteLine("  party invite <player>      - Invite a player to your party (online)");
             Console.WriteLine("  party accept <id>          - Accept a party invite (online)");
             Console.WriteLine("  party leave                - Leave the current party (online)");
+            Console.WriteLine("  party kick <player>        - Kick a player from your party (leader only, online)");
+            Console.WriteLine("  party promote <player>     - Transfer party leadership (leader only, online)");
+            Console.WriteLine("  friend list                - Show your friends list (online)");
+            Console.WriteLine("  friend requests            - Show pending friend requests (online)");
+            Console.WriteLine("  friend add <name>          - Send a friend request (online)");
+            Console.WriteLine("  friend accept <id>         - Accept a friend request (online)");
+            Console.WriteLine("  friend remove <id>         - Remove a friend (online)");
             Console.WriteLine("  logout                     - Save and log out");
             Console.WriteLine("  exit                       - Save and quit the game");
         }
